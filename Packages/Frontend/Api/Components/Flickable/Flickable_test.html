@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=720, user-scalable=no'>
+        <title>Flickable</title>
+
+        <style>
+            * {
+                &:not(:defined) {
+                    display: none;
+                }
+
+
+                &[_building] {
+                    display: none;
+                }
+            }
+
+
+            body {
+                margin: 0;
+            }
+
+            textArea {
+                background: transparent;
+                border: none;
+                margin: 0;
+                outline: none;
+                padding: 50px;
+                resize: none;
+                /* white-space: pre; */
+            }
+
+            x-flickable {
+                --gap: 4px;
+                --puck__margin_outer: 10px;
+                border: 1px solid #444;
+                font: 24px 'Arial';
+                overflow-y: clip;
+
+                &::part(content) {
+                    margin: 20px;
+                    padding: 20px;
+                }
+
+                /* &::part(display):focus { */
+                /*     background: #0002; */
+                /* } */
+
+                &::part(puck) {
+                    background: red;
+                }
+
+                &[_swipe] {
+                    background: #0f02;
+                }
+            }
+
+
+            #root {
+                -webkit-user-select: none;
+                border: 1px solid #000;
+                box-sizing: border-box;
+                display: grid;
+                gap: 10px;
+                grid-template: 100% / 1fr 1fr;
+                height: 100dvh;
+                padding: 10px;
+                touch-action: none;
+                user-select: none;
+            }
+        </style>
+
+        <script type='module'>
+            let {Flickable} = await import('./Flickable.js');
+
+
+            let root = document.querySelector('#root');
+            root.addEventListener('touchstart', (event) => event.preventDefault());
+
+            window.addEventListener('error', (event) => {
+                alert(event.filename + ' ' + event.message + ' ' + event.lineno);
+            });
+
+            window.flickables = document.querySelectorAll('x-flickable');
+            window.textArea = document.querySelector('textArea');
+
+            await Flickable._defined;
+            await Promise.all([...flickables].map((item) => item._built));
+
+            textArea.value = Array(100).join(flickables[1].textContent);
+            flickables[0].refresh();
+            flickables[1].textContent = Array(100).join(flickables[1].textContent);
+            flickables[1].refresh();
+
+            flickables[0].eventListeners__add({
+                press: (event) => console.log(event, event.detail.taps_count),
+                tap: (event) => console.log(event, event.detail.taps_count),
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id='root'>
+            <x-flickable shift='50' disabled_ swipe_disabled tap_disabled_>
+                <textArea slot='display' spellCheck='false' disabled_ readOnly_></textArea>
+            </x-flickable>
+            <x-flickable>
+                abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
+            </x-flickable>
+        </div>
+    </body>
+</html>
