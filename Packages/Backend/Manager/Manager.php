@@ -24,10 +24,28 @@ class Manager extends \Rest {
     }
 
 
-    public function init(password) {
-        if (password != 'AdminBigBog124') return;
+    public function passive_bonus__add($tg_id) {
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+        $passive_last_collect_date = $this->_db->fetch('passive_last_collect_date__get', $request_data);
+
+        if ($this->_timeStamp - $passive_last_collect_date < 6e4) return;
+
+        $request_data += ['passive_last_collect_date' => $this->_timeStamp];
+        $passive_bonuses_balanse = $this->_db->fetch('passive_bonus__save', $request_data);
+
+        return $passive_bonuses_balanse;
+    }
+
+    public function init($password, $test_data = false) {
+        if ($password != 'AdminBigBog124') return;
 
         $this->_db->execute_raw('init');
+
+        if ($test_data) {
+            $this->_db->execute_raw('test_data');
+        }
 
         return true;
     }
