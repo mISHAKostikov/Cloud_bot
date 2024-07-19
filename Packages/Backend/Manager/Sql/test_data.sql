@@ -32,12 +32,13 @@ values (
 insert into `Users` (
   `active_bonuses_balanse`,
   `is_signed`,
+  `leval`,
   `passive_bonuses_balanse`,
   `tg_id`,
   `tg_premium`
 )
 values
-    (10, true, 20, 4623423, false),
-    (0, false, 5, 4623424, true),
-    (0, false, 0, 4623425, false),
-    (0, false, 0, 4623426, false);
+    (10, true, 2, 20, 4623423, false),
+    (0, false, 1, 5, 4623424, true),
+    (0, false, 1, 0, 4623425, false),
+    (0, false, 1, 0, 4623426, false);

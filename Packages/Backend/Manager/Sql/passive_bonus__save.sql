@@ -6,7 +6,7 @@ where
 
 update `Users`
 set
-    `passive_bonuses_balanse` = `passive_bonuses_balanse` + 1
+    `passive_bonuses_balanse` = `passive_bonuses_balanse` + `leval`
 where
     `tg_id` = :tg_id;
 
