@@ -24,6 +24,21 @@ class Manager extends \Rest {
     }
 
 
+    public function active_bonus__add($tg_id) {
+
+    }
+
+
+    public function active_bonus__get($tg_id) {
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+        $active_bonuses_balanse = $this->_db->fetch('active_bonuses_balanse__get', $request_data);
+
+        return $active_bonuses_balanse;
+    }
+
+
     public function passive_bonus__add($tg_id) {
         $request_data = [
             'tg_id' => $tg_id,
@@ -37,6 +52,17 @@ class Manager extends \Rest {
 
         return $passive_bonuses_balanse;
     }
+
+
+    public function passive_bonus__get($tg_id) {
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+        $passive_last_collect_date = $this->_db->fetch('passive_bonuses_balanse__get', $request_data);
+
+        return $passive_last_collect_date;
+    }
+
 
     public function init($password, $test_data = false) {
         if ($password != 'AdminBigBog124') return;
