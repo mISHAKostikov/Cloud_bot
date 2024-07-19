@@ -33,8 +33,8 @@ create table if not exists `Referrals` (
 );
 
 create table if not exists `Users` (
-  `active_bonuses_balanse` int not null default false,
   `id` int not null auto_increment,
+  `active_bonuses_balanse` int not null default false,
   `is_signed` boolean not null default false,
   `leval` int not null default 1,
   `passive_bonuses_balanse` int not null default false,
