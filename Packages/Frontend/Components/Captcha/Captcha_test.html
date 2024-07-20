@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+        <meta charset='utf-8' content='user-scalable=no, width=device-width' name='viewport'>
+        <title>Captcha_test</title>
+        <script src='./Captcha.js' type='module'></script>
+    </head>
+
+    <body>
+        <x-captcha></x-captcha>
+    </body>
+
+    <script type='module'>
+        let captcha = document.body.querySelector('x-captcha');
+
+        captcha.addEventListener('answer__true', () => {
+            alert('answer__true');
+        });
+        captcha.addEventListener('answer__false', () => {
+            captcha.refresh();
+        })
+    </script>
+</html>

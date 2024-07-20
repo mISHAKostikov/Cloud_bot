@@ -45,4 +45,14 @@ export class Common {
 
         return (base + (num - num_min) % base) % base + num_min;
     }
+
+    static get_randomInt(min, max, inclusive = false) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        let coefficient = inclusive ? 1 : 0;
+        let randomInt = Math.floor(Math.random() * (max - min + coefficient) + min)
+
+        return randomInt;
+
+    }
 }

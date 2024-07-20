@@ -1,0 +1,10 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
+@layer init {
+    :host {
+        position: absolute;
+        background: #afa;
+    }
+}
