@@ -6,10 +6,47 @@
         <meta charset='utf-8' content='user-scalable=no, width=device-width' name='viewport'>
         <title>Captcha_test</title>
         <script src='./Captcha.js' type='module'></script>
+
+        <style>
+            x-captcha {
+                background: #222;
+                border-radius: 10px;
+                padding: 15px;
+                color: #fff;
+                font: 20px 'Arial';
+
+                &::part(answer) {
+                    align-items: center;
+                    background: #4281ff;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    display: flex;
+                    height: 30px;
+                    justify-content: center;
+                    padding: 10px;
+                    width: 100px;
+                }
+
+                &::part(answer):focus {
+                    background: #aaf;
+                }
+
+                &::part(answers) {
+                    display: grid;
+                    grid-gap: 25px;
+                    grid-template: repeat(2, 1fr) / repeat(2, 1fr);
+                }
+
+                &::part(expression) {
+                    padding-bottom: 10px;
+                    text-align: center;
+                }
+            }
+        </style>
     </head>
 
     <body>
-        <x-captcha></x-captcha>
+        <x-captcha exportParts='answers, answer, expression'></x-captcha>
     </body>
 
     <script type='module'>
@@ -17,6 +54,7 @@
 
         captcha.addEventListener('answer__true', () => {
             alert('answer__true');
+            captcha.refresh();
         });
         captcha.addEventListener('answer__false', () => {
             captcha.refresh();

@@ -7,7 +7,7 @@ from aiogram.filters.command import Command
 from aiogram.utils.chat_action import ChatActionSender
 
 from config import TG_BOT_TOKEN
-from db import DataBase
+from Db import DataBase
 
 # Включаем логирование, чтобы не пропустить важные сообщения
 logging.basicConfig(level=logging.INFO)
