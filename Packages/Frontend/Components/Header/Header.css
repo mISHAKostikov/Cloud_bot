@@ -1,0 +1,88 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
+@layer init {
+    .airdrop {
+        aspect-ratio: 1;
+        background: #fff;
+        border-radius: 100%;
+        display: block;
+        height: 45px;
+        justify-self: end;
+        object-fit: cover;
+        padding: 7px;
+    }
+
+    .balanses {
+        display: grid;
+        grid-auto-flow: column;
+        grid-column: 1 / -1;
+    }
+
+    .profit {
+        display: grid;
+        grid-auto-flow: column;
+    }
+
+    .balanse {
+        align-items: center;
+        border: 1px solid var(--Theme__block__background_accent);
+        display: grid;
+        justify-items: center;
+
+        &:first-child {
+            border-radius: 10px 0px 0px 10px;
+        }
+        &:last-child {
+            background: var(--Theme__block__background_accent);
+            border-radius: 0px 10px 10px 0px;
+        }
+        &:nth-of-type(2n) {
+            border-left: none;
+            border-right: none;
+        }
+    }
+
+    .balanse_value {
+        font-size: 18px;
+    }
+
+    .balanse_subtitle {
+        font-size: 10px;
+    }
+
+    .profit_item {
+        align-items: center;
+        border: 1px solid var(--Theme__block__background_accent);
+        display: flex;
+        height: 1em;
+        justify-content: center;
+        padding: 5px;
+
+        &:first-child {
+            border-radius: 10px 0px 0px 10px;
+        }
+        &:last-child {
+            background: var(--Theme__block__background_accent);
+            border-radius: 0px 10px 10px 0px;
+        }
+    }
+
+    .auto_velocity::after {
+        content: 'б/с';
+    }
+
+    .bonus_ref::before {
+        content: '+';
+    }
+
+    .root {
+        align-items: center;
+        display: grid;
+        grid-gap: 20px;
+        grid-template: repeat(2, 1fr) / auto 60px;
+        justify-items: stretch;
+        padding: 20px 5%;
+    }
+}

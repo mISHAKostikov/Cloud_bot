@@ -39,12 +39,16 @@
         font-size: 14px;
 
         &[_active] {
+            .button__icon .svg__fill {
+                fill: var(--Theme__block__background_accent);
+            }
+
             .button__icon {
                 stroke: var(--Theme__block__background_accent);
             }
 
-            .button__icon .svg__fill {
-                fill: var(--Theme__block__background_accent);
+            .button__title {
+                color: var(--Theme__block__background_accent);
             }
         }
     }

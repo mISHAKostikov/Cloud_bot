@@ -1,40 +1,11 @@
 <div class='root'>
-    <div class='header'>
-        <div class='profit'>
-            <div class='profit_item auto_velocity'>1</div>
-            <div class='profit_item bonus_ref'>2</div>
-        </div>
-        <svg class='airdrop'>
-            <use href='{{resource: airdrop}}'/>
-        </svg>
-        <div class='balanses'>
-            <div class='balanse'>
-                <div class='balanse_value'>1</div>
-                <div class='balanse_subtitle'>Токенов</div>
-            </div>
-            <div class='balanse'>
-                <div class='balanse_value'>2</div>
-                <div class='balanse_subtitle'>Цена бонусов</div>
-            </div>
-            <div class='balanse'>
-                <div class='balanse_value'>3</div>
-                <div class='balanse_subtitle'>Золото</div>
-            </div>
-            <div class='balanse'>
-                <div class='balanse_value'>4</div>
-                <div class='balanse_subtitle'>Курс бонуса</div>
-            </div>
-            <div class='balanse'>
-                <div class='balanse_value'>5</div>
-            </div>
-        </div>
-    </div>
+   <x-header class='header'></x-header>
 
     <x-leafable class='leafable' disabled>
-        <x-main></x-main>
-        <x-bonus></x-bonus>
-        <x-friends></x-friends>
-        <x-quests></x-quests>
+        <x-main class='main'></x-main>
+        <x-bonus class='bonus'></x-bonus>
+        <x-friends class='friends'></x-friends>
+        <x-quests class='quests'></x-quests>
     </x-leafable>
 
     <x-footer class='footer'></x-footer>

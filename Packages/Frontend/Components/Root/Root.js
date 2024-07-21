@@ -5,6 +5,7 @@ import {Rest} from '../../Api/Units/Rest/Rest.js';
 import {Bonus} from '../Bonus/Bonus.js';
 import {Footer} from '../Footer/Footer.js';
 import {Friends} from '../Friends/Friends.js';
+import {Header} from '../Header/Header.js';
 import {Main} from '../Main/Main.js';
 import {Quests} from '../Quests/Quests.js';
 
@@ -18,17 +19,15 @@ export class Root extends Component {
 
     static _elements = {
         footer: '',
+        header: '',
         leafable: '',
+        main: '',
     };
 
 
     static css_url = true;
     static html_url = true;
     static url = import.meta.url;
-
-    static resources = {
-        airdrop: new URL(`${this.name}.svg#airdrop`, import.meta.url),
-    };
 
     static {
         this.define();
@@ -56,6 +55,9 @@ export class Root extends Component {
 
     _eventListeners__define() {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
+        // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
+        // this._elements.main.addEventListener('buttonActiveSubscribe__click', (event) => {console.log(event.detail)});
+        // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
     }
 
     _init() {

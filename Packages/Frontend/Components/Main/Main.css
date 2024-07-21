@@ -4,44 +4,40 @@
 
 @layer init {
     :host {
-        padding: 20px;
+        /* padding: 20px; */
+        /* padding-bottom: 0px; */
+        display: contents;
+        border: 1px solid #000;
     }
 
     .avatar {
         aspect-ratio: 1;
         background: #aaf;
         border-radius: 100%;
-        height: 250px;
+        height: 30dvh;
+        object-fit: cover;
     }
 
-    .root {
-        align-content: center;
-        align-items: center;
-        display: grid;
-        justify-content: center;
-        justify-items: center;
+    .button_active_subscribe {
+        background: var(--Theme__block__background_accent);
     }
 
     .button_leval {
+        align-self: start;
         aspect-ratio: 1;
         background: var(--Theme__button__background);
         border-radius: 100%;
-        cursor: pointer;
         height: 45px;
         padding: 7px;
         position: relative;
         top: -20px;
     }
 
-    .leval_current::before {
-        content: '+';
-    }
-
     .control_panel {
         display: grid;
         grid-auto-flow: column;
         grid-gap: 40px;
-        padding: 30px 0px;
+        align-self: end;
     }
 
     .control_panel__item {
@@ -50,9 +46,20 @@
         border-radius: 15px;
     }
 
-    .button_active_subscribe {
-        background: var(--Theme__block__background_accent);
-        cursor: pointer;
+    .leval_current::before {
+        content: '+';
+    }
+
+    .root {
+           /* align-content: center; */
+        align-items: center;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-rows: 30dvh 60px auto auto;
+        height: 100%;
+        justify-content: center;
+        justify-items: center;
+        padding: 30px 0;
     }
 
     .time_active_subscribe {
