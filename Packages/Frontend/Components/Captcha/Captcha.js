@@ -74,7 +74,6 @@ export class Captcha extends Component {
 
         this._expression = `${operand_1} ${operation} ${operand_2}`;
         this._elements.expression.textContent = this._expression;
-        this._elements.expression.textContent += ' = ?';
     }
 
     _eventListeners__define() {

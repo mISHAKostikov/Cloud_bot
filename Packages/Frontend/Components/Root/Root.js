@@ -26,6 +26,9 @@ export class Root extends Component {
     static html_url = true;
     static url = import.meta.url;
 
+    static resources = {
+        airdrop: new URL(`${this.name}.svg#airdrop`, import.meta.url),
+    };
 
     static {
         this.define();

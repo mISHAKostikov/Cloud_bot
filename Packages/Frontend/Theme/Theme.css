@@ -10,8 +10,8 @@
         --Theme__block__background_accent: hsl(var(--Theme__accent_hue), 90%, 60%);
         --Theme__block__background_light: hsl(var(--Theme__hue), 0%, 40%);
         --Theme__block__gap: 8px;
-        --Theme__button__background: hsl(var(--Theme__hue), 15%, 30%);
-        --Theme__button__foreground: hsl(var(--Theme__hue), 10%, 60%);
+        --Theme__button__background: hsl(var(--Theme__hue), 0%, 80%);
+        --Theme__button__foreground: hsl(var(--Theme__hue), 0%, 90%);
         --Theme__button__foreground_light: hsl(var(--Theme__hue), 10%, 80%);
         --Theme__diameter_circle: 150px;
         --Theme__edge__width: 16px;
