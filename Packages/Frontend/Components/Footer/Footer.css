@@ -1,0 +1,74 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
+@layer init {
+    :host {
+        background: var(--Theme__block__background);
+        position: sticky;
+    }
+
+    :host([button_active = '0']) {
+        .progressBar {
+            background: linear-gradient(to right, var(--Theme__block__background_accent) 0% 25%, var(--Theme__block__background_light) 25%);
+        }
+    }
+
+    :host([button_active = '1']) {
+        .progressBar {
+            background: linear-gradient(to right, var(--Theme__block__background_light) 25%, var(--Theme__block__background_accent) 25% 50%, var(--Theme__block__background_light) 50%);
+        }
+    }
+
+    :host([button_active = '2']) {
+        .progressBar {
+            background: linear-gradient(to right, var(--Theme__block__background_light) 50%, var(--Theme__block__background_accent) 50% 75%, var(--Theme__block__background_light) 75%);
+        }
+    }
+
+    :host([button_active = '3']) {
+        .progressBar {
+            background: linear-gradient(to right, var(--Theme__block__background_light) 75%, var(--Theme__block__background_accent) 75%);
+        }
+    }
+
+    .button {
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        font-size: 14px;
+
+        &[_active] {
+            .button__icon {
+                stroke: var(--Theme__block__background_accent);
+            }
+
+            .button__icon .svg__fill {
+                fill: var(--Theme__block__background_accent);
+            }
+        }
+    }
+
+    .root {
+        display: grid;
+        grid-template: repeat(2, auto) / repeat(4, 1fr);
+        grid-gap: 10px;
+    }
+
+    .button__icon {
+        aspect-ratio: 1;
+        display: block;
+        height: 45px;
+        stroke: #ddd;
+    }
+
+    .button__icon .svg__fill {
+        fill: #ddd;
+    }
+
+    .progressBar {
+        background: #555;
+        grid-area: 1 / 1 / 1 / -1;
+        height: 2px;
+    }
+}

@@ -4,11 +4,11 @@
     }
 
     :root {
-        --Theme__accent_hue: 331;
-        --Theme__background: hsl(var(--Theme__hue), 5%, 20%);
-        --Theme__block__background: hsl(var(--Theme__hue), 0%, 82%);
-        --Theme__block__background_accent: hsl(var(--Theme__accent_hue), 66%, 49%);
-        --Theme__block__background_light: hsl(var(--Theme__hue), 13%, 57%);
+        --Theme__accent_hue: 220;
+        --Theme__background: hsl(var(--Theme__hue), 9%, 14%);
+        --Theme__block__background: hsl(var(--Theme__hue), 0%, 10%);
+        --Theme__block__background_accent: hsl(var(--Theme__accent_hue), 90%, 60%);
+        --Theme__block__background_light: hsl(var(--Theme__hue), 0%, 40%);
         --Theme__block__gap: 8px;
         --Theme__button__background: hsl(var(--Theme__hue), 15%, 30%);
         --Theme__button__foreground: hsl(var(--Theme__hue), 10%, 60%);
@@ -37,57 +37,7 @@
 
     body {
         margin: 0;
-    }
-
-    x-flickable {
-        --Flickable__puck__margin_inner: 32px;
-        box-sizing: border-box;
-        height: calc(100dvh - 100px);
-        padding: 5px;
-        position: relative;
-        width: 100dvw;
-
-        &::after {
-            background: linear-gradient(transparent, var(--Theme__shadow));
-            content: '';
-            height: var(--Theme__edge__width);
-            inset: 0;
-            opacity: 0;
-            pointer-events: none;
-            position: absolute;
-            top: auto;
-            transition: var(--Theme__ghost_transition);
-            z-index: 1;
-        }
-        &[_scroll_y]:not([_scrollEdge_y_end])::after {
-            opacity: 1;
-        }
-
-        &::before {
-            background: linear-gradient(var(--Theme__shadow), transparent);
-            bottom: auto;
-            content: '';
-            height: var(--Theme__edge__width);
-            inset: 0;
-            opacity: 0;
-            pointer-events: none;
-            position: absolute;
-            transition: var(--Theme__ghost_transition);
-            z-index: 1;
-        }
-        &[_scroll_y]:not([_scrollEdge_y_begin])::before {
-            opacity: 1;
-        }
-
-        &::part(puck) {
-            background: var(--Theme__block__background_light);
-        }
-    }
-
-    .leafable {
-        align-content: center;
-        display: grid;
-        height: 100dvh;
+        height: 100dvh !important;
     }
 
     [_building] {

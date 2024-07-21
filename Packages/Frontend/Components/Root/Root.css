@@ -3,5 +3,16 @@
 @import '../../Theme/Theme.css' layer(theme);
 
 @layer init {
+    .leafable {
+        &::part(item) {
+            display: grid;
+            grid-template: 100% / 100%;
+        }
+    }
 
+    .root {
+        display: grid;
+        grid-template-rows: min-content auto min-content;
+        height: 100%;
+    }
 }
