@@ -8,12 +8,14 @@
         --Theme__background: hsl(var(--Theme__hue), 9%, 14%);
         --Theme__block__background: hsl(var(--Theme__hue), 0%, 10%);
         --Theme__block__background_accent: hsl(var(--Theme__accent_hue), 90%, 60%);
+        --Theme__block__background_accent_dark: hsl(var(--Theme__accent_hue), 35%, 25%);
         --Theme__block__background_light: hsl(var(--Theme__hue), 0%, 40%);
         --Theme__block__gap: 8px;
         --Theme__button__background: hsl(var(--Theme__hue), 0%, 80%);
-        --Theme__button__foreground: hsl(var(--Theme__hue), 0%, 90%);
+        --Theme__button__foreground: hsl(var(--Theme__hue), 0%, 20%);
         --Theme__button__foreground_light: hsl(var(--Theme__hue), 10%, 80%);
-        --Theme__diameter_circle: 150px;
+        --Theme__block_rounding: 10px;
+        --Theme__block__padding: 20px;
         --Theme__edge__width: 16px;
         --Theme__font: var(--Theme__font_size) / var(--Theme__font_lineHeight) var(--Theme__font_family);
         --Theme__font_family: 'Arial';

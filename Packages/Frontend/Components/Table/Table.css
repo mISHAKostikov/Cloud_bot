@@ -1,0 +1,49 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
+@layer init {
+    :host {
+        width: 90%;
+    }
+
+    .content {
+        height: 100%;
+    }
+
+    .control_button {
+        aspect-ratio: 1;
+        background: var(--Theme__block__background_accent);
+        border-radius: var(--Theme__block_rounding);
+        box-sizing: border-box;
+        height: 40px;
+        padding: 7px;
+
+    }
+
+    .control_panel {
+        justify-self: end;
+    }
+
+    .head {
+        align-items: center;
+        display: grid;
+        grid-auto-flow: column;
+        padding: var(--Theme__block__padding);
+    }
+
+    .root {
+        display: grid;
+        background: var(--Theme__block__background_accent_dark);
+        /* padding: var(--Theme__block__padding); */
+        border-radius: var(--Theme__block_rounding);
+    }
+
+    .title {
+        background: var(--Theme__block__background_accent);
+        border-radius: var(--Theme__block_rounding);
+        padding: 5px;
+        text-align: center;
+        width: 50%;
+    }
+}

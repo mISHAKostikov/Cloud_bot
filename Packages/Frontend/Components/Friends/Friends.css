@@ -2,4 +2,19 @@
 
 @import '../../Theme/Theme.css' layer(theme);
 
-@layer init {}
+@layer init {
+    .content {
+        padding-bottom: 40px;
+        text-align: center;
+    }
+
+    .copying {
+        padding-bottom: 0;
+    }
+
+    .root {
+        align-items: center;
+        display: grid;
+        justify-items: center;
+    }
+}

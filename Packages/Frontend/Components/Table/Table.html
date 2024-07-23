@@ -1,0 +1,20 @@
+<div class='root'>
+    <div class='head'>
+        <div class='title'></div>
+        <div class='control_panel'>
+            <svg class='control_button button_prev'>
+                <use href='{{resource: button_prev}}'/>
+            </svg>
+            <svg class='control_button button_next'>
+                <use href='{{resource: button_next}}'/>
+            </svg>
+        </div>
+    </div>
+    <div class='content'>
+        <x-repeater class='repeater' interpolation='repeater'>
+            <template Repeater__delegate>
+                <x-tablerow class='table_row Theme__ghost'></x-tablerow>
+            </template>
+        </x-repeater>
+    </div>
+</div>

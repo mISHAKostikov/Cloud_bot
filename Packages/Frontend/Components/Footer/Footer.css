@@ -53,10 +53,8 @@
         }
     }
 
-    .root {
-        display: grid;
-        grid-template: repeat(2, auto) / repeat(4, 1fr);
-        grid-gap: 10px;
+    .button__icon .svg__fill {
+        fill: #ddd;
     }
 
     .button__icon {
@@ -66,13 +64,15 @@
         stroke: #ddd;
     }
 
-    .button__icon .svg__fill {
-        fill: #ddd;
-    }
-
     .progressBar {
         background: #555;
         grid-area: 1 / 1 / 1 / -1;
         height: 2px;
+    }
+
+    .root {
+        display: grid;
+        grid-template: repeat(2, auto) / repeat(4, 1fr);
+        grid-gap: 10px;
     }
 }

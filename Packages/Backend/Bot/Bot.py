@@ -37,11 +37,12 @@ async def process_start_command(message: types.Message, bot: Bot):
         tg_premium = 0
 
         # Если есть тг премиум
-        if message.from_user.is_premium:
-            tg_premium = 1
+        # if message.from_user.is_premium:
+        #     tg_premium = 1
 
         # Добавление нового пользователя в users
-        db.new_user_bd_add(tg_id, tg_premium)
+        db.new_user_bd_add(tg_id, message.from_user.is_premium)
+        # db.new_user_bd_add(tg_id, tg_premium)
         await message.answer(f'Вы зарегестрировались')
     elif len(message.text.split()) == 1:
         await message.answer(f'Вы уже авторизованы')

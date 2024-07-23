@@ -36,6 +36,7 @@ export class Root extends Component {
 
     _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
+    _user = {};
 
 
     get verticalSwipes() {
@@ -63,9 +64,18 @@ export class Root extends Component {
     _init() {
         this._telegram = window.Telegram.WebApp;
         this.props__sync('verticalSwipes');
+        this._user_info__state();
     }
 
     _footer__on_button_active__toggle(event) {
         this._elements.leafable.index = event.detail.page_num;
+    }
+
+    async _user_info__state() {
+        let tg_id = this._telegram.initDataUnsafe?.user?.id;
+
+        if (!tg_id) return;
+
+        this._user = await this._rest.call('state', tg_id);
     }
 }
