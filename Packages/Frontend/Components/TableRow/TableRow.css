@@ -3,8 +3,55 @@
 @import '../../Theme/Theme.css' layer(theme);
 
 @layer init {
+    :host {
+        display: block;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        background: var(--Theme__block__background_accent_light);
+        border-radius: var(--Theme__block_rounding);
+    }
+
+
+    .avatar {
+        aspect-ratio: 1;
+        border-radius: 100%;
+        height: inherit;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    .leval {
+        justify-self: end;
+
+        &::after {
+            content: ' уровень';
+        }
+    }
+
     .root {
+        align-items: center;
+        /* background: var(--Theme__block__background_accent_light); */
+        /* border-radius: var(--Theme__block_rounding); */
+        /* box-sizing: border-box; */
         display: grid;
+        font-size: 14px;
         grid-auto-flow: column;
+        grid-gap: 10px;
+        height: 60px;
+        justify-items: center;
+        /* padding: var(--Theme__block__padding); */
+        /* width: 100%; */
+    }
+
+    .user_data {
+        align-items: center;
+        display: grid;
+        justify-items: center;
+        justify-self: start;
+    }
+
+    .user_name {
+        height: 1.5em;
     }
 }

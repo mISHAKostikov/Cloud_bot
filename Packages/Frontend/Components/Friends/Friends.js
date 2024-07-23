@@ -25,10 +25,10 @@ export class Friends extends Component {
     _init() {
         this._elements.table.pages_records = [
             {
-                "avatar_url": "#",
+                "avatar_url": "./logo.jpg",
                 "leval": "2",
-                "name": "1",
-                "bonus": "bonus",
+                "name": "User User",
+                "bonus": "200 золота",
                 "profit": "1"
             },
             {
@@ -61,6 +61,11 @@ export class Friends extends Component {
             }
         ];
 
+        this._elements.table.count_rows_page = 3;
+        this._elements.table.refresh();
+    }
+
+    refresh() {
         this._elements.table.refresh();
     }
 }

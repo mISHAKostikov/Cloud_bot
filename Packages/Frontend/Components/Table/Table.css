@@ -4,11 +4,31 @@
 
 @layer init {
     :host {
-        width: 90%;
+        width: 100%;
     }
 
-    .content {
-        height: 100%;
+    .display {
+        --Flickable__scrollBar__width: var(--PesultPage__gap);
+        overflow: hidden;
+        height: 25dvh;
+
+        &::part(content) {
+            align-content: end;
+            display: grid;
+            /* gap: var(--PesultPage__gap); */
+            grid-template-columns: 100%;
+            justify-content: center;
+            justify-items: center;
+            min-height: 100%;
+            /* padding: var(--PesultPage__gap); */
+            /* padding-right: calc(var(--PesultPage__gap) * 2); */
+        }
+    }
+
+    .repeater {
+        display: grid;
+        width: 100%;
+        grid-gap: 20px;
     }
 
     .control_button {
@@ -29,14 +49,15 @@
         align-items: center;
         display: grid;
         grid-auto-flow: column;
-        padding: var(--Theme__block__padding);
     }
 
     .root {
-        display: grid;
         background: var(--Theme__block__background_accent_dark);
-        /* padding: var(--Theme__block__padding); */
         border-radius: var(--Theme__block_rounding);
+        box-sizing: border-box;
+        display: grid;
+        grid-gap: 25px;
+        padding: var(--Theme__block__padding);
     }
 
     .title {

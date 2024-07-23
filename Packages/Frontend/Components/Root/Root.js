@@ -19,6 +19,7 @@ export class Root extends Component {
 
     static _elements = {
         footer: '',
+        friends: '',
         header: '',
         leafable: '',
         main: '',
@@ -69,10 +70,11 @@ export class Root extends Component {
 
     _footer__on_button_active__toggle(event) {
         this._elements.leafable.index = event.detail.page_num;
+        this._elements.friends.refresh();
     }
 
     async _user_info__state() {
-        let tg_id = this._telegram.initDataUnsafe?.user?.id;
+        let tg_id = this._telegram?.initDataUnsafe?.user?.id;
 
         if (!tg_id) return;
 

@@ -1,4 +1,5 @@
 import {Component} from '../../Api/Components/Component/Component.js';
+import {Flickable} from '../../Api/Components/Flickable/Flickable.js';
 import {Repeater} from '../../Api/Components/Repeater/Repeater.js';
 
 import {TableRow} from '../TableRow/TableRow.js';
@@ -12,16 +13,15 @@ export class Table extends Component {
             default: 0,
             range: [0, Infinity],
         },
-
         _count_pages: {
             default: 1,
             range: [1, Infinity],
         },
-
         _count_all_entries: {
             default: 0,
             range: [0, Infinity],
         },
+
         count_rows_page: {
             default: 1,
             range: [1, Infinity],
@@ -33,11 +33,12 @@ export class Table extends Component {
         title: '',
     };
 
-    static _components = [Repeater, TableRow];
+    static _components = [Flickable, Repeater, TableRow];
 
     static _elements = {
         button_next: '',
         button_prev: '',
+        display: '',
         repeater: '',
         title: '',
     };
@@ -138,12 +139,21 @@ export class Table extends Component {
     }
 
     _control_button__visibiliyy_toggle() {
+        if (this._count_pages == 1) {
+            this._elements.button_next.style.visibility = 'hidden';
+            this._elements.button_prev.style.visibility = 'hidden';
+
+            return;
+        }
+
         switch (this.page) {
             case (0):
                 this._elements.button_prev.style.visibility = 'hidden';
+                this._elements.button_next.style.visibility = 'visible';
                 break;
             case (this._count_pages - 1):
                 this._elements.button_next.style.visibility = 'hidden';
+                this._elements.button_prev.style.visibility = 'visible';
                 break;
             default:
                 this._elements.button_next.style.visibility = 'visible';
@@ -152,11 +162,11 @@ export class Table extends Component {
     }
 
     _eventListeners__define() {
-        // this._elements.repeater.eventListeners__add({
-        //     add: this._repeater__on_add.bind(this),
-        //     define: this._repeater__on_add.bind(this),
-        // });
-        // window.addEventListener('resize', this._window__on_resize.bind(this));
+        this._elements.repeater.eventListeners__add({
+            add: this._repeater__on_add.bind(this),
+            define: this._repeater__on_add.bind(this),
+        });
+        window.addEventListener('resize', this._window__on_resize.bind(this));
         this._elements.button_next.addEventListener('pointerdown', this._button_next__on_pointerDown.bind(this));
         this._elements.button_prev.addEventListener('pointerdown', this._button_prev__on_pointerDown.bind(this));
     }
@@ -169,13 +179,13 @@ export class Table extends Component {
     }
 
 
-    // _repeater__on_add() {
-    //     this.refresh();
-    // }
+    _repeater__on_add() {
+        this._elements.display.refresh();
+    }
 
-    // _window__on_resize() {
-    //     this.refresh();
-    // }
+    _window__on_resize() {
+        this._elements.display.refresh();
+    }
 
 
     // _rows__set() {
@@ -204,6 +214,7 @@ export class Table extends Component {
         this.clear();
         this._elements.repeater.model.add(this.pages_records.slice(index_slice_start, index_slice_end));
         this._count_current_entries = index_slice_end;
+        this._elements.display.refresh();
     }
 
 
@@ -213,6 +224,7 @@ export class Table extends Component {
 
     refresh() {
         this._page__refresh();
+        this._control_button__visibiliyy_toggle();
     }
 
     // rows__add(data) {
