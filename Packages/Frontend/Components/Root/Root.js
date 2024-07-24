@@ -92,9 +92,9 @@ export class Root extends Component {
     _footer__on_button_active__toggle(event) {
         this._page_num = event.detail.page_num;
         this._elements.leafable.index = this._page_num;
-        // this._elements.leafable.children[this._page_numm].refresh();
+
+        this._elements.leafable.children[this._page_num].refresh();
         this._user_info__state();
-        // this._elements.friends.refresh();
     }
 
     _leafable__on_animation_end() {

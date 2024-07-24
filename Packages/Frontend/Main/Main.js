@@ -1,4 +1,5 @@
 import {Root} from '../Components/Root/Root.js';
+// import 'https://telegram.org/js/telegram-web-app.js';
 
 
 window.addEventListener('DOMContentLoaded', () => {

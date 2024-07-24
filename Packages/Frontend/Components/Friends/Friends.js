@@ -111,7 +111,7 @@ export class Friends extends Component {
     }
 
     refresh() {
-        this._elements.table.refresh();
-        this.referals__add()
+        // this._elements.table.refresh();
+        this.referals__add();
     }
 }
