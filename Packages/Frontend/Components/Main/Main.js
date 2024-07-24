@@ -96,4 +96,6 @@ export class Main extends Component {
     _init() {
         this.props__sync();
     }
+
+    refresh() {}
 }

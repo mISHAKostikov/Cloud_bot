@@ -65,7 +65,7 @@
         }
 
         &::part(puck) {
-            background: var(--Theme__block__background_light);
+            background: var(--Theme__block__background_accent);
         }
     }
 

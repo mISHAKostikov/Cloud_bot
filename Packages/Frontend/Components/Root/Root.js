@@ -15,6 +15,9 @@ export class Root extends Component {
     static _attributes = {
         ...super._attributes,
 
+        _time_last_request: 0,
+
+        limit_time__requests: 5e3,
         verticalSwipes: true,
     };
 
@@ -39,6 +42,15 @@ export class Root extends Component {
     _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
+    _page_num = 0;
+
+
+    get _time_last_request() {
+        return this._attributes._time_last_request;
+    }
+    set _time_last_request(time_last_request) {
+        this.attribute__set('_time_last_request', time_last_request);
+    }
 
 
     get verticalSwipes() {
@@ -55,9 +67,17 @@ export class Root extends Component {
         this.attribute__set('verticalSwipes', !!value);
     }
 
+    get limit_time__requests() {
+        return this.attributes.limit_time__requests;
+    }
+    set limit_time__requests(limit_time__requests) {
+        this.attribute__set('limit_time__requests', limit_time__requests);
+    }
+
 
     _eventListeners__define() {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
+        this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
         // this._elements.main.addEventListener('buttonActiveSubscribe__click', (event) => {console.log(event.detail)});
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
@@ -65,20 +85,29 @@ export class Root extends Component {
 
     _init() {
         this._telegram = window.Telegram.WebApp;
-        this.props__sync('verticalSwipes');
+        this.props__sync('verticalSwipes', '_time_last_request', 'limit_time__requests');
         this._user_info__state();
     }
 
     _footer__on_button_active__toggle(event) {
-        this._elements.leafable.index = event.detail.page_num;
-        this._elements.friends.refresh();
+        this._page_num = event.detail.page_num;
+        this._elements.leafable.index = this._page_num;
+        // this._elements.leafable.children[this._page_numm].refresh();
+        this._user_info__state();
+        // this._elements.friends.refresh();
+    }
+
+    _leafable__on_animation_end() {
+        this._elements.footer.button_active__set(this._page_num);
     }
 
     async _user_info__state() {
         let tg_id = this._telegram?.initDataUnsafe?.user?.id;
+        let is__time_requests = (Date.now() - this._time_last_request) > this.limit_time__requests;
 
-        if (!tg_id) return;
+        if (!tg_id || !is__time_requests) return;
 
         this._user = await this._rest.call('state', tg_id);
+        this._time_last_request = Date.now();
     }
 }

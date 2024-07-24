@@ -1,30 +1,40 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
 @layer init {
     :host {
         display: block;
         height: 100px;
         width: 200px;
-        font: 24px 'Arial';
     }
 
-    * {
-        box-sizing: border-box;
-        margin: 0px;
-        padding: 0px;
+    :host([button_reset]) {
+        .button_reset {
+            display: block;
+        }
     }
+
 
     .button {
-        border-radius: 10px;
-        background: #2e8d46;
-        color: #fff;
-        user-select: none;
-        cursor: pointer;
-        display: grid;
         align-content: center;
+        background: #2e8d46;
+        border-radius: 10px;
+        display: grid;
         justify-content: center;
     }
 
     .button_reset {
+        display: none;
         grid-area: 2 / 2 / 2 / 2;
+    }
+
+    .counter_value {
+        align-items: center;
+        background: rgba(255, 0, 0, 0.187);
+        border-radius: 10px;
+        display: grid;
+        justify-items: center;
     }
 
     .root {
@@ -33,16 +43,5 @@
         grid-template: repeat(2, 1fr) / 1fr 2fr 1fr;
         height: 100%;
         width: 100%;
-    }
-
-    .value {
-        align-content: center;
-        align-items: center;
-        background: rgba(255, 0, 0, 0.187);
-        border-radius: 10px;
-        cursor: text;
-        display: grid;
-        justify-content: center;
-        text-align: center;
     }
 }

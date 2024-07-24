@@ -16,6 +16,7 @@
         border-radius: 100%;
         height: 30dvh;
         object-fit: cover;
+        pointer-events: none;
     }
 
     .button_active_subscribe {
@@ -43,7 +44,7 @@
     .control_panel__item {
         width: 40dvw;
         text-align: center;
-        border-radius: 15px;
+        border-radius: var(--Theme__block_rounding);
     }
 
     .leval_current::before {
