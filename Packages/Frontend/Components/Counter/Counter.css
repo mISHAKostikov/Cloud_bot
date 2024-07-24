@@ -11,7 +11,7 @@
 
     :host([button_reset]) {
         .button_reset {
-            display: block;
+            display: grid;
         }
     }
 
