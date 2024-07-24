@@ -3,5 +3,42 @@
 @import '../../Theme/Theme.css' layer(theme);
 
 @layer init {
-    .button {}
+    :host {
+        position: absolute;
+        display: grid;
+        width: 100dvw;
+        height: 100dvh;
+        align-content: center;
+        justify-content: center;
+        background: #0008;
+    }
+
+    .root {
+        padding: var(--Theme__block__padding);
+        border-radius: var(--Theme__block_rounding);
+        background: var(--Theme__block__background_accent_dark);
+        align-content: center;
+        align-items: center;
+        display: grid;
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .button {
+        text-align: center;
+        background: var(--Theme__block__background_accent);
+        padding: calc(var(--Theme__block__padding) - 10px);
+        border-radius: var(--Theme__block_rounding);
+    }
+
+    .text {
+        text-align: center;
+    }
+
+    .button_close {
+        height: 40px;
+        width: 40px;
+        align-self: end;
+        justify-self: end;
+    }
 }

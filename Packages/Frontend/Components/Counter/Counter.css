@@ -18,10 +18,17 @@
 
     .button {
         align-content: center;
-        background: #2e8d46;
-        border-radius: 10px;
+        background: var(--Theme__block__background_accent);
         display: grid;
         justify-content: center;
+    }
+
+    .button_increment {
+        border-radius: 0 var(--Theme__block_rounding) var(--Theme__block_rounding) 0;
+    }
+
+    .button_decrement {
+        border-radius: var(--Theme__block_rounding) 0 0 var(--Theme__block_rounding);
     }
 
     .button_reset {
@@ -31,15 +38,14 @@
 
     .counter_value {
         align-items: center;
-        background: rgba(255, 0, 0, 0.187);
-        border-radius: 10px;
+        background: var(--Theme__block__background);
         display: grid;
         justify-items: center;
     }
 
     .root {
         display: grid;
-        grid-gap: 5%;
+        /* grid-gap: 5%; */
         grid-template: repeat(2, 1fr) / 1fr 2fr 1fr;
         height: 100%;
         width: 100%;

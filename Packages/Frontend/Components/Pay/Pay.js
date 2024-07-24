@@ -9,7 +9,17 @@ export class Pay extends Component {
     static _elements = {
         button: '',
         counter: '',
+        text: '',
+        button_close: '',
     };
+
+    static _attributes = {
+        ...super._attributes,
+
+        text: '',
+    };
+
+    static _components = [Counter];
 
 
     static css_url = true;
@@ -20,21 +30,44 @@ export class Pay extends Component {
         this.define();
     }
 
+    static resources = {
+        cross: new URL(`${this.name}.svg#cross`, import.meta.url),
+    };
 
     _ethereum = null;
     _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
 
 
+    get counter_range() {
+        return this._elements.counter.range;
+    }
+    set counter_range(counter_range) {
+        this._elements.counter.range = counter_range;
+    }
+
+    get text() {
+        return this._attributes.text;
+    }
+    set text(text) {
+        this._attribute__set('text', text);
+
+        this._elements.text.textContent = text;
+    }
+
+    _button_close__on_pointerDown() {
+        this.remove();
+    }
+
     async _button__on_pointerDown() {
-        const fromAddress = this.ethereum.selectedAddress;
-        const toAddress = '0xRecipientAddress'; // Замените на адрес получателя
-        const value = this._elements.counter.value * 0.01; // Сумма в ETH
+        let address_from = this._ethereum.selectedAddress;
+        let addres_to = '0xRecipientAddress'; // Замените на адрес получателя
+        let value = this._elements.counter.value * 0.01; // Сумма в ETH
 
         // Создание транзакции
-        const transactionParameters = {
-            to: toAddress,
-            from: fromAddress,
+        let transaction_parameters = {
+            to: addres_to,
+            from: address_from,
             value: '0x' + Math.floor(value * 1e18).toString(16),
             gas: '21000', // Лимит газа
             gasPrice: '0x' + Math.floor(20 * Math.pow(10, 9)).toString(16), // Цена газа
@@ -61,10 +94,11 @@ export class Pay extends Component {
 
     _eventListeners__define() {
         this._elements.button.addEventListener('pointerdown', this._button__on_pointerDown.bind(this));
+        this._elements.button_close.addEventListener('pointerdown', this._button_close__on_pointerDown.bind(this));
     }
 
     _init() {
-        this._elements.counter.range = [0, 12];
+        // this._elements.counter.range = counter_range;
         this._telegram = window.Telegram.WebApp;
 
         this._metaMask__check_installed();
@@ -108,8 +142,8 @@ export class Pay extends Component {
 
 
 // Проверка наличия MetaMask
-// const isMetaMaskInstalled = () => {
-//     const { ethereum } = window;
+// let isMetaMaskInstalled = () => {
+//     let { ethereum } = window;
 //     return Boolean(ethereum && ethereum.isMetaMask);
 // };
 
@@ -120,15 +154,15 @@ export class Pay extends Component {
 // }
 
 // // Инициализация MetaMask Onboarding
-// const onboarding = new MetaMaskOnboarding();
+// let onboarding = new MetaMaskOnboarding();
 
 // // Кнопка "Connect to MetaMask"
-// const connectButton = document.getElementById('connectButton');
-// const sendTransactionButton = document.getElementById('sendTransactionButton');
+// let connectButton = document.getElementById('connectButton');
+// let sendTransactionButton = document.getElementById('sendTransactionButton');
 
-// const isMetaMaskConnected = () => ethereum.request({ method: 'eth_accounts' }).then(accounts => accounts.length > 0);
+// let isMetaMaskConnected = () => ethereum.request({ method: 'eth_accounts' }).then(accounts => accounts.length > 0);
 
-// const onClickConnect = async () => {
+// let onClickConnect = async () => {
 //     try {
 //         // Запрос доступа к аккаунтам
 //         await ethereum.request({ method: 'eth_requestAccounts' });
@@ -140,15 +174,15 @@ export class Pay extends Component {
 //     }
 // };
 
-// const onClickSendTransaction = async () => {
-//     const fromAddress = ethereum.selectedAddress;
-//     const toAddress = '0xRecipientAddress'; // Замените на адрес получателя
-//     const value = '0.01'; // Сумма в ETH
+// let onClickSendTransaction = async () => {
+//     let address_from = ethereum.selectedAddress;
+//     let addres_to = '0xRecipientAddress'; // Замените на адрес получателя
+//     let value = '0.01'; // Сумма в ETH
 
 //     // Создание транзакции
-//     const transactionParameters = {
-//         to: toAddress,
-//         from: fromAddress,
+//     let transactionParameters = {
+//         to: addres_to,
+//         from: address_from,
 //         value: ethereum.utils.toHex(ethereum.utils.toWei(value, 'ether')),
 //         gas: '21000', // Лимит газа
 //         gasPrice: ethereum.utils.toHex(ethereum.utils.toWei('20', 'gwei')), // Цена газа
@@ -156,7 +190,7 @@ export class Pay extends Component {
 
 //     try {
 //         // Отправка транзакции
-//         const txHash = await ethereum.request({
+//         let txHash = await ethereum.request({
 //             method: 'eth_sendTransaction',
 //             params: [transactionParameters],
 //         });
@@ -188,8 +222,8 @@ export class Pay extends Component {
 
 
 // // Проверка наличия MetaMask
-// const isMetaMaskInstalled = () => {
-//     const { ethereum } = window;
+// let isMetaMaskInstalled = () => {
+//     let { ethereum } = window;
 //     return Boolean(ethereum && ethereum.isMetaMask);
 // };
 
@@ -200,9 +234,9 @@ export class Pay extends Component {
 // }
 
 // // Запрос доступа к аккаунтам и активация кнопки
-// const connectMetaMask = async () => {
+// let connectMetaMask = async () => {
 //     try {
-//         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+//         let accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 //         console.log('Connected account:', accounts[0]);
 //         document.getElementById('sendTransactionButton').disabled = false;
 //     } catch (error) {
@@ -211,21 +245,21 @@ export class Pay extends Component {
 // };
 
 // // Отправка транзакции
-// const sendTransaction = async () => {
-//     const toAddress = document.getElementById('toAddress').value;
-//     const amount = document.getElementById('amount').value;
-//     const fromAddress = window.ethereum.selectedAddress; // Адрес отправителя
+// let sendTransaction = async () => {
+//     let addres_to = document.getElementById('addres_to').value;
+//     let amount = document.getElementById('amount').value;
+//     let address_from = window.ethereum.selectedAddress; // Адрес отправителя
 
-//     const transactionParameters = {
-//         to: toAddress,
-//         from: fromAddress,
+//     let transactionParameters = {
+//         to: addres_to,
+//         from: address_from,
 //         value: window.ethereum.utils.toHex(window.ethereum.utils.toWei(amount, 'ether')),
 //         gas: '21000', // Лимит газа
 //         gasPrice: window.ethereum.utils.toHex(window.ethereum.utils.toWei('20', 'gwei')), // Цена газа
 //     };
 
 //     try {
-//         const txHash = await window.ethereum.request({
+//         let txHash = await window.ethereum.request({
 //             method: 'eth_sendTransaction',
 //             params: [transactionParameters],
 //         });

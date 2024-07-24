@@ -27,6 +27,7 @@ export class Root extends Component {
         header: '',
         leafable: '',
         main: '',
+        root: '',
     };
 
 
@@ -79,7 +80,7 @@ export class Root extends Component {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
         this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
-        // this._elements.main.addEventListener('buttonActiveSubscribe__click', (event) => {console.log(event.detail)});
+         this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
     }
 
@@ -99,6 +100,13 @@ export class Root extends Component {
 
     _leafable__on_animation_end() {
         this._elements.footer.button_active__set(this._page_num);
+    }
+
+    _main_on__buttonActiveSubscribe__click() {
+        let pay = new Pay();
+        this._elements.root.append(pay);
+        pay.counter_range = [0, 12];
+        pay.text = 'Здесь ты можешь купить автоматическое начисление бонусов! Выбери количество месяцев, которое будет действовать подписка и нажми оплатить. Для оплаты используется кошелёк MetaMask.'
     }
 
     async _user_info__state() {
