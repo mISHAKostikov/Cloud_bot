@@ -28,15 +28,15 @@ export class Pay extends Component {
     async _button__on_pointerDown() {
         const fromAddress = this.ethereum.selectedAddress;
         const toAddress = '0xRecipientAddress'; // Замените на адрес получателя
-        const value = String(this._elements.counter.value * 0.01); // Сумма в ETH
+        const value = this._elements.counter.value * 0.01; // Сумма в ETH
 
         // Создание транзакции
         const transactionParameters = {
             to: toAddress,
             from: fromAddress,
-            value: this.ethereum.utils.toHex(this.ethereum.utils.toWei(value, 'ether')),
+            value: '0x' + Math.floor(value * 1e18).toString(16),
             gas: '21000', // Лимит газа
-            gasPrice: this.ethereum.utils.toHex(this.ethereum.utils.toWei('20', 'gwei')), // Цена газа
+            gasPrice: '0x' + Math.floor(20 * Math.pow(10, 9)).toString(16), // Цена газа
         };
 
         try {
