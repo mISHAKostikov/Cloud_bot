@@ -1,0 +1,48 @@
+@layer init {
+    :host {
+        display: block;
+        height: 100px;
+        width: 200px;
+        font: 24px 'Arial';
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .button {
+        border-radius: 10px;
+        background: #2e8d46;
+        color: #fff;
+        user-select: none;
+        cursor: pointer;
+        display: grid;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .button_reset {
+        grid-area: 2 / 2 / 2 / 2;
+    }
+
+    .root {
+        display: grid;
+        grid-gap: 5%;
+        grid-template: repeat(2, 1fr) / 1fr 2fr 1fr;
+        height: 100%;
+        width: 100%;
+    }
+
+    .value {
+        align-content: center;
+        align-items: center;
+        background: rgba(255, 0, 0, 0.187);
+        border-radius: 10px;
+        cursor: text;
+        display: grid;
+        justify-content: center;
+        text-align: center;
+    }
+}

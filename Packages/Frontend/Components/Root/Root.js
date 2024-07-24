@@ -8,6 +8,7 @@ import {Friends} from '../Friends/Friends.js';
 import {Header} from '../Header/Header.js';
 import {Main} from '../Main/Main.js';
 import {Quests} from '../Quests/Quests.js';
+import {Pay} from '../Pay/Pay.js';
 
 
 export class Root extends Component {
