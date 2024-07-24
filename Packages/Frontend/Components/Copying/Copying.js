@@ -10,7 +10,7 @@ export class Copying extends Component {
             enum: [false, true],
         },
 
-        text_copy: 'a',
+        text_copy: '',
     };
 
     static _elements = {

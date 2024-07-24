@@ -4,12 +4,12 @@
 
 @layer init {
     :host {
-        display: block;
-        padding: 20px;
-        width: 100%;
-        box-sizing: border-box;
         background: var(--Theme__block__background_accent_light);
         border-radius: var(--Theme__block_rounding);
+        box-sizing: border-box;
+        display: block;
+        padding: var(--Theme__block__padding);
+        width: 100%;
     }
 
 

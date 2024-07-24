@@ -9,7 +9,7 @@ export class Table extends Component {
     static _attributes = {
         ...super._attributes,
 
-        _count_current_entries: {
+        _count_visible_entries: {
             default: 0,
             range: [0, Infinity],
         },
@@ -17,7 +17,7 @@ export class Table extends Component {
             default: 1,
             range: [1, Infinity],
         },
-        _count_all_entries: {
+        _count_current_entries: {
             default: 0,
             range: [0, Infinity],
         },
@@ -75,24 +75,24 @@ export class Table extends Component {
     pages_records = [];
 
 
+    get _count_visible_entries() {
+        return this._attributes._count_visible_entries;
+    }
+    set _count_visible_entries(count_current_entries) {
+        this._attribute__set('_count_visible_entries', +count_current_entries);
+    }
+
     get _count_current_entries() {
+        this._count_current_entries = this.pages_records.length;
+
         return this._attributes._count_current_entries;
     }
     set _count_current_entries(count_current_entries) {
         this._attribute__set('_count_current_entries', +count_current_entries);
     }
 
-    get _count_all_entries() {
-        this._count_all_entries = this.pages_records.length;
-
-        return this._attributes._count_all_entries;
-    }
-    set _count_all_entries(count_all_entries) {
-        this._attribute__set('_count_all_entries', +count_all_entries);
-    }
-
     get _count_pages() {
-        this._count_pages = Math.ceil(this._count_all_entries / this.count_rows_page);
+        this._count_pages = Math.ceil(this._count_current_entries / this.count_rows_page);
 
         return this._attributes._count_pages;
     }
@@ -173,7 +173,7 @@ export class Table extends Component {
 
     _init() {
         this._elements.repeater.Manager = this.constructor.Repeater_manager;
-        this.props__sync('_count_all_entries', 'count_rows_page', 'page', 'title');
+        this.props__sync('_count_current_entries', 'count_rows_page', 'page', 'title');
         this.refresh();
         this.title = 'Друзья';
     }
@@ -189,15 +189,15 @@ export class Table extends Component {
 
 
     // _rows__set() {
-    //     this._count_current_entries = this.data.length;
+    //     this._count_visible_entries = this.data.length;
 
-    //     this._count_page = Math.ceil(this._count_current_entries / this.count_rows_page);
+    //     this._count_page = Math.ceil(this._count_visible_entries / this.count_rows_page);
 
     //     for (let i = 0; i < this._count_page; i++) {
     //         let delegate = this._template.querySelector('.delegate').cloneNode(true);
     //         let repeater = delegate.querySelector('.repeater');
     //         let index_slice_start = i * this.count_rows_page;
-    //         this._index_slice_end = Math.min((i + 1) * this.count_rows_page, this._count_current_entries);
+    //         this._index_slice_end = Math.min((i + 1) * this.count_rows_page, this._count_visible_entries);
 
     //         repeater.Manager = this.constructor.Repeater_manager;
     //         repeater.model.add(this.data.slice(index_slice_start, this._index_slice_end));
@@ -208,12 +208,12 @@ export class Table extends Component {
     // }
 
     _page__refresh() {
-        let index_slice_end = Math.min((this.page + 1) * this.count_rows_page, this._count_all_entries);
+        let index_slice_end = Math.min((this.page + 1) * this.count_rows_page, this._count_current_entries);
         let index_slice_start = this.page * this.count_rows_page;
 
         this.clear();
         this._elements.repeater.model.add(this.pages_records.slice(index_slice_start, index_slice_end));
-        this._count_current_entries = index_slice_end;
+        this._count_visible_entries = index_slice_end;
         this._elements.display.refresh();
     }
 
@@ -229,7 +229,7 @@ export class Table extends Component {
 
     // rows__add(data) {
     //     this.data.push(...data);
-    //     this._count_current_entries = this.data.length;
+    //     this._count_visible_entries = this.data.length;
     //     let count_page = this._count_page;
     //     this._count_page += Math.ceil(data.length / this.count_rows_page);
 
@@ -237,7 +237,7 @@ export class Table extends Component {
     //         let delegate = this._template.querySelector('.delegate').cloneNode(true);
     //         let repeater = delegate.querySelector('.repeater');
     //         let index_slice_start = i * this.count_rows_page;
-    //         this._index_slice_end = Math.min((i + 1) * this.count_rows_page, this._count_current_entries);
+    //         this._index_slice_end = Math.min((i + 1) * this.count_rows_page, this._count_visible_entries);
 
     //         repeater.Manager = this.constructor.Repeater_manager;
     //         repeater.model.add(this.data.slice(index_slice_start, this._index_slice_end));

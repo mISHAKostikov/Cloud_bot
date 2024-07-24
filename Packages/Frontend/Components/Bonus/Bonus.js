@@ -10,4 +10,7 @@ export class Bonus extends Component {
     static {
         this.define();
     }
+
+
+    refresh() {}
 }

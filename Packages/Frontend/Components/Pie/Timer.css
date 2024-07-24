@@ -1,0 +1,49 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
+@layer init {
+    :host {
+        --background: #eee;
+        --border-thickness: 20px;
+        --diameter: 150px;
+        --main-color: #afa;
+
+        display: inline-block;
+        margin: 5px;
+    }
+
+
+    .root {
+        --_progress: 100;
+
+        aspect-ratio: 1;
+        display: inline-grid;
+        grid-auto-flow: column;
+        height: var(--diameter);
+        place-content: center;
+        position: relative;
+        user-select: none;
+
+        &:after, &:before {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        &:after {
+            background: var(--main-color);
+            inset: calc(50% - var(--border-thickness) / 2);
+            transform: rotate(calc(var(--_progress) * 3.6deg)) translateY(calc(50% - var(--diameter) / 2));
+        }
+
+        &:before {
+            background: radial-gradient(farthest-side, var(--main-color) 98%, #0000)
+                top / var(--border-thickness) var(--border-thickness) no-repeat,
+                conic-gradient(var(--main-color) calc(var(--_progress) * 1%), var(--background) 0);
+            inset: 0;
+            mask: radial-gradient(farthest-side, #0000 calc(99% - var(--border-thickness)), #000 calc(100% - var(--border-thickness)));
+        }
+    }
+}
+

@@ -10,4 +10,7 @@ export class Quests extends Component {
     static {
         this.define();
     }
+
+
+    refresh() {}
 }
