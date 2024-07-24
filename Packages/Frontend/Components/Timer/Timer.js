@@ -1,5 +1,5 @@
 import {Component} from '../../Api/Components/Component/Component.js';
-import {Renderer} from '../../Api/Units/Renderer/Renderer.js';
+import {Renderer} from '../../Api/Units/Renderer_new/Renderer.js';
 
 
 export class Timer extends Component {

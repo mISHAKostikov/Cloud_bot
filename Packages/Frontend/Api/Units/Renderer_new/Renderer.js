@@ -8,11 +8,12 @@ export class Renderer {
     _render = this._render.bind(this);
     _request_id = 0;
     _timeStamp = 0;
+    _timeStamp_initial = 0;
 
 
     _render() {
         let timeStamp = performance.now();
-        this._dt = timeStamp - this._timeStamp;
+        this._dt = (timeStamp - this._timeStamp) / 1e3;
         this._timeStamp = timeStamp;
 
         this.render(this);
@@ -34,14 +35,20 @@ export class Renderer {
         this.render = render;
     }
 
+    pause() {
+
+    }
+
     render(renderer = null) {}
 
     run() {
+    // start() {
         if (this._active) return false;
 
         this._active = true;
         this._request_id = requestAnimationFrame(this._render);
-        this._timeStamp = performance.now();
+        this._timeStamp_initial = performance.now();
+        this._timeStamp = this._timeStamp_initial;
 
         return true;
     }
