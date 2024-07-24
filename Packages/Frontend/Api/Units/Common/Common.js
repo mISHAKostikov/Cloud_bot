@@ -28,6 +28,14 @@ export class Common {
         return aim;
     }
 
+    static get_randomInt(min, max, inclusive = false) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        let coefficient = inclusive ? 1 : 0;
+
+        return Math.floor(Math.random() * (max - min + coefficient) + min);
+    }
+
     static in_range(value, value_min, value_max) {
         return value >= value_min && value <= value_max;
     }
@@ -44,15 +52,5 @@ export class Common {
         let base = Math.max(num_min, num_max) - num_min + 1;
 
         return (base + (num - num_min) % base) % base + num_min;
-    }
-
-    static get_randomInt(min, max, inclusive = false) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        let coefficient = inclusive ? 1 : 0;
-        let randomInt = Math.floor(Math.random() * (max - min + coefficient) + min)
-
-        return randomInt;
-
     }
 }

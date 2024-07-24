@@ -7,8 +7,8 @@ import {Rest} from '../../Api/Units/Rest/Rest.js';
 
 export class Pay extends Component {
     static _elements = {
-        counter: '',
         button: '',
+        counter: '',
     };
 
 
@@ -16,75 +16,46 @@ export class Pay extends Component {
     static html_url = true;
     static url = import.meta.url;
 
-
     static {
         this.define();
     }
 
-    ethereum = null;
+
+    _ethereum = null;
     _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
 
+
     async _button__on_pointerDown() {
-        const fromAddress = this.ethereum.selectedAddress;
-        const toAddress = '0xRecipientAddress'; // Замените на адрес получателя
-        const value = String(this._elements.counter.value * 0.01); // Сумма в ETH
+        let address_from = this._ethereum.selectedAddress;
+        let address_to = '0xRecipientAddress'; // Замените на адрес получателя
+        let value = String(this._elements.counter.value * 0.01); // Сумма в ETH
 
         // Создание транзакции
-        const transactionParameters = {
-            to: toAddress,
-            from: fromAddress,
-            value: this.ethereum.utils.toHex(this.ethereum.utils.toWei(value, 'ether')),
+        let transaction_parameters = {
+            to: address_to,
+            from: address_from,
+            value: this._ethereum.utils.toHex(this._ethereum.utils.toWei(value, 'ether')),
             gas: '21000', // Лимит газа
-            gasPrice: this.ethereum.utils.toHex(this.ethereum.utils.toWei('20', 'gwei')), // Цена газа
+            gasPrice: this._ethereum.utils.toHex(this._ethereum.utils.toWei('20', 'gwei')), // Цена газа
         };
 
         try {
             // Отправка транзакции
-            const txHash = await this.ethereum.request({
+            let txHash = await this._ethereum.request({
                 method: 'eth_sendTransaction',
-                params: [transactionParameters],
+                params: [transaction_parameters],
             });
 
             console.log('Transaction sent! Hash:', txHash);
             alert(`Transaction sent! Hash: ${txHash}`);
 
             let tg_id = this._telegram?.initDataUnsafe?.user?.id;
+
             await this._rest.call('pay', tg_id, this._elements.counter.value);
         } catch (error) {
             console.error('Error sending transaction:', error);
             alert('Error sending transaction: ' + error.message);
-        }
-    }
-
-    _check_metaMask_connected() {
-        (this.ethereum.request({ method: 'eth_accounts' })
-            .then(accounts => accounts.length > 0))
-                .then(isConnected => {
-                    if (!isConnected) {
-                        alert('Пожалуйста подключите аккаунт!');
-
-                        try {
-                            // Запрос доступа к аккаунтам
-                            this.ethereum.request({ method: 'eth_requestAccounts' });
-                            onboarding.stopOnboarding();
-                        } catch (error) {
-                            console.error(error);
-                        }
-
-                        this._check_metaMask_connected();
-                    }
-                    else {
-                        alert('Аккаунт подключен!');
-                    }
-                })
-    }
-
-    _check_metaMask_installed() {
-        this.ethereum = window.ethereum;
-
-        if (!(this.ethereum && this.ethereum.isMetaMask)) {
-            alert('Пожалуйста установите MetaMask!');
         }
     }
 
@@ -93,15 +64,46 @@ export class Pay extends Component {
     }
 
     _init() {
-        this._telegram = window.Telegram.WebApp;
         this._elements.counter.range = [0, 12];
-        this._check_metaMask_installed();
-        if (!this.ethereum) return;
+        this._telegram = window.Telegram.WebApp;
+
+        this._metaMask__check_installed();
+
+        if (!this._ethereum) return;
+
         //this._onboarding = new MetaMaskOnboarding();
-        this._check_metaMask_connected();
+        this._metaMask__connected();
     }
 
+    _metaMask__check_installed() {
+        this._ethereum = window.ethereum;
 
+        if (!(this._ethereum && this._ethereum.isMetaMask)) {
+            alert('Пожалуйста установите MetaMask!');
+        }
+    }
+
+    _metaMask__connected() {
+        (this._ethereum.request({method: 'eth_accounts'})
+            .then(accounts => accounts.length > 0))
+            .then(isConnected => {
+                if (!isConnected) {
+                    alert('Пожалуйста подключите аккаунт!');
+
+                    try {
+                        // Запрос доступа к аккаунтам
+                        this._ethereum.request({method: 'eth_requestAccounts'});
+                        onboarding.stopOnboarding();
+                    } catch (error) {
+                        console.error(error);
+                    }
+                    this._metaMask__connected();
+                }
+                else {
+                    alert('Аккаунт подключен!');
+                }
+            });
+    }
 }
 
 
