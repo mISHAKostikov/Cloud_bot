@@ -9,7 +9,3 @@ set
     `passive_bonuses_balanse` = `passive_bonuses_balanse` + `leval`
 where
     `tg_id` = :tg_id;
-
-select `passive_bonuses_balanse`
-from `Users`
-where `tg_id` = :tg_id;

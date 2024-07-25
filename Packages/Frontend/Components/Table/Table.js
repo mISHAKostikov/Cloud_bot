@@ -178,7 +178,6 @@ export class Table extends Component {
         this.title = 'Друзья';
     }
 
-
     _repeater__on_add() {
         this._elements.display.refresh();
     }
@@ -186,26 +185,6 @@ export class Table extends Component {
     _window__on_resize() {
         this._elements.display.refresh();
     }
-
-
-    // _rows__set() {
-    //     this._count_visible_entries = this.data.length;
-
-    //     this._count_page = Math.ceil(this._count_visible_entries / this.count_rows_page);
-
-    //     for (let i = 0; i < this._count_page; i++) {
-    //         let delegate = this._template.querySelector('.delegate').cloneNode(true);
-    //         let repeater = delegate.querySelector('.repeater');
-    //         let index_slice_start = i * this.count_rows_page;
-    //         this._index_slice_end = Math.min((i + 1) * this.count_rows_page, this._count_visible_entries);
-
-    //         repeater.Manager = this.constructor.Repeater_manager;
-    //         repeater.model.add(this.data.slice(index_slice_start, this._index_slice_end));
-
-    //         this._repeaters.push(repeater);
-    //         this._elements.content.append(delegate);
-    //     }
-    // }
 
     _page__refresh() {
         let index_slice_end = Math.min((this.page + 1) * this.count_rows_page, this._count_current_entries);
@@ -226,24 +205,4 @@ export class Table extends Component {
         this._page__refresh();
         this._control_button__visibiliyy_toggle();
     }
-
-    // rows__add(data) {
-    //     this.data.push(...data);
-    //     this._count_visible_entries = this.data.length;
-    //     let count_page = this._count_page;
-    //     this._count_page += Math.ceil(data.length / this.count_rows_page);
-
-    //     for (let i = 0; i < count_page; i++) {
-    //         let delegate = this._template.querySelector('.delegate').cloneNode(true);
-    //         let repeater = delegate.querySelector('.repeater');
-    //         let index_slice_start = i * this.count_rows_page;
-    //         this._index_slice_end = Math.min((i + 1) * this.count_rows_page, this._count_visible_entries);
-
-    //         repeater.Manager = this.constructor.Repeater_manager;
-    //         repeater.model.add(this.data.slice(index_slice_start, this._index_slice_end));
-
-    //         this._repeaters.push(repeater);
-    //         this._elements.content.append(delegate);
-    //     }
-    // }
 }

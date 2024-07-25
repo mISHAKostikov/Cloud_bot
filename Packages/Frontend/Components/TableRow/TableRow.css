@@ -25,23 +25,18 @@
         justify-self: end;
 
         &::after {
-            content: ' уровень';
+            content: ' ур.';
         }
     }
 
     .root {
         align-items: center;
-        /* background: var(--Theme__block__background_accent_light); */
-        /* border-radius: var(--Theme__block_rounding); */
-        /* box-sizing: border-box; */
         display: grid;
-        font-size: 14px;
+        font-size: 13px;
         grid-auto-flow: column;
         grid-gap: 10px;
         height: 60px;
         justify-items: center;
-        /* padding: var(--Theme__block__padding); */
-        /* width: 100%; */
     }
 
     .user_data {

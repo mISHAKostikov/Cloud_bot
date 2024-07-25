@@ -42,13 +42,14 @@ class Manager extends \Rest {
             'tg_id' => $tg_id,
         ];
         $passive_last_collect_date = $this->_db->fetch('passive_last_collect_date__get', $request_data);
+        $passive_last_collect_date = $passive_last_collect_date[0]['passive_last_collect_date'];
 
-        if ($this->_timeStamp - $passive_last_collect_date < 6e4) return;
+        if ($this->_timeStamp - $passive_last_collect_date < 60) return;
 
         $request_data += ['passive_last_collect_date' => $this->_timeStamp];
-        $passive_bonuses_balanse = $this->_db->fetch('passive_bonus__save', $request_data);
+        $passive_bonuses_balanse = $this->_db->execute('passive_bonus__save', $request_data);
 
-        return $passive_bonuses_balanse;
+        return true;
     }
 
     public function passive_bonus__get($tg_id) {
@@ -56,6 +57,15 @@ class Manager extends \Rest {
             'tg_id' => $tg_id,
         ];
         $passive_last_collect_date = $this->_db->fetch('passive_bonuses_balanse__get', $request_data);
+
+        return $passive_last_collect_date;
+    }
+
+    public function state($tg_id) {
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+        $passive_last_collect_date = $this->_db->fetch('user__get', $request_data);
 
         return $passive_last_collect_date;
     }

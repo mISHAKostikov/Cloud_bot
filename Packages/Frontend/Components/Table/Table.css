@@ -8,7 +8,7 @@
     }
 
     .display {
-        /* --Flickable__scrollBar__width: var(--PesultPage__gap); */
+        --Flickable__scrollBar__width: 0;
         overflow: hidden;
         /* height: 25dvh; */
 

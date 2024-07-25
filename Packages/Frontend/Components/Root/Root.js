@@ -43,7 +43,8 @@ export class Root extends Component {
 
 
     _page_num = 0;
-    _rest = new Rest(`https://mmnds.store`);
+    _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager.php`);
+    // _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
 
@@ -80,7 +81,7 @@ export class Root extends Component {
 
     _eventListeners__define() {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
-        this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
+        // this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
          this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});

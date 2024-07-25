@@ -48,7 +48,7 @@ export class Footer extends Component {
     _button_active__toggle(index_active) {
         let butten_active_current = this._buttons.find((item) => item.hasAttribute('_active'));
         butten_active_current?.removeAttribute('_active');
-        // this.button_active__set(+index_active);
+        this.button_active__set(+index_active);
 
         let detail = {
             page_num: +index_active,
