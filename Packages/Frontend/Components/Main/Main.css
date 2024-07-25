@@ -51,6 +51,11 @@
         content: '+';
     }
 
+    .leval_current {
+        font-size: 24px;
+        font-weight: 500;
+    }
+
     .root {
            /* align-content: center; */
         align-items: center;

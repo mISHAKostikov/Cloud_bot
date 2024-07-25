@@ -88,6 +88,6 @@
         grid-template: repeat(2, 1fr) / auto 60px;
         justify-items: stretch;
         line-height: 1em;
-        padding: var(--Theme__block__padding) 5%;
+        /* padding: var(--Theme__block__padding) 5%; */
     }
 }
