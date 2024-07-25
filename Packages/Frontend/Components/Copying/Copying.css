@@ -29,15 +29,17 @@
     }
 
     .notification {
-        background: #fff9;
+        background: #aaa;
         border-radius: var(--Theme__block_rounding);
         color: #000d;
         font-weight: 600;
         opacity: 0;
+        position: absolute;
         text-align: center;
         transition: opacity 1s ease-in-out;
         transition-property: opacity, visibility;
         visibility: hidden;
+        width: calc(100% - 2 * var(--Theme__block__padding));
     }
 
     .panel {

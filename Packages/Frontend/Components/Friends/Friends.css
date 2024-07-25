@@ -4,18 +4,17 @@
 
 @layer init {
     .content {
-        padding-bottom: 40px;
+        /* padding-top: 20px; */
+        line-height: 1.2em;
+        padding: var(--Theme__block__padding) 0;
         text-align: center;
     }
 
-    .copying {
-        padding-bottom: 0;
-    }
+    /* .copying { */
+    /*     padding-bottom: 0; */
+    /* } */
 
     .root {
-        /* align-items: center; */
-        /* grid-template-rows: auto auto 1fr; */
-        /* justify-items: center; */
         display: grid;
         grid-template-rows: min-content min-content auto;
         height: 100%;
