@@ -81,7 +81,7 @@ export class Root extends Component {
 
     _eventListeners__define() {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
-        // this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
+        this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
          this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
@@ -89,8 +89,12 @@ export class Root extends Component {
 
     _footer__on_button_active__toggle(event) {
         this._page_num = event.detail.page_num;
-        this._elements.leafable.index = this._page_num;
 
+        if (this._elements.leafable.index != this._page_num) {
+            this._elements.footer.busy = true;
+        }
+
+        this._elements.leafable.index = this._page_num;
         this._elements.leafable.children[this._page_num].refresh();
         this._user_info__state();
     }
@@ -102,7 +106,10 @@ export class Root extends Component {
     }
 
     _leafable__on_animation_end() {
-        this._elements.footer.button_active__set(this._page_num);
+        this._elements.footer.busy = false;
+        // if (this._elements.leafable.index != this._elements.footer.button_active) {
+        //     this._elements.footer.button_active = this._elements.leafable.index;
+        // }
     }
 
     _main_on__buttonActiveSubscribe__click() {
