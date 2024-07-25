@@ -36,7 +36,10 @@
         display: grid;
         align-items: center;
         justify-items: center;
-        font-size: 14px;
+        grid-gap: 3px;
+        font-size: 13px;
+        padding: 7px;
+        padding-bottom: 0;
 
         &[_active] {
             .button__icon .svg__fill {
@@ -60,7 +63,7 @@
     .button__icon {
         aspect-ratio: 1;
         display: block;
-        height: 45px;
+        height: 35px;
         stroke: #ddd;
     }
 
@@ -73,6 +76,7 @@
     .root {
         display: grid;
         grid-template: repeat(2, auto) / repeat(4, 1fr);
-        grid-gap: 10px;
+        /* grid-gap: 5px; */
+        line-height: 1.5em;
     }
 }

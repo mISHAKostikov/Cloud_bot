@@ -26,17 +26,19 @@
     }
 
     .balanse {
-        align-items: center;
         border: 1px solid var(--Theme__block__background_accent);
-        display: grid;
-        justify-items: center;
+        padding: 3px;
+
 
         &:first-child {
             border-radius:  var(--Theme__block_rounding) 0px 0px  var(--Theme__block_rounding);
         }
         &:last-child {
             background: var(--Theme__block__background_accent);
+            align-items: center;
             border-radius: 0px  var(--Theme__block_rounding)  var(--Theme__block_rounding) 0px;
+            display: flex;
+            justify-content: center;
         }
         &:nth-of-type(2n) {
             border-left: none;
@@ -45,18 +47,20 @@
     }
 
     .balanse_value {
-        font-size: 18px;
+        /* font-size: 18px; */
+        text-align: center;
     }
 
     .balanse_subtitle {
         font-size: 10px;
+        text-align: center;
     }
 
     .profit_item {
         align-items: center;
         border: 1px solid var(--Theme__block__background_accent);
         display: flex;
-        height: 1em;
+        /* height: 1em; */
         justify-content: center;
         padding: 5px;
 
@@ -70,19 +74,20 @@
     }
 
     .auto_velocity::after {
-        content: 'б/с';
+        content: ' б/с';
     }
 
     .bonus_ref::before {
-        content: '+';
+        content: ' +';
     }
 
     .root {
         align-items: center;
         display: grid;
-        grid-gap: var(--Theme__block__padding);
+        grid-gap: 7px 40px;
         grid-template: repeat(2, 1fr) / auto 60px;
         justify-items: stretch;
+        line-height: 1em;
         padding: var(--Theme__block__padding) 5%;
     }
 }
