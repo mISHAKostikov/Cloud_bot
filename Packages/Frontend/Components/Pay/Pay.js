@@ -1,18 +1,11 @@
-// import 'https://unpkg.com/@metamask/onboarding';
-//import * as MetaMaskOnboarding from "https://unpkg.com/@metamask/onboarding@1.0.1/dist/metamask-onboarding.cjs.js";
 import {Component} from '../../Api/Components/Component/Component.js';
-import {Counter} from '../Counter/Counter.js';
 import {Rest} from '../../Api/Units/Rest/Rest.js';
+import {Telegram} from '../../Api/Units/Telegram/Telegram.js';
+
+import {Counter} from '../Counter/Counter.js';
 
 
 export class Pay extends Component {
-    static _elements = {
-        button: '',
-        counter: '',
-        text: '',
-        button_close: '',
-    };
-
     static _attributes = {
         ...super._attributes,
 
@@ -21,22 +14,30 @@ export class Pay extends Component {
 
     static _components = [Counter];
 
+    static _elements = {
+        button_send: '',
+        button_close: '',
+        counter: '',
+        text: '',
+    };
+
 
     static css_url = true;
     static html_url = true;
     static url = import.meta.url;
 
-    static {
-        this.define();
-    }
-
     static resources = {
         cross: new URL(`${this.name}.svg#cross`, import.meta.url),
     };
 
+
+    static {
+        this.define();
+    }
+
+
     _ethereum = null;
     _rest = new Rest(`https://mmnds.store`);
-    _telegram = null;
 
 
     get counter_range() {
@@ -51,20 +52,19 @@ export class Pay extends Component {
     }
     set text(text) {
         this._attribute__set('text', text);
-
         this._elements.text.textContent = text;
     }
 
+
     _button_close__on_pointerDown() {
-        this.remove();
+        this._close();
     }
 
-    async _button__on_pointerDown() {
+    async _button_send__on_pointerDown() {
         let address_from = this._ethereum.selectedAddress;
         let addres_to = '0xRecipientAddress'; // Замените на адрес получателя
         let value = this._elements.counter.value * 0.01; // Сумма в ETH
 
-        // Создание транзакции
         let transaction_parameters = {
             to: addres_to,
             from: address_from,
@@ -74,16 +74,15 @@ export class Pay extends Component {
         };
 
         try {
-            // Отправка транзакции
-            let txHash = await this._ethereum.request({
+            let transaction_hash = await this._ethereum.request({
                 method: 'eth_sendTransaction',
                 params: [transaction_parameters],
             });
 
-            console.log('Transaction sent! Hash:', txHash);
-            alert(`Transaction sent! Hash: ${txHash}`);
+            console.log('Transaction sent! Hash:', transaction_hash);
+            alert(`Transaction sent! Hash: ${transaction_hash}`);
 
-            let tg_id = this._telegram?.initDataUnsafe?.user?.id;
+            let tg_id = Telegram.user_tg_id__get();
 
             await this._rest.call('pay', tg_id, this._elements.counter.value);
         } catch (error) {
@@ -92,18 +91,25 @@ export class Pay extends Component {
         }
     }
 
+    _close() {
+        this.remove();
+    }
+
     _eventListeners__define() {
-        this._elements.button.addEventListener('pointerdown', this._button__on_pointerDown.bind(this));
+        this._elements.button_send.addEventListener('pointerdown', this._button_send__on_pointerDown.bind(this));
         this._elements.button_close.addEventListener('pointerdown', this._button_close__on_pointerDown.bind(this));
     }
 
     _init() {
         // this._elements.counter.range = counter_range;
         this._telegram = window.Telegram.WebApp;
-
         this._metaMask__check_installed();
 
-        if (!this._ethereum) return;
+        if (!this._ethereum) {
+            this._close();
+
+            return;
+        }
 
         //this._onboarding = new MetaMaskOnboarding();
         this._metaMask__connected();
@@ -125,7 +131,6 @@ export class Pay extends Component {
                     alert('Пожалуйста подключите аккаунт!');
 
                     try {
-                        // Запрос доступа к аккаунтам
                         this._ethereum.request({method: 'eth_requestAccounts'});
                         onboarding.stopOnboarding();
                     } catch (error) {

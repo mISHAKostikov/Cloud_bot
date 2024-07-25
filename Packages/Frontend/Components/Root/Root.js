@@ -1,6 +1,7 @@
 import {Component} from '../../Api/Components/Component/Component.js';
 import {Leafable} from '../../Api/Components/Leafable/Leafable.js';
 import {Rest} from '../../Api/Units/Rest/Rest.js';
+import {Telegram} from '../../Api/Units/Telegram/Telegram.js';
 
 import {Bonus} from '../Bonus/Bonus.js';
 import {Footer} from '../Footer/Footer.js';
@@ -35,15 +36,16 @@ export class Root extends Component {
     static html_url = true;
     static url = import.meta.url;
 
+
     static {
         this.define();
     }
 
 
+    _page_num = 0;
     _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
-    _page_num = 0;
 
 
     get _time_last_request() {
@@ -54,25 +56,25 @@ export class Root extends Component {
     }
 
 
-    get verticalSwipes() {
-        return this._attributes.verticalSwipes;
-    }
-    set verticalSwipes(value) {
-        if (value) {
-            this._telegram.enableVerticalSwipes();
-        }
-        else {
-            this._telegram.disableVerticalSwipes();
-        }
-
-        this.attribute__set('verticalSwipes', !!value);
-    }
-
     get limit_time__requests() {
         return this.attributes.limit_time__requests;
     }
     set limit_time__requests(limit_time__requests) {
         this.attribute__set('limit_time__requests', limit_time__requests);
+    }
+
+    get verticalSwipes() {
+        return this._attributes.verticalSwipes;
+    }
+    set verticalSwipes(value) {
+        if (value) {
+            Telegram.verticalSwipes__enable();
+        }
+        else {
+            Telegram.verticalSwipes__disable();
+        }
+
+        this.attribute__set('verticalSwipes', !!value);
     }
 
 
@@ -84,17 +86,17 @@ export class Root extends Component {
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
     }
 
-    _init() {
-        this._telegram = window.Telegram.WebApp;
-        this.props__sync('verticalSwipes', '_time_last_request', 'limit_time__requests');
-        this._user_info__state();
-    }
-
     _footer__on_button_active__toggle(event) {
         this._page_num = event.detail.page_num;
         this._elements.leafable.index = this._page_num;
 
         this._elements.leafable.children[this._page_num].refresh();
+        this._user_info__state();
+    }
+
+    _init() {
+        // this._telegram = window.Telegram.WebApp;
+        this.props__sync('verticalSwipes', '_time_last_request', 'limit_time__requests');
         this._user_info__state();
     }
 
@@ -110,7 +112,7 @@ export class Root extends Component {
     }
 
     async _user_info__state() {
-        let tg_id = this._telegram?.initDataUnsafe?.user?.id;
+        let tg_id = null;
         let is__time_requests = (Date.now() - this._time_last_request) > this.limit_time__requests;
 
         if (!tg_id || !is__time_requests) return;
