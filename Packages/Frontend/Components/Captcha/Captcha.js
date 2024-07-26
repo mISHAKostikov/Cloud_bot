@@ -102,14 +102,14 @@ export class Captcha extends Component {
     }
 
 
+    delete() {
+        this.event__dispatch('delete');
+        this.remove();
+    }
+
     refresh() {
         this._clear();
         this._create_expression();
         this._create_button_answer();
-    }
-
-    delete() {
-        this.remove();
-        this.event__dispatch('delete');
     }
 }

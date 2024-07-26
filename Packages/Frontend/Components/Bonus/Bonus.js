@@ -96,7 +96,7 @@ export class Bonus extends Component {
 
     refresh() {
         if (this._elements.button_collect_pasive_bonuse.hasAttribute('disabled')) {
-            this._elements.timer.start();
+            // this._elements.timer.start();
         }
     }
 }
