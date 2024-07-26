@@ -48,6 +48,8 @@ export class Bonus extends Component {
     }
 
     _button_collect_pasive_bonuse__on_pointerDown() {
+        if (this._elements.button_collect_pasive_bonuse.hasAttribute('disabled')) return
+
         let captcha = new Captcha();
 
         captcha.classList.add('captcha');

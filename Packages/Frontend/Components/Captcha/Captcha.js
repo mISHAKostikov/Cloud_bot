@@ -18,10 +18,6 @@ export class Captcha extends Component {
         this.define();
     }
 
-    static resources = {
-        cross: new URL(`${this.name}.svg#cross`, import.meta.url),
-    };
-
 
     _inaccuracy_operation_false_answer = ['-', '+'];
 

@@ -1,1 +1,13 @@
-<div class='root'></div>
+<div class='root'>
+    <svg class='button_close'>
+        <use href='{{resource: cross}}'/>
+    </svg>
+
+    <x-leafable animation_implicit index='1' class='leafable' disabled>
+        <x-repeater class='repeater' interpolation='repeater'>
+            <template Repeater__delegate>
+                <x-tablerow class='table_row Theme__ghost'></x-tablerow>
+            </template>
+        </x-repeater>
+    </x-leafable>
+</div>
