@@ -1,4 +1,5 @@
 import {Component} from '../../Api/Components/Component/Component.js';
+import {Subscribe} from '../Subscribe/Subscribe.js';
 
 
 export class Quests extends Component {
@@ -6,11 +7,9 @@ export class Quests extends Component {
     static html_url = true;
     static url = import.meta.url;
 
-
     static {
         this.define();
     }
-
 
     refresh() {}
 }
