@@ -36,6 +36,10 @@ export class Telegram {
         return promise;
     }
 
+    static telegram_link__open(url) {
+        this._webApp.openTelegramLink(url);
+    }
+
     static app__init() {
        this._webApp.expand();
        this._webApp.ready();

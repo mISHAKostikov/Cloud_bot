@@ -1,0 +1,50 @@
+@layer init;
+
+@import '../../Theme/Theme.css' layer(theme);
+
+@layer init {
+    .button_subscribe {
+        border-radius: var(--Theme__block_rounding);
+        display: flex;
+        font-size: 14px;
+        align-items: center;
+        width: 42dvw;
+        height: 5dvh;
+        background: var(--Theme__button__foreground);
+        padding: 5px;
+        gap: 10px;
+        line-height: 1em;
+    }
+
+    .button_control {
+        height: 5dvh;
+        border-radius: var(--Theme__block_rounding);
+        display: flex;
+        font-size: 14px;
+        align-items: center;
+        width: 42dvw;
+        background: var(--Theme__block__background_accent);
+        padding: 5px;
+        line-height: 1em;
+        justify-content: center;
+
+        &[disabled]{
+            display: none;
+        }
+    }
+
+    .buttons_table {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bonus {
+        justify-content: center;
+        align-items: center;
+        &[disabled]{
+            display: none;
+        }
+    }
+}
