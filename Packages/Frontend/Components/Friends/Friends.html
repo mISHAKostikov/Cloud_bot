@@ -1,8 +1,10 @@
-<div class='root'>
-    <x-copying class='copying'></x-copying>
-    <div class='content'>
-        <div>Приглашай друзей и получай БОНУСЫ!</div>
-        <div>За друга с telegram premium вы оба получите 200 золота, без - 50</div>
+<x-flickable class='display' disabled_ part='display' scrollEdge_size='10' scrollBars_='phantom'>
+    <div class='root'>
+        <x-copying class='copying'></x-copying>
+        <div class='content'>
+            <div>Приглашай друзей и получай БОНУСЫ!</div>
+            <div>За друга с telegram premium вы оба получите 200 золота, без - 50</div>
+        </div>
+        <x-table class='table' count_rows_page='2'></x-table>
     </div>
-    <x-table class='table' count_rows_page='2'></x-table>
-</div>
+</x-flickable>

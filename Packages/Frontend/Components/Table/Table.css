@@ -7,18 +7,18 @@
         width: 100%;
     }
 
-    .display {
-        --Flickable__scrollBar__width: 0;
-        overflow: hidden;
+    /* .display { */
+    /*     --Flickable__scrollBar__width: 0; */
+    /*     overflow: hidden; */
 
-        &::part(content) {
-            display: block;
-        }
+    /*     &::part(content) { */
+    /*         display: block; */
+    /*     } */
 
-        &::part(display) {
-            border-radius: var(--Theme__block_rounding);
-        }
-    }
+    /*     &::part(display) { */
+    /*         border-radius: var(--Theme__block_rounding); */
+    /*     } */
+    /* } */
 
     .repeater {
         display: grid;

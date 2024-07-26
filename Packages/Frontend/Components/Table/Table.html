@@ -10,11 +10,10 @@
             </svg>
         </div>
     </div>
-    <x-flickable class='display' disabled_ part='display' scrollEdge_size='10' scrollBars_='phantom'>
-        <x-repeater class='repeater' interpolation='repeater'>
-            <template Repeater__delegate>
-                <x-tablerow class='table_row Theme__ghost'></x-tablerow>
-            </template>
-        </x-repeater>
-    </x-flickable>
+
+    <x-repeater class='repeater' interpolation='repeater'>
+        <template Repeater__delegate>
+            <x-tablerow class='table_row Theme__ghost'></x-tablerow>
+        </template>
+    </x-repeater>
 </div>

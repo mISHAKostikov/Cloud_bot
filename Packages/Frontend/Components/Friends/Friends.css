@@ -3,6 +3,11 @@
 @import '../../Theme/Theme.css' layer(theme);
 
 @layer init {
+    :host {
+        overflow: hidden;
+    }
+
+
     .content {
         /* padding-top: 20px; */
         line-height: 1.2em;
@@ -18,9 +23,53 @@
         display: grid;
         grid-template-rows: min-content min-content auto;
         height: 100%;
+        overflow: hidden;
     }
 
     .table {
         overflow: hidden;
+    }
+
+    .display {
+        /* --Flickable__scrollBar__width: 0; */
+        --Flickable__puck__margin_inner: 10px;
+        --Flickable__puck__margin_outer: 10px;
+        --Flickable__gap: 5px;
+        overflow: hidden;
+        height: 100%;
+
+        &::part(content) {
+            display: block;
+        }
+
+        &::part(display) {
+            border-radius: var(--Theme__block_rounding);
+        }
+
+        &::after {
+            background: linear-gradient(transparent, var(--Theme__shadow));
+            content: '';
+            height: var(--Theme__edge__width);
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: auto;
+            transition: var(--Theme__ghost_transition);
+            z-index: 1;
+        }
+
+        &::before {
+            background: linear-gradient(var(--Theme__shadow), transparent);
+            bottom: auto;
+            content: '';
+            height: var(--Theme__edge__width);
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            transition: var(--Theme__ghost_transition);
+            z-index: 1;
+        }
     }
 }

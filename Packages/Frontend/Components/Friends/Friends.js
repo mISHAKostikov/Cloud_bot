@@ -1,4 +1,5 @@
 import {Component} from '../../Api/Components/Component/Component.js';
+import {Flickable} from '../../Api/Components/Flickable/Flickable.js'
 
 import {Copying} from '../Copying/Copying.js'
 import {Table} from '../Table/Table.js'
@@ -12,11 +13,12 @@ export class Friends extends Component {
         count_ref: 0,
     };
 
-    static _components = [Table];
+    static _components = [Flickable, Table];
 
     static _elements = {
         copying: '',
         table: '',
+        display: '',
     }
 
 
@@ -64,8 +66,21 @@ export class Friends extends Component {
 
     // }
 
+    _eventListeners__define() {
+        this._elements.table.addEventListener('data__update', this._table__on_data__update.bind(this));
+        window.addEventListener('resize', this._window__on_resize.bind(this));
+    }
+
     _init() {
         this.props__sync();
+    }
+
+    _table__on_data__update() {
+        this._elements.display.refresh();
+    }
+
+    _window__on_resize() {
+        this._elements.display.refresh();
     }
 
 
@@ -111,7 +126,7 @@ export class Friends extends Component {
     }
 
     refresh() {
-        // this._elements.table.refresh();
+        this._elements.display.refresh();
         this.referals__add();
     }
 }
