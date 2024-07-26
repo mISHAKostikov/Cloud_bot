@@ -2,4 +2,59 @@
 
 @import '../../Theme/Theme.css' layer(theme);
 
-@layer init {}
+@layer init {
+    :host {
+        display: contents;
+    }
+
+    .button {
+        background: var(--Theme__block__background_accent);
+        border-radius: var(--Theme__block_rounding);
+        height: fit-content;
+        padding: 7px;
+
+        &[disabled] {
+            background: var(--Theme__block__background_accent_dark);
+        }
+    }
+
+    .button_collect_everyday_bonuse {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        width: 70%;
+    }
+
+    .button_collect_pasive_bonuse {
+        text-align: center;
+        width: 40%;
+    }
+
+    .captcha {
+        background: #333d;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .root {
+        display: grid;
+        height: 100%;
+        justify-items: center;
+    }
+
+    .timer {
+        --background: var(--Theme__block__background_accent_dark);
+        --border-thickness: 3dvh;
+        --diameter: 30dvh;
+        --main-color: var(--Theme__block__background_accent);
+    }
+
+    svg {
+        aspect-ratio: 1;
+        height: 40px;
+    }
+}

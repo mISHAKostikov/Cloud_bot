@@ -3,25 +3,25 @@
 
 export class Renderer {
     _active = false;
+    _animationFrame_id = 0;
     _dt = 0;
-    _loop_num = 0;
+    _duration = 0;
     _render = this._render.bind(this);
-    _request_id = 0;
     _timeStamp = 0;
-    _timeStamp_initial = 0;
+    _timeStamp_start = 0;
 
 
     _render() {
         let timeStamp = performance.now();
         this._dt = (timeStamp - this._timeStamp) / 1e3;
         this._timeStamp = timeStamp;
+        this._duration = this._timeStamp - this._timeStamp_start;
 
         this.render(this);
 
         if (!this._active) return;
 
-        this._loop_num++;
-        this._request_id = requestAnimationFrame(this._render);
+        this._animationFrame_id = requestAnimationFrame(this._render);
     }
 
 
@@ -35,33 +35,25 @@ export class Renderer {
         this.render = render;
     }
 
-    pause() {
-
-    }
-
     render(renderer = null) {}
 
-    run() {
-    // start() {
-        if (this._active) return false;
+    start(resume = false) {
+        if (this._active) return;
+
+        if (!resume) {
+            this._duration = 0;
+        }
 
         this._active = true;
-        this._request_id = requestAnimationFrame(this._render);
-        this._timeStamp_initial = performance.now();
-        this._timeStamp = this._timeStamp_initial;
-
-        return true;
+        this._animationFrame_id = requestAnimationFrame(this._render);
+        this._timeStamp_start = performance.now() - this._duration;
+        this._timeStamp = this._timeStamp_start;
     }
 
     stop() {
-        if (!this._active) return false;
-
-        cancelAnimationFrame(this._request_id);
+        if (!this._active) return;
 
         this._active = false;
-        this._loop_num = 0;
-        this._request_id = 0;
-
-        return true;
+        cancelAnimationFrame(this._animationFrame_id);
     }
 }

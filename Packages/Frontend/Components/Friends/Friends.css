@@ -9,29 +9,12 @@
 
 
     .content {
-        /* padding-top: 20px; */
         line-height: 1.2em;
         padding: var(--Theme__block__padding) 0;
         text-align: center;
     }
 
-    /* .copying { */
-    /*     padding-bottom: 0; */
-    /* } */
-
-    .root {
-        display: grid;
-        grid-template-rows: min-content min-content auto;
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .table {
-        overflow: hidden;
-    }
-
     .display {
-        /* --Flickable__scrollBar__width: 0; */
         --Flickable__puck__margin_inner: 10px;
         --Flickable__puck__margin_outer: 10px;
         --Flickable__gap: 5px;
@@ -71,5 +54,16 @@
             transition: var(--Theme__ghost_transition);
             z-index: 1;
         }
+    }
+
+    .root {
+        display: grid;
+        grid-template-rows: min-content min-content auto;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .table {
+        overflow: hidden;
     }
 }

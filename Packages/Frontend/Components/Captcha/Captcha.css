@@ -4,11 +4,49 @@
 
 @layer init {
     :host {
-        position: absolute;
+        align-content: center;
         background: #afa;
+        justify-content: center;
+        justify-items: center;
+        position: absolute;
+        display: grid;
     }
 
-    .expression::after {
-        content: ' = ?';
+
+    .answers {
+        display: grid;
+        grid-template: auto auto / auto auto;
+        grid-gap: 15px;
+        /* grid-column: 1 / -1; */
+    }
+
+    .button_answer {
+        background: var(--Theme__block__background_accent);
+        text-align: center;
+        border-radius: var(--Theme__block_rounding);
+    }
+
+    .button_close {
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    .expression {
+        text-align: center;
+        /* grid-area: 1 / 1 / 1 / -1; */
+
+        &::after {
+            content: ' = ?';
+        }
+    }
+
+    .root {
+        background: var(--Theme__block__background);
+        border-radius: var(--Theme__block_rounding);
+        font-size: 26px;
+        padding: var(--Theme__block__padding);
+        width: 75dvw;
+        display: grid;
+        /* grid-template: auto auto / auto auto; */
     }
 }

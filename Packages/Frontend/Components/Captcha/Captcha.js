@@ -5,6 +5,7 @@ import {Common} from '../../Api/Units/Common/Common.js';
 export class Captcha extends Component {
     static _elements = {
         answers: '',
+        button_close: '',
         expression: '',
         template: '',
     }
@@ -17,6 +18,10 @@ export class Captcha extends Component {
         this.define();
     }
 
+    static resources = {
+        cross: new URL(`${this.name}.svg#cross`, import.meta.url),
+    };
+
 
     _inaccuracy_operation_false_answer = ['-', '+'];
 
@@ -26,6 +31,10 @@ export class Captcha extends Component {
     operations = ['-', '+', '*'];
     rangre_number = [0, 10];
 
+
+    _button_close__on_pointerDown() {
+        this.delete();
+    }
 
     _calculate_expression() {
         return eval(this._expression)
@@ -78,6 +87,7 @@ export class Captcha extends Component {
 
     _eventListeners__define() {
         this._elements.answers.addEventListener('pointerdown', this._answers__on_pointerDown.bind(this));
+        this._elements.button_close.addEventListener('pointerdown', this._button_close__on_pointerDown.bind(this));
     }
 
     _init() {
@@ -100,5 +110,10 @@ export class Captcha extends Component {
         this._clear();
         this._create_expression();
         this._create_button_answer();
+    }
+
+    delete() {
+        this.remove();
+        this.event__dispatch('delete');
     }
 }

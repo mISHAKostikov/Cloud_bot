@@ -5,7 +5,7 @@ class DataBase:
     def new_user_bd_add(self, tg_id, tg_premium):
         with self.connection.cursor() as cursor:
             insert_query = f'''
-                insert into `Users` (
+                insert ignore into `Users` (
                     tg_id,
                     tg_premium
                 )

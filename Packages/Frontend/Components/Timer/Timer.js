@@ -6,16 +6,22 @@ export class Timer extends Component {
     static _attributes = {
         ...super._attributes,
 
-        _progress: 1,
+        _progress: {
+            default: 1,
+            persistent: true,
+        },
+
 
         duration: {
-            default: 1e3,
+            default: 1e4,
             range: [0, Infinity],
         },
+        text: '',
     }
 
     static _elements = {
         root: '',
+        text: '',
         time_value: '',
     }
 
@@ -57,8 +63,16 @@ export class Timer extends Component {
         return this._attributes.duration;
     }
     set duration(duration) {
-        this._attribute__set('duration', +duration);
+        this._attribute__set('duration', duration);
         this._clear();
+    }
+
+    get text() {
+        return this._attributes.text;
+    }
+    set text(text) {
+        this._attribute__set('text', text);
+        this._elements.text.textContent = text;
     }
 
 
@@ -72,17 +86,14 @@ export class Timer extends Component {
     }
 
     _render() {
-        let duration = this._renderer._timeStamp - this._renderer._timeStamp_initial;
+        this._progress = 1 - this._renderer._duration / this.duration;
+        this._remains = this._time_formatted__get(this.duration - this._renderer._duration);
 
-        if (duration > this.duration) {
-            this._progress = 0;
-            this.stop();
+        // console.log(this._renderer._active, this._renderer._duration, this._progress)
 
-            return;
-        }
+        if (this._renderer._duration < this.duration) return;
 
-        this._progress = 1 - duration / this.duration;
-        this._remains = this._time_formatted__get(this.duration - duration);
+        this.stop();
     }
 
     _time_formatted__get(time) {
@@ -96,23 +107,26 @@ export class Timer extends Component {
     }
 
 
-    // pause() {
-    //     this._renderer.stop();
-    // }
+    pause() {
+        this._renderer.stop();
+    }
 
-    // resume() {
-    //     this._renderer.run();
-    // }
+    resume() {
+        this._renderer.start(true);
+    }
 
     start() {
         this._clear();
-        this._renderer.run();
+        this._renderer.start();
 
-        this.event__dispatch('timer__start');
+        this.event__dispatch('start');
     }
 
     stop() {
+        this._progress = 0;
+        this._remains = this._time_formatted__get(0);
         this._renderer.stop();
-        this.event__dispatch('timer__stop');
+
+        this.event__dispatch('stop');
     }
 }
