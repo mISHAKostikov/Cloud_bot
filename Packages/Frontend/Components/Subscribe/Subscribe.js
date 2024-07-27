@@ -1,5 +1,6 @@
 import {Component} from '../../Api/Components/Component/Component.js';
 import {Telegram} from '../../Api/Units/Telegram/Telegram.js';
+import {Rest} from '../../Api/Units/Rest/Rest.js';
 
 
 export class Subscribe extends Component {
@@ -21,6 +22,9 @@ export class Subscribe extends Component {
         button_subscribe: '',
         bonus: '',
     }
+
+
+    _rest = new Rest('https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php');
 
     get paint() {
         return this._attributes.paint;
@@ -47,17 +51,32 @@ export class Subscribe extends Component {
 
     _button_subscribe__on_pointerDown() {
         //console.log(this._elements.button_subscribe.hasAttribute('active'));
-        Telegram.telegram_link__open(this.url);
+        if (this.paint=='tg') {
+            Telegram.telegram_link__open(this.url);
+        }
+        else {
+            Telegram.other_link__open(this.url);
+        }
+
         if (this.fullfill) return;
 
         this._elements.button_control.removeAttribute('disabled');
     }
 
-    _button_control__on_pointerDown() {
-        this._elements.button_control.setAttribute('disabled', true);
-        this.fullfill = true;
-        //console.log(this._elements.button_control);
-        this._elements.bonus.removeAttribute('disabled');
+    async _button_control__on_pointerDown() {
+        if (this.paint=='tg') {
+            let check_result = await this._rest.call('tg_subscribe__check', this.url, Telegram.user.id);
+
+            if (!check_result) return;
+
+            this._elements.button_control.setAttribute('disabled', true);
+            this.fullfill = true;
+            //console.log(this._elements.button_control);
+            this._elements.bonus.removeAttribute('disabled');
+        }
+        else {
+            this.event__dispatch('twitter_subscribe_check');
+        }
     }
 
 

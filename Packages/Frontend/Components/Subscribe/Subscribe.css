@@ -6,10 +6,10 @@
     .button_subscribe {
         border-radius: var(--Theme__block_rounding);
         display: flex;
-        font-size: 14px;
+        font-size: 17px;
         align-items: center;
         width: 42dvw;
-        height: 5dvh;
+        height: 6dvh;
         background: var(--Theme__button__foreground);
         padding: 5px;
         gap: 10px;
@@ -17,7 +17,7 @@
     }
 
     .button_control {
-        height: 5dvh;
+        height: 6dvh;
         border-radius: var(--Theme__block_rounding);
         display: flex;
         font-size: 14px;
@@ -25,7 +25,7 @@
         width: 42dvw;
         background: var(--Theme__block__background_accent);
         padding: 5px;
-        line-height: 1em;
+        line-height: 0em;
         justify-content: center;
 
         &[disabled]{

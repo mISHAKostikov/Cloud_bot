@@ -2,4 +2,30 @@
 
 @import '../../Theme/Theme.css' layer(theme);
 
-@layer init {}
+@layer init {
+    .subscribe_table {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .twitter_id {
+        margin-top: 10px;
+        border: px solid var(--Theme__block__background);
+        width: 90dvw;
+        height: 6dvh;
+        border-radius: var(--Theme__block_rounding);
+        text-align: center;
+        font: var(--Theme__font);
+        font-size: 20px;
+        background: var(--Theme__button__foreground);
+        color: var(--Theme__foreground);
+        outline: none;
+    }
+
+    .title {
+        line-height: 1em;
+        gap: 10px;
+    }
+}
