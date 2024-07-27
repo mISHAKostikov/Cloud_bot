@@ -6,13 +6,18 @@ import {ExternalPromise} from '../ExternalPromise/ExternalPromise.js';
 
 
 export class Telegram {
-    // static _callback = (error, success) => {
-    //     this._result = error ? error : success;
-    // };
 
     static _result = null;
     static _telegram = window.Telegram;
     static _webApp = this._telegram.WebApp;
+
+    static user = this._webApp.initDataUnsafe.user;
+
+
+    static app__init() {
+       this._webApp.expand();
+       this._webApp.ready();
+    }
 
 
     static async data__get(key) {
