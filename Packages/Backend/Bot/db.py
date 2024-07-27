@@ -18,22 +18,24 @@ class DataBase:
             cursor.execute(insert_query)
             self.connection.commit()
 
-    def referrals_user_bd_add(self, host_tg_id, referral_tg_id, invitation_date):
+    def referrals_user_bd_add(self, host_tg_id, referral_tg_id, invitation_date, payment):
         with self.connection.cursor() as cursor:
             insert_query =  f'''
                 insert into `Referrals` (
                     host_tg_id,
-                    referral_tg_id,
-                    invitation_date
+                    invitation_date,
+                    payment,
+                    referral_tg_id
                 )
                 values (
                     {host_tg_id},
-                    {referral_tg_id},
-                    {invitation_date}
+                    {invitation_date},
+                    {payment},
+                    {referral_tg_id}
                 );
             '''
-
             cursor.execute(insert_query)
+
             self.connection.commit()
 
     def check_users_bd(self):
@@ -49,7 +51,7 @@ class DataBase:
     def check_user_in_users(self, tg_id):
         with self.connection.cursor() as cursor:
             select_all_rows = f'''
-                select *
+                select `id`
                 from `Users`
                 where tg_id = {tg_id};
             '''
@@ -61,9 +63,9 @@ class DataBase:
     def check_user_in_referrals(self, tg_id):
         with self.connection.cursor() as cursor:
             select_all_rows = f'''
-                select *
+                select `id`
                 from `Referrals`
-                where referral_tg_id = {tg_id};
+                where host_tg_id = {tg_id};
             '''
             cursor.execute(select_all_rows)
             row = cursor.fetchone()

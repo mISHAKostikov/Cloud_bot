@@ -9,6 +9,7 @@ export class Bonus extends Component {
     static _attributes = {
         ...super._attributes,
 
+        everydayBonuse: 0,
         profit: '',
     }
     static _components = [Captcha, Timer, EverydayBonuse];
@@ -16,6 +17,7 @@ export class Bonus extends Component {
     static _elements = {
         button_collect_everyday_bonuse: '',
         button_collect_pasive_bonuse: '',
+        everydayBonuse: '',
         root: '',
         timer: '',
     }
@@ -42,9 +44,20 @@ export class Bonus extends Component {
         this._elements.timer.text = this.profit;
     }
 
+    get everydayBonuse() {
+        return this._attributes.everydayBonuse;
+    }
+    set everydayBonuse(everydayBonuse) {
+        this._attribute__set('everydayBonuse', everydayBonuse);
 
-    _button_collect_everyday_bonuse__on_pointerDown() {
-        let everydayBonuse = new EverydayBonuse();
+        if (everydayBonuse == -1) return;
+
+        this._elements.everydayBonuse.active_bonuse__set(everydayBonuse)
+    }
+
+
+    async _button_collect_everyday_bonuse__on_pointerDown() {
+        this._elements.everydayBonuse.active = true;
     }
 
     _button_collect_pasive_bonuse__on_pointerDown() {
@@ -79,6 +92,11 @@ export class Bonus extends Component {
         this._elements.button_collect_pasive_bonuse.addEventListener('pointerdown', this._button_collect_pasive_bonuse__on_pointerDown.bind(this));
         this._elements.button_collect_everyday_bonuse.addEventListener('pointerdown', this._button_collect_everyday_bonuse__on_pointerDown.bind(this));
         this._elements.timer.addEventListener('stop', this._timer_on_stop.bind(this));
+        this._elements.everydayBonuse.addEventListener('bonuse__click', this._everydayBonuse_on_bonuse__click.bind(this));
+    }
+
+    _everydayBonuse_on_bonuse__click() {
+
     }
 
     _init() {

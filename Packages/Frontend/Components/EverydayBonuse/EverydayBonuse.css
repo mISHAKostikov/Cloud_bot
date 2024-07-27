@@ -11,6 +11,7 @@
         height: 100%;
         width: 100%;
         background: #333d;
+        display: block;
         z-index: 1;
 
         /* &() { */
@@ -22,9 +23,11 @@
         transition: var(--animation);
         transition-property: opacity;
     }
-
     :host(:not([active])) {
         opacity: 0;
+    }
+    :host([hidden='true']) {
+        z-index: -1;
     }
 
 

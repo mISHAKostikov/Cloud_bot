@@ -72,7 +72,7 @@ export class Footer extends Component {
 
     _init() {
         this._buttons = Array.from(this._elements.root.querySelectorAll('.button'));
-        this.button_active = 1;
+        this.button_active = 0;
         // this.props__sync('button_active');
     }
 

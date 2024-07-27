@@ -7,7 +7,7 @@ export class EverydayBonuse extends Component {
     static _attributes = {
         ...super._attributes,
 
-        active: true,
+        active: false,
         animation: false,
     };
 
@@ -16,8 +16,8 @@ export class EverydayBonuse extends Component {
     static _elements = {
         button_close: '',
         root: '',
-        display: '',
-        repeater: '',
+        // display: '',
+        // repeater: '',
     }
 
     static css_url = true;
@@ -54,15 +54,31 @@ export class EverydayBonuse extends Component {
         return this._attributes.active;
     }
     set active(active) {
-        this._attribute__set('active', active);
         this.animation = true;
+
+        if (active) {
+            this.hidden = false
+        };
+
+        this._attribute__set('active', active);
+
+        if (!active) {
+            setTimeout(() => this.hidden = true, 5e2)
+        }
     }
 
     get animation() {
-        return this._attributes.active;
+        return this._attributes.animation;
     }
     set animation(animation) {
         this._attribute__set('animation', animation);
+    }
+
+    get hidden() {
+        return this._attributes.hidden;
+    }
+    set hidden(hidden) {
+        this._attribute__set('hidden', hidden);
     }
 
 
@@ -72,6 +88,7 @@ export class EverydayBonuse extends Component {
 
     _eventListeners__define() {
         this._elements.button_close.addEventListener('pointerdown', this._button_close__on_pointerDown.bind(this));
+        this._elements.root.addEventListener('pointerdown', this._root__on_pointerDown.bind(this));
         // this._elements.repeater.eventListeners__add({
         //     add: this._repeater__on_add.bind(this),
         //     define: this._repeater__on_add.bind(this),
@@ -101,6 +118,15 @@ export class EverydayBonuse extends Component {
         // ]);
     }
 
+    _root__on_pointerDown(event) {
+        let path = this.constructor.path__get(event.target, this._elements._root);
+        let bonus_current = path.find((item) => item.classList.contains('bonuse'));
+
+        if (!bonus_current || !bonus_current.hasAttribute('active')) return;
+
+        this.event__dispatch('bonuse__click');
+    }
+
     // _repeater__on_add() {
     //     this._elements.display.refresh();
     // }
@@ -110,11 +136,8 @@ export class EverydayBonuse extends Component {
     // }
 
 
-    async delete() {
+    delete() {
         this.active = false;
-
-        await setTimeout(() => this.remove(), 5e2);
-        this.event__dispatch('delete');
     }
 
     active_bonuse__set(index) {

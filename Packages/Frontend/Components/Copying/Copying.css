@@ -23,8 +23,12 @@
     }
 
     .field {
+        align-items: center;
         background: var(--Theme__button__foreground);
         border-radius: var(--Theme__block_rounding);
+        display: flex;
+        font-size: 12px;
+        line-height: 1em;
         padding: 7px;
     }
 

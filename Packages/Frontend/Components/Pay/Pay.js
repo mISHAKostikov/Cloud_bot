@@ -82,7 +82,7 @@ export class Pay extends Component {
             console.log('Transaction sent! Hash:', transaction_hash);
             alert(`Transaction sent! Hash: ${transaction_hash}`);
 
-            let tg_id = Telegram.user_id__get();
+            let tg_id = Telegram.user.id;
 
             await this._rest.call('pay', tg_id, this._elements.counter.value);
         } catch (error) {

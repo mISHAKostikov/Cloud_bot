@@ -1,11 +1,12 @@
 import {Component} from '../../Api/Components/Component/Component.js';
+import {Renderer} from '../../Api/Units/Renderer_new/Renderer.js';
 
 
 export class Main extends Component {
     static _attributes = {
         ...super._attributes,
 
-        avatar_url: 'https://cdn1.ozone.ru/s3/multimedia-9/6255709557.jpg',
+        avatar_url: '',
         button_active_subscribe_title: 'Активировать',
         leval: {
             default: '1',
@@ -38,6 +39,9 @@ export class Main extends Component {
     }
 
 
+    _renderer = new Renderer({render: this._render.bind(this)});
+
+
     get avatar_url() {
         return this._attributes.avatar_url;
     }
@@ -66,13 +70,11 @@ export class Main extends Component {
         return this._attributes.time_active_subscribe;
     }
     set time_active_subscribe(time_active_subscribe) {
-        this.attribute__set('time_active_subscribe', time_active_subscribe);
+        this._attribute__set('time_active_subscribe', time_active_subscribe);
 
-        let date = new Date(time_active_subscribe);
+        if (this.time_active_subscribe - Date.now() < 0) return;
 
-        this._elements.time_active_subscribe.textContent = `
-            ${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}
-        `;
+        this._renderer.start();
     }
 
 
@@ -95,6 +97,15 @@ export class Main extends Component {
 
     _init() {
         this.props__sync();
+    }
+
+    _render() {
+        let time = new Date(this.time_active_subscribe - Date.now());
+        let hours = time.getHours() > 9 ? time.getHours() : `0${time.getHours()}`;
+        let minutes = time.getMinutes() > 9 ? time.getMinutes() : `0${time.getMinutes()}`;
+        let seconds = time.getSeconds() > 9 ? time.getSeconds() : `0${time.getSeconds()}`;
+
+        this._elements.time_active_subscribe.textContent = `${hours}:${minutes}:${seconds}`;
     }
 
     refresh() {}

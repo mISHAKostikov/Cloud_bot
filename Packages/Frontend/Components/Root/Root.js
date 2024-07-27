@@ -18,11 +18,12 @@ export class Root extends Component {
 
         _time_last_request: 0,
 
-        limit_time__requests: 5e3,
+        limit_time__requests: 6e4,
         verticalSwipes: true,
     };
 
     static _elements = {
+        bonus: '',
         footer: '',
         friends: '',
         header: '',
@@ -53,7 +54,7 @@ export class Root extends Component {
         return this._attributes._time_last_request;
     }
     set _time_last_request(time_last_request) {
-        this.attribute__set('_time_last_request', time_last_request);
+        this._attribute__set('_time_last_request', time_last_request);
     }
 
 
@@ -61,7 +62,7 @@ export class Root extends Component {
         return this.attributes.limit_time__requests;
     }
     set limit_time__requests(limit_time__requests) {
-        this.attribute__set('limit_time__requests', limit_time__requests);
+        this._attribute__set('limit_time__requests', limit_time__requests);
     }
 
     get verticalSwipes() {
@@ -120,12 +121,49 @@ export class Root extends Component {
     }
 
     async _user_info__state() {
-        let tg_id = null;
-        let is__time_requests = (Date.now() - this._time_last_request) > this.limit_time__requests;
+        let tg_id = 4623423;
+        let is__time_requests = this._time_last_request ? (Date.now() - this._time_last_request) < this.limit_time__requests : 1;
 
         if (!tg_id || !is__time_requests) return;
 
-        this._user = await this._rest.call('state', tg_id);
+        let {result} = await this._rest.call('user__get', tg_id);
+
+        if (!result) return;
+
+        this._user = result;
         this._time_last_request = Date.now();
+
+        this.user_data__apply();
+    }
+
+
+    user_data__apply() {
+        console.log(this._user)
+        this._elements.friends.link_ref = `https://t.me/testmmn_bot?start=${Telegram.user?.id}_${Telegram.user?.username}`;
+        this._elements.friends.refresh();
+
+        this._elements.main.avatar_url = this._user.avatar_url || '';
+        this._elements.main.button_active_subscribe_title = this._user.active_last_collect_date - Date.now() > 0 ? 'Продлить' : 'Активировать';
+        this._elements.main.leval = this._user.leval;
+        this._elements.main.time_active_subscribe = this._user.active_last_collect_date;
+
+        this._elements.header.balanse_value__gold = this._user.passive_bonuses_balanse;
+        this._elements.header.balanse_value__tokens = this._user.active_bonuses_balanse;
+        this._elements.header.balanse_value__cost = 1000;
+        this._elements.header.balanse_value__rate = 0.04;
+        this._elements.header.auto_velocity = this._user.leval;
+        this._elements.header.bonus_ref = this._user.profit_referrals;
+
+        this._elements.bonus.profit = `+ ${this._user.leval} золота`;
+
+        if (
+            this._user.count_day_registration == this._user.everyday_bonus_current ||
+            this._user.count_day_registration > 11
+        ) {
+            this._elements.bonus.everydayBonuse = -1;
+        }
+        else {
+            this._elements.bonus.everydayBonuse = this._user.count_day_registration
+        }
     }
 }
