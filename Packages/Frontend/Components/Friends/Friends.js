@@ -36,7 +36,8 @@ export class Friends extends Component {
         return this._attributes.count_ref;
     }
     set count_ref(count_ref) {
-        this._attribute__set('count_ref', +count_ref);
+        this._attribute__set('count_ref', count_ref);
+        this._elements.table.count_all_entries = +count_ref;
     }
 
     get link_ref() {
@@ -85,48 +86,48 @@ export class Friends extends Component {
 
 
     referals__add() {
-        this._elements.table.pages_records = [
-            {
-                "avatar_url": "./logo.jpg",
-                "leval": "2",
-                "name": "User User",
-                "bonus": "200 золота",
-                "profit": "1"
-            },
-            {
-                "avatar_url": "#",
-                "leval": "3",
-                "name": "2",
-                "bonus": "bonus",
-                "profit": "1"
-            },
-            {
-                "avatar_url": "#",
-                "leval": "4",
-                "name": "3",
-                "bonus": "bonus",
-                "profit": "1"
-            },
-            {
-                "avatar_url": "#",
-                "leval": "5",
-                "name": "4",
-                "bonus": "bonus",
-                "profit": "1"
-            },
-            {
-                "avatar_url": "#",
-                "leval": "6",
-                "name": "5",
-                "bonus": "bonus",
-                "profit": "1"
-            }
-        ];
-        this._elements.table.refresh();
+        // this._elements.table.pages_records = [
+        //     {
+        //         "avatar_url": "./logo.jpg",
+        //         "leval": "2",
+        //         "name": "User User",
+        //         "bonus": "200 золота",
+        //         "profit": "1"
+        //     },
+        //     {
+        //         "avatar_url": "#",
+        //         "leval": "3",
+        //         "name": "2",
+        //         "bonus": "bonus",
+        //         "profit": "1"
+        //     },
+        //     {
+        //         "avatar_url": "#",
+        //         "leval": "4",
+        //         "name": "3",
+        //         "bonus": "bonus",
+        //         "profit": "1"
+        //     },
+        //     {
+        //         "avatar_url": "#",
+        //         "leval": "5",
+        //         "name": "4",
+        //         "bonus": "bonus",
+        //         "profit": "1"
+        //     },
+        //     {
+        //         "avatar_url": "#",
+        //         "leval": "6",
+        //         "name": "5",
+        //         "bonus": "bonus",
+        //         "profit": "1"
+        //     }
+        // ];
+        // this._elements.table.refresh();
     }
 
     refresh() {
         this._elements.display.refresh();
-        this.referals__add();
+        this._elements.table.refresh();
     }
 }

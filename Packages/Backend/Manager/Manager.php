@@ -131,14 +131,15 @@ class Manager extends \Rest {
     }
 
     public function referrals__get($tg_id, $offset) {
-        $this->_db->setAttribute(static::ATTR_EMULATE_PREPARES, false);
+        $db_emulate = new \Db(static::$sql_dsn, [], static::$sql_user_name, static::$sql_user_password, true);
+        $db_emulate->statements_dir = static::$sql_dir;
 
         $request_data = [
             'tg_id' => $tg_id,
             'offset' => $offset
         ];
 
-        $referrals = $this->_db->fetch('referrals__get', $request_data);
+        $referrals = $db_emulate->fetch('referrals__get', $request_data);
 
         foreach ($referrals as &$referral) {
             $user_telegram = $this->_user_telegram__get($referral['tg_id']);
@@ -150,8 +151,6 @@ class Manager extends \Rest {
                 'avatar_url' =>$file_url,
             ];
         }
-
-        $this->_db->setAttribute(static::ATTR_EMULATE_PREPARES, true);
 
         return $referrals;
     }
@@ -165,7 +164,6 @@ class Manager extends \Rest {
         $user_date = $this->_db->fetch('user__get', $request_data);
         $user_date = $user_date[0];
         $user_telegram = $this->_user_telegram__get($tg_id);
-        // $user_telegram = $this->_user_telegram__get(509815216);
 
         if ($user_telegram) {
             $file_url = $this->_file_url_telegram__get($user_telegram['photo']['big_file_id']);
@@ -222,16 +220,15 @@ class Manager extends \Rest {
         $response = file_get_contents($url);
         $data = \Json::parse($response);
 
-        if (!$data) return;
+        if (!$data || !$data['relationship']['source']['following']) return;
 
-        $status = $data['relationship']['source']['following'];
+        // $status = $data['relationship']['source']['following'];
 
-        if (!$status) return;
+        // if (!$status) return;
 
         $request_data = [
             'tg_id' => $tg_id,
         ];
-
         $user_quests = $this->_db->fetch('user_quests__get', $request_data);
 
         if (!$user_quests) {
@@ -248,12 +245,11 @@ class Manager extends \Rest {
         $response = file_get_contents($url);
         $data = \Json::parse($response);
 
-        if (!$data) return;
+        if (!$data || !$data['result']['status']) return;
 
-        if (!$data['result']['status']) return;
+        // if (!$data['result']['status']) return;
 
         $time = $sum * 31 * 24 * 60 * 60;
-
         $request_data = [
             'tg_id' => $tg_id,
         ];

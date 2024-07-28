@@ -60,11 +60,12 @@ export class Table extends Component {
 
     static Repeater_manager = class extends Repeater.Manager {
         data__apply() {
-            this._item.avatar_url = this._model_item.avatar_url;
-            this._item.leval = this._model_item.leval;
-            this._item.name = this._model_item.name;
-            this._item.bonus = this._model_item.bonus;
-            this._item.profit = this._model_item.profit;
+            this._item.avatar_url = this._model_item['avatar_url'];
+            console.log(this._model_item)
+            this._item.leval = this._model_item['leval'];
+            this._item.name = `${this._model_item['first_name']} ${this._model_item['last_name']}`;
+            this._item.bonus = this._model_item['payment'];
+            this._item.profit = this._model_item['bonus'];
         }
 
         init() {
@@ -77,14 +78,18 @@ export class Table extends Component {
     }
 
 
+    _rest = new Rest(`https://localhost/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
+    _user_telegram_id = 509815216 // Telegram.user?.id;
+
+
     pages_records = [];
 
 
     get _count_visible_entries() {
         return this._attributes._count_visible_entries;
     }
-    set _count_visible_entries(count_current_entries) {
-        this._attribute__set('_count_visible_entries', +count_current_entries);
+    set _count_visible_entries(count_visible_entries) {
+        this._attribute__set('_count_visible_entries', +count_visible_entries);
     }
 
     get _count_current_entries() {
@@ -97,15 +102,23 @@ export class Table extends Component {
     }
 
     get _count_pages() {
-        this._count_pages = Math.ceil(this._count_current_entries / this.count_rows_page);
+        this._count_pages = Math.ceil(this.count_all_entries / this.count_rows_page);
 
         return this._attributes._count_pages;
     }
     set _count_pages(count_pages) {
-        this._attribute__set('_count_pages', +count_pages);
+        this._attribute__set('_count_pages', count_pages);
     }
 
 
+    get count_all_entries() {
+        return this._attributes.count_all_entries;
+    }
+    set count_all_entries(count_all_entries) {
+        count_all_entries = Math.max(count_all_entries, this._count_current_entries);
+
+        this._attribute__set('count_all_entries', count_all_entries);
+    }
     get count_rows_page() {
         return this._attributes.count_rows_page;
     }
@@ -176,9 +189,12 @@ export class Table extends Component {
         this._elements.button_prev.addEventListener('pointerdown', this._button_prev__on_pointerDown.bind(this));
     }
 
-    _init() {
+    async _init() {
         this._elements.repeater.Manager = this.constructor.Repeater_manager;
-        this.props__sync('_count_current_entries', 'count_rows_page', 'page', 'title');
+        this.props__sync('_count_current_entries', 'count_all_entries', 'count_rows_page', 'page', 'title');
+
+        // await this._referrals__load(0);
+
         this.refresh();
         this.title = 'Друзья';
     }
@@ -187,16 +203,23 @@ export class Table extends Component {
         this.event__dispatch('data__update');
     }
 
-    _page__refresh() {
+    async _referrals__load(index_slice_start) {
+        let {result} = await this._rest.call('referrals__get', this._user_telegram_id, index_slice_start);
+
+        if (!result) return;
+        console.log(1)
+        this.pages_records.push(...result);
+    }
+
+    async _page__refresh() {
         let index_slice_end = Math.min((this.page + 1) * this.count_rows_page, this._count_current_entries);
         let index_slice_start = this.page * this.count_rows_page;
         let records_current = this.pages_records.slice(index_slice_start, index_slice_end);
 
         if (records_current.length < this.count_rows_page) {
-            let event = new Event('pages_records__add', {bubbles: true});
-            this.dispatchEvent(event);
+            await this._referrals__load(index_slice_start);
 
-            return;
+            records_current = this.pages_records.slice(index_slice_start, index_slice_end);
         }
 
         this.clear();

@@ -37,14 +37,17 @@ class Db extends Pdo {
     }
 
 
-    public function __construct($dsn, $opts = [], $user_name = null, $user_password = null) {
+    public function __construct($dsn, $opts = [], $user_name = null, $user_password = null, $emulate = false) {
         $opts += [static::MYSQL_ATTR_LOCAL_INFILE => true];
         parent::__construct($dsn, $user_name, $user_password, $opts);
 
         $this->setAttribute(static::ATTR_DEFAULT_FETCH_MODE, static::FETCH_ASSOC);
-        // $this->setAttribute(static::ATTR_EMULATE_PREPARES, false);
         $this->setAttribute(static::ATTR_ERRMODE, static::ERRMODE_EXCEPTION);
         $this->setAttribute(static::ATTR_STRINGIFY_FETCHES, false);
+
+        if ($emulate) {
+            $this->setAttribute(static::ATTR_EMULATE_PREPARES, false);
+        }
     }
 
     public function execute($key, $parameters = []) {

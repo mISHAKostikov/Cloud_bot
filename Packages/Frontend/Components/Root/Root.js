@@ -49,13 +49,13 @@ export class Root extends Component {
 
 
     _page_num = 0;
-    // _rest = new Rest(`https://localhost/Apps/Cloud_bot/Packages/Backend/Manager/Manager.php`);
-    _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
+    _rest = new Rest(`https://localhost/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
+    // _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
     // _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
-    _user_telegram_id = 1316897349;
-    // _user_telegram_id = 509815216;
+    // _user_telegram_id = 1316897349;
+    _user_telegram_id = 509815216;
     // _user_telegram_id = Telegram.user?.id;
 
 
@@ -108,11 +108,10 @@ export class Root extends Component {
     }
 
     _eventListeners__define() {
-         this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
+        this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
         this._elements.bonus.addEventListener('everydayBonuse__selected', this._bonus__on_everydayBonuse__selected.bind(this));
         this._elements.bonus.addEventListener('passive_bonuse__take', this._bonus__on_passive_bonuse__take.bind(this));
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
-        this._elements.friends.addEventListener('pages_records__add', this._friends__on_pages_records__add__toggle.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
         this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
@@ -128,10 +127,6 @@ export class Root extends Component {
         this._elements.leafable.index = this._page_num;
         this._elements.leafable.children[this._page_num].refresh();
         this._user_info__state();
-    }
-
-    _friends__on_pages_records__add__toggle() {
-        console.log(1)
     }
 
     _init() {
@@ -189,6 +184,7 @@ export class Root extends Component {
         }
 
         this._elements.friends.link_ref = `https://t.me/testmmn_bot?start=${Telegram.user?.id}_${Telegram.user?.username}`;
+        this._elements.friends.count_ref = this._user.count_referrals;
         this._elements.friends.refresh();
 
         this._elements.header.auto_velocity = this._user.leval;

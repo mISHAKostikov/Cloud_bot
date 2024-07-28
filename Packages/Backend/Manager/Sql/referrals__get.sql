@@ -2,7 +2,6 @@ select
     `Referrals_process`.`bonus` as `bonus`,
     `Referrals_process`.`payment` as `payment`,
     `Users`.`leval` as `leval`,
-    `Users`.`passive_bonuses_balanse` as `passive_bonuses_balanse`,
     `Users`.`tg_id` as `tg_id`
 from `Users`
     left join (
@@ -16,4 +15,4 @@ from `Users`
     ) as `Referrals_process` on `Referrals_process`.`referral_tg_id` = `Users`.`tg_id`
 where
     `Referrals_process`.`referral_tg_id` = `Users`.`tg_id`
-limit :offset, 10
+limit :offset, 2
