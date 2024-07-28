@@ -65,9 +65,9 @@ export class Subscribe extends Component {
 
     async _button_control__on_pointerDown() {
         if (this.paint=='tg') {
-            let check_result = await this._rest.call('tg_subscribe__check', this.url, Telegram.user.id);
+            let {error, result} = await this._rest.call('tg_subscribe__check', this.url, Telegram.user.id);
 
-            if (!check_result) return;
+            if (error || !result) return;
 
             this._elements.button_control.setAttribute('disabled', true);
             this.fullfill = true;

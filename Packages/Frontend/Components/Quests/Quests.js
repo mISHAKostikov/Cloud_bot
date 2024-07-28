@@ -33,15 +33,18 @@ export class Quests extends Component {
     }
 
     async _twitter_subscribe_check(event) {
+        let event_target = event.target;
+
         if (this._elements.twitter_id.value != '') {
-            let check_result = await this._rest.call('twitter_subscribe__check', event.data.url, this._elements.twitter_id.value);
+            let {error, result} = await this._rest.call('twitter_subscribe__check', event_target.url, this._elements.twitter_id.value);
 
-            if (!check_result) return;
+            if (error || !result) return;
 
-            event.data._elements.button_control.setAttribute('disabled', true);
-            event.data.fullfill = true;
+            // console.log(event, event.target);
+            event_target._elements.button_control.setAttribute('disabled', true);
+            event_target.fullfill = true;
             //console.log(this._elements.button_control);
-            event.data._elements.bonus.removeAttribute('disabled');
+            event_target._elements.bonus.removeAttribute('disabled');
         }
         else {
             alert('Введи Twitter ID')
