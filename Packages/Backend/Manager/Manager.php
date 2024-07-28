@@ -52,13 +52,46 @@ class Manager extends \Rest {
 
     }
 
-    // public function active_bonus__get($tg_id) {
+    public function everydayBonus__take($tg_id) {
+         $request_data = [
+            'tg_id' => $tg_id,
+        ];
+        $control_data = $this->_db->fetch('control_data_everydayBonus__get', $request_data);
+        $control_data = $control_data[0];
+
+
+        if ($control_data['everyday_bonus_current'] >= $control_data['count_day_registration']) return;
+
+        if ($control_data['everyday_bonus_current'] == -1) {
+            $this->_db->execute('everydayBonuse__take_one', $request_data);
+        }
+        else if ($control_data['everyday_bonus_current'] < $control_data['count_day_registration']) {
+            $this->_db->execute('everydayBonuse__take', $request_data);
+        }
+
+
+        return true;
+    }
+
+    public function init($password, $test_data = false) {
+        if ($password != 'AdminBigBog124') return;
+
+        $this->_db->execute_raw('init');
+
+        if ($test_data) {
+            $this->_db->execute_raw('test_data');
+        }
+
+        return true;
+    }
+
+    // public function passive_bonus__get($tg_id) {
     //     $request_data = [
     //         'tg_id' => $tg_id,
     //     ];
-    //     $active_bonuses_balanse = $this->_db->fetch('active_bonuses_balanse__get', $request_data);
+    //     $passive_last_collect_date = $this->_db->fetch('passive_bonuses_balanse__get', $request_data);
 
-    //     return $active_bonuses_balanse;
+    //     return $passive_last_collect_date;
     // }
 
     public function passive_bonus__add($tg_id) {
@@ -74,33 +107,6 @@ class Manager extends \Rest {
         $passive_bonuses_balanse = $this->_db->execute('passive_bonus__save', $request_data);
 
         return true;
-    }
-
-    // public function passive_bonus__get($tg_id) {
-    //     $request_data = [
-    //         'tg_id' => $tg_id,
-    //     ];
-    //     $passive_last_collect_date = $this->_db->fetch('passive_bonuses_balanse__get', $request_data);
-
-    //     return $passive_last_collect_date;
-    // }
-
-    public function user__get($tg_id) {
-        $request_data = [
-            'tg_id' => $tg_id,
-        ];
-
-        $user_date = $this->_db->fetch('user__get', $request_data);
-        $user_date = $user_date[0];
-        // $user_telegram = $this->_user_telegram__get($tg_id);
-        $user_telegram = $this->_user_telegram__get(509815216);
-
-        if ($user_telegram) {
-            $file_url = $this->_file_url_telegram__get($user_telegram['photo']['big_file_id']);
-            $user_date += ['avatar_url' => $file_url];
-        }
-
-        return $user_date;
     }
 
     public function referrals__get($tg_id, $offset) {
@@ -125,16 +131,22 @@ class Manager extends \Rest {
         return $referrals;
     }
 
-    public function init($password, $test_data = false) {
-        if ($password != 'AdminBigBog124') return;
+    public function user__get($tg_id) {
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
 
-        $this->_db->execute_raw('init');
+        $user_date = $this->_db->fetch('user__get', $request_data);
+        $user_date = $user_date[0];
+        $user_telegram = $this->_user_telegram__get($tg_id);
+        // $user_telegram = $this->_user_telegram__get(509815216);
 
-        if ($test_data) {
-            $this->_db->execute_raw('test_data');
+        if ($user_telegram) {
+            $file_url = $this->_file_url_telegram__get($user_telegram['photo']['big_file_id']);
+            $user_date += ['avatar_url' => $file_url];
         }
 
-        return true;
+        return $user_date;
     }
 }
 

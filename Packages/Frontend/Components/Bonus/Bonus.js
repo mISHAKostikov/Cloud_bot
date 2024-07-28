@@ -50,7 +50,7 @@ export class Bonus extends Component {
     set everydayBonuse(everydayBonuse) {
         this._attribute__set('everydayBonuse', everydayBonuse);
 
-        if (everydayBonuse == -1) return;
+        // if (everydayBonuse == -1) return;
 
         this._elements.everydayBonuse.active_bonuse__set(everydayBonuse)
     }
@@ -96,7 +96,7 @@ export class Bonus extends Component {
     }
 
     _everydayBonuse_on_bonuse__click() {
-
+        this.event__dispatch('everydayBonuse__selected');
     }
 
     _init() {

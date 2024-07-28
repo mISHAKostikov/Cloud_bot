@@ -8,8 +8,8 @@ import {Footer} from '../Footer/Footer.js';
 import {Friends} from '../Friends/Friends.js';
 import {Header} from '../Header/Header.js';
 import {Main} from '../Main/Main.js';
-import {Quests} from '../Quests/Quests.js';
 import {Pay} from '../Pay/Pay.js';
+import {Quests} from '../Quests/Quests.js';
 
 
 export class Root extends Component {
@@ -45,9 +45,11 @@ export class Root extends Component {
 
     _page_num = 0;
     _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager.php`);
-    // _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
+    _user_telegram_id = 1316897349;
+    // _user_telegram_id = 509815216;
+    // _user_telegram_id = Telegram.user?.id;
 
 
     get _time_last_request() {
@@ -59,7 +61,7 @@ export class Root extends Component {
 
 
     get limit_time__requests() {
-        return this.attributes.limit_time__requests;
+        return this._attributes.limit_time__requests;
     }
     set limit_time__requests(limit_time__requests) {
         this._attribute__set('limit_time__requests', limit_time__requests);
@@ -80,11 +82,21 @@ export class Root extends Component {
     }
 
 
+    async _bonys__on_everydayBonuse__selected() {
+        let {result} = await this._rest.call('everydayBonus__take', this._user_telegram_id);
+
+        if (!result) return;
+
+        await this._user_data__get();
+        this._user_data__apply();
+    }
+
     _eventListeners__define() {
-        this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
-        this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
-        // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
          this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
+        this._elements.bonus.addEventListener('everydayBonuse__selected', this._bonys__on_everydayBonuse__selected.bind(this));
+        this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
+        // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
+        this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
         // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
     }
 
@@ -101,59 +113,46 @@ export class Root extends Component {
     }
 
     _init() {
-        // this._telegram = window.Telegram.WebApp;
         this.props__sync('verticalSwipes', '_time_last_request', 'limit_time__requests');
         this._user_info__state();
     }
 
     _leafable__on_animation_end() {
         this._elements.footer.busy = false;
-        // if (this._elements.leafable.index != this._elements.footer.button_active) {
-        //     this._elements.footer.button_active = this._elements.leafable.index;
-        // }
     }
 
     _main_on__buttonActiveSubscribe__click() {
         let pay = new Pay();
+
         this._elements.root.append(pay);
         pay.counter_range = [0, 12];
         pay.text = 'Здесь ты можешь купить автоматическое начисление бонусов! Выбери количество месяцев, которое будет действовать подписка и нажми оплатить. Для оплаты используется кошелёк MetaMask.'
     }
 
     async _user_info__state() {
-        let tg_id = 4623423;
-        let is__time_requests = this._time_last_request ? (Date.now() - this._time_last_request) < this.limit_time__requests : 1;
 
-        if (!tg_id || !is__time_requests) return;
+        let is__time_requests = this._time_last_request ? (Date.now() - this._time_last_request) > this.limit_time__requests : 1;
 
-        let {result} = await this._rest.call('user__get', tg_id);
+        if (!is__time_requests) return;
+
+        await this._user_data__get();
+        this._user_data__apply();
+    }
+
+    async _user_data__get() {
+        if (!this._user_telegram_id) return;
+
+        this._time_last_request = Date.now();
+
+        let {result} = await this._rest.call('user__get', this._user_telegram_id);
 
         if (!result) return;
 
         this._user = result;
-        this._time_last_request = Date.now();
-
-        this.user_data__apply();
     }
 
-
-    user_data__apply() {
+    _user_data__apply() {
         console.log(this._user)
-        this._elements.friends.link_ref = `https://t.me/testmmn_bot?start=${Telegram.user?.id}_${Telegram.user?.username}`;
-        this._elements.friends.refresh();
-
-        this._elements.main.avatar_url = this._user.avatar_url || '';
-        this._elements.main.button_active_subscribe_title = this._user.active_last_collect_date - Date.now() > 0 ? 'Продлить' : 'Активировать';
-        this._elements.main.leval = this._user.leval;
-        this._elements.main.time_active_subscribe = this._user.active_last_collect_date;
-
-        this._elements.header.balanse_value__gold = this._user.passive_bonuses_balanse;
-        this._elements.header.balanse_value__tokens = this._user.active_bonuses_balanse;
-        this._elements.header.balanse_value__cost = 1000;
-        this._elements.header.balanse_value__rate = 0.04;
-        this._elements.header.auto_velocity = this._user.leval;
-        this._elements.header.bonus_ref = this._user.profit_referrals;
-
         this._elements.bonus.profit = `+ ${this._user.leval} золота`;
 
         if (
@@ -161,9 +160,25 @@ export class Root extends Component {
             this._user.count_day_registration > 11
         ) {
             this._elements.bonus.everydayBonuse = -1;
+            console.log(1)
         }
         else {
             this._elements.bonus.everydayBonuse = this._user.count_day_registration
         }
+
+        this._elements.friends.link_ref = `https://t.me/testmmn_bot?start=${Telegram.user?.id}_${Telegram.user?.username}`;
+        this._elements.friends.refresh();
+
+        this._elements.header.auto_velocity = this._user.leval;
+        this._elements.header.balanse_value__cost = 1000;
+        this._elements.header.balanse_value__gold = this._user.passive_bonuses_balanse;
+        this._elements.header.balanse_value__rate = 0.04;
+        this._elements.header.balanse_value__tokens = this._user.active_bonuses_balanse;
+        this._elements.header.bonus_ref = this._user.bonus_referrals ?? 0;
+
+        this._elements.main.avatar_url = this._user.avatar_url || '';
+        this._elements.main.button_active_subscribe_title = this._user.active_last_collect_date - Date.now() > 0 ? 'Продлить' : 'Активировать';
+        this._elements.main.leval = this._user.leval;
+        this._elements.main.time_active_subscribe = this._user.active_last_collect_date;
     }
 }

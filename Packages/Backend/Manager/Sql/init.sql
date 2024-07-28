@@ -39,7 +39,7 @@ create table if not exists `Referrals` (
 create table if not exists `Users` (
     `active_bonuses_balanse` int default false,
     `date_registration` dateTime default current_timeStamp,
-    `everyday_bonus` int default 0,
+    `everyday_bonus` int default -1,
     `id` int not null auto_increment,
     `leval` int default 1,
     `passive_bonuses_balanse` int default false,

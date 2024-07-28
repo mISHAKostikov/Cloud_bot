@@ -147,6 +147,8 @@ export class EverydayBonuse extends Component {
             }
         }
 
+        if (index == -1) return;
+
         this._bonuses[index].setAttribute('active', true);
     }
 }
