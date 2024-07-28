@@ -72,7 +72,7 @@ export class Main extends Component {
     set time_active_subscribe(time_active_subscribe) {
         this._attribute__set('time_active_subscribe', time_active_subscribe);
 
-        if (this.time_active_subscribe - Date.now() < 0) return;
+        if (this.time_active_subscribe - (Date.now() / 1e3) < 0) return;
 
         this._renderer.start();
     }

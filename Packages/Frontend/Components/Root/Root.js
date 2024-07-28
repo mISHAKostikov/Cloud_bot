@@ -29,8 +29,8 @@ export class Root extends Component {
         header: '',
         leafable: '',
         main: '',
-        root: '',
         quests: '',
+        root: '',
     };
 
 
@@ -45,7 +45,8 @@ export class Root extends Component {
 
 
     _page_num = 0;
-    _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
+    _rest = new Rest(`https://localhost/Apps/Cloud_bot/Packages/Backend/Manager/Manager.php`);
+    // _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
     // _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
@@ -84,7 +85,7 @@ export class Root extends Component {
     }
 
 
-    async _bonys__on_everydayBonuse__selected() {
+    async _bonus__on_everydayBonuse__selected() {
         let {result} = await this._rest.call('everydayBonus__take', this._user_telegram_id);
 
         if (!result) return;
@@ -93,7 +94,7 @@ export class Root extends Component {
         this._user_data__apply();
     }
 
-    async _bonys__on_passive_bonuse__take() {
+    async _bonus__on_passive_bonuse__take() {
         let {result} = await this._rest.call('passive_bonus__add', this._user_telegram_id);
 
         if (!result) return;
@@ -104,8 +105,8 @@ export class Root extends Component {
 
     _eventListeners__define() {
          this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
-        this._elements.bonus.addEventListener('everydayBonuse__selected', this._bonys__on_everydayBonuse__selected.bind(this));
-        this._elements.bonus.addEventListener('passive_bonuse__take', this._bonys__on_passive_bonuse__take.bind(this));
+        this._elements.bonus.addEventListener('everydayBonuse__selected', this._bonus__on_everydayBonuse__selected.bind(this));
+        this._elements.bonus.addEventListener('passive_bonuse__take', this._bonus__on_passive_bonuse__take.bind(this));
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
         this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
@@ -189,9 +190,9 @@ export class Root extends Component {
         this._elements.header.bonus_ref = this._user.bonus_referrals ?? 0;
 
         this._elements.main.avatar_url = this._user.avatar_url || '';
-        this._elements.main.button_active_subscribe_title = this._user.active_last_collect_date - Date.now() > 0 ? 'Продлить' : 'Активировать';
+        this._elements.main.button_active_subscribe_title = this._user.active_end_date - (Date.now() / 1e3) > 0 ? 'Продлить' : 'Активировать';
         this._elements.main.leval = this._user.leval;
-        this._elements.main.time_active_subscribe = this._user.active_last_collect_date;
+        this._elements.main.time_active_subscribe = this._user.active_end_date;
 
         this._elements.quests.data__apply(this._user.quest_telegram, this._user.quest_twitter);
     }

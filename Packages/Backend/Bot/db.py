@@ -51,6 +51,15 @@ class DataBase:
             '''
             cursor.execute(insert_query)
 
+            update_query = f'''
+                update `Users`
+                set `passive_bonuses_balanse` = `passive_bonuses_balanse` + {payment}
+                where`tg_id` = {host_tg_id};
+            '''
+
+            cursor.execute(insert_query)
+            self.connection.commit()
+
             self.connection.commit()
 
     def user__add(self, tg_id, tg_premium):

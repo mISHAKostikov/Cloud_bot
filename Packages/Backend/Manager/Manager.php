@@ -3,13 +3,14 @@
 namespace App;
 
 require_once __dir__ . '/../Api/Units/Db/Db.php';
-require_once __dir__ . '/../Api/Units/Rest/Rest.php';
 require_once __dir__ . '/../Api/Units/Json/Json.php';
+require_once __dir__ . '/../Api/Units/Rest/Rest.php';
 
 
 class Manager extends \Rest {
     // static public $gzip = -1;
     static public $bot_token = '7451507935:AAFyRR6SS5X2htKQ8pD340bkKtL841ykGnA';
+    static public $request_method = 'POST';
     static public $sql_dir = __dir__ . '/Sql';
     static public $sql_dsn = 'mysql:host=localhost;dbname=Cloud_bot;charset=utf8';
     static public $sql_user_name = 'root';
@@ -48,12 +49,33 @@ class Manager extends \Rest {
     }
 
 
-    public function active_bonus__add($tg_id) {
+    public function active_bonus__state($tg_id) {
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+        $control_data = $this->_db->fetch('control_data_activeBonus__get', $request_data);
 
+        if (!$control_data) {
+            $this->_db->execute('bonus__add', $request_data);
+        }
+
+        $control_data = $control_data[0];
+
+        if ($control_data['active_end_date'] < $this->_timeStamp) return;
+
+        $active_bonuses_balanse = floor($this->_timeStamp - $control_data['active_bonuses_collect_date']);
+        $request_data += [
+            'active_bonuses_balanse' => $active_bonuses_balanse,
+            'active_bonuses_collect_date' => $this->_timeStamp,
+        ];
+
+        $this->_db->execute('active_bonus__update', $request_data);
+
+        return true;
     }
 
     public function everydayBonus__take($tg_id) {
-         $request_data = [
+        $request_data = [
             'tg_id' => $tg_id,
         ];
         $control_data = $this->_db->fetch('control_data_everydayBonus__get', $request_data);
@@ -85,26 +107,22 @@ class Manager extends \Rest {
         return true;
     }
 
-    // public function passive_bonus__get($tg_id) {
-    //     $request_data = [
-    //         'tg_id' => $tg_id,
-    //     ];
-    //     $passive_last_collect_date = $this->_db->fetch('passive_bonuses_balanse__get', $request_data);
-
-    //     return $passive_last_collect_date;
-    // }
-
     public function passive_bonus__add($tg_id) {
         $request_data = [
             'tg_id' => $tg_id,
         ];
         $passive_last_collect_date = $this->_db->fetch('passive_last_collect_date__get', $request_data);
+
+        if (!$passive_last_collect_date) {
+            $this->_db->execute('bonus__add', $request_data);
+        }
+
         $passive_last_collect_date = $passive_last_collect_date[0]['passive_last_collect_date'];
 
         if ($this->_timeStamp - $passive_last_collect_date < 60) return;
 
         $request_data += ['passive_last_collect_date' => $this->_timeStamp];
-        $passive_bonuses_balanse = $this->_db->execute('passive_bonus__save', $request_data);
+        $passive_bonuses_balanse = $this->_db->execute('passive_bonus__update', $request_data);
 
         return true;
     }
@@ -112,7 +130,7 @@ class Manager extends \Rest {
     public function referrals__get($tg_id, $offset) {
         $request_data = [
             'tg_id' => $tg_id,
-            // 'offset' => $offset
+            'offset' => $offset
         ];
 
         $referrals = $this->_db->fetch('referrals__get', $request_data);
@@ -136,6 +154,7 @@ class Manager extends \Rest {
             'tg_id' => $tg_id,
         ];
 
+        // $result = $this->active_bonus__state($tg_id);
         $user_date = $this->_db->fetch('user__get', $request_data);
         $user_date = $user_date[0];
         $user_telegram = $this->_user_telegram__get($tg_id);

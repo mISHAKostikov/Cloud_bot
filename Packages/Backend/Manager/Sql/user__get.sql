@@ -1,5 +1,5 @@
 select
-    `Bonuses`.`active_last_collect_date` as `active_last_collect_date`,
+    `Bonuses`.`active_end_date` as `active_end_date`,
     `Quests`.`telegram` as `quest_telegram`,
     `Quests`.`twitter` as `quest_twitter`,
     `Referrals_temp`.`count_referrals` as `count_referrals`,

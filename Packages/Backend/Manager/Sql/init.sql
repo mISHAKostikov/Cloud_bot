@@ -5,8 +5,8 @@ drop table if exists `Users`;
 
 
 create table if not exists `Bonuses` (
+    `active_bonuses_collect_date` real default -1,
     `active_end_date` real default -1,
-    `active_last_collect_date` real default -1,
     `id` int not null auto_increment,
     `passive_last_collect_date` real default -1,
     `tg_id` int not null,
