@@ -31,6 +31,10 @@
         &[disabled]{
             display: none;
         }
+
+        &:active {
+            background: var(--Theme__block__background);
+        }
     }
 
     .buttons_table {

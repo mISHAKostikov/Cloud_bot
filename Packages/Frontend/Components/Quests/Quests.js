@@ -12,6 +12,7 @@ export class Quests extends Component {
     static _elements = {
         twitter_id: '',
         subscribe: '',
+        root: '',
     }
 
     static {
@@ -19,6 +20,7 @@ export class Quests extends Component {
     }
 
     _rest = new Rest('https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php');
+    _subscribes = [];
 
 
     _twitter_id__before_input(event) {
@@ -35,6 +37,8 @@ export class Quests extends Component {
     async _twitter_subscribe_check(event) {
         let event_target = event.target;
 
+        console.log(this._elements.twitter_id.value);
+
         if (this._elements.twitter_id.value != '') {
             let {error, result} = await this._rest.call('twitter_subscribe__check', event_target.url, this._elements.twitter_id.value);
 
@@ -47,14 +51,25 @@ export class Quests extends Component {
             event_target._elements.bonus.removeAttribute('disabled');
         }
         else {
-            alert('Введи Twitter ID')
+            alert('Введи Twitter ID');
             return;
         }
     }
 
     _eventListeners__define() {
         this._elements.twitter_id.addEventListener('beforeinput', this._twitter_id__before_input.bind(this));
-        this._elements.subscribe.addEventListener('twitter_subscribe_check', this._twitter_subscribe_check.bind(this));
+        this._elements.root.addEventListener('twitter_subscribe_check', this._twitter_subscribe_check.bind(this));
+    }
+
+    _init() {
+        this._subscribes = this._elements.root.querySelectorAll('.subscribe');
+    }
+
+
+    data__apply(...args) {
+        for (let i = 0; i < this._subscribes.lenght; i++) {
+            this._subscribes[i].fullfill = args[i];
+        }
     }
 
     refresh() {}

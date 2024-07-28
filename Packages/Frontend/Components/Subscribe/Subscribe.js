@@ -75,7 +75,8 @@ export class Subscribe extends Component {
             this._elements.bonus.removeAttribute('disabled');
         }
         else {
-            this.event__dispatch('twitter_subscribe_check');
+            let event = new Event('twitter_subscribe_check', {bubbles: true}); // (2)
+            this.dispatchEvent(event);
         }
     }
 

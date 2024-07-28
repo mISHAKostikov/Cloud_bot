@@ -30,6 +30,7 @@ export class Root extends Component {
         leafable: '',
         main: '',
         root: '',
+        quests: '',
     };
 
 
@@ -191,5 +192,7 @@ export class Root extends Component {
         this._elements.main.button_active_subscribe_title = this._user.active_last_collect_date - Date.now() > 0 ? 'Продлить' : 'Активировать';
         this._elements.main.leval = this._user.leval;
         this._elements.main.time_active_subscribe = this._user.active_last_collect_date;
+
+        this._elements.quests.data__apply(this._user.quest_telegram, this._user.quest_twitter);
     }
 }
