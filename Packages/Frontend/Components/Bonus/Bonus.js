@@ -80,6 +80,7 @@ export class Bonus extends Component {
 
     _captcha__on_answer__true(event) {
         event.target.delete();
+        this.event__dispatch('passive_bonuse__take');
         this._elements.button_collect_pasive_bonuse.setAttribute('disabled', true);
         this._elements.timer.start();
     }

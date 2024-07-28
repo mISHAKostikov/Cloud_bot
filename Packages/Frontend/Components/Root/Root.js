@@ -91,9 +91,19 @@ export class Root extends Component {
         this._user_data__apply();
     }
 
+    async _bonys__on_passive_bonuse__take() {
+        let {result} = await this._rest.call('passive_bonus__add', this._user_telegram_id);
+
+        if (!result) return;
+
+        await this._user_data__get();
+        this._user_data__apply();
+    }
+
     _eventListeners__define() {
          this._elements.main.addEventListener('buttonActiveSubscribe__click', this._main_on__buttonActiveSubscribe__click.bind(this));
         this._elements.bonus.addEventListener('everydayBonuse__selected', this._bonys__on_everydayBonuse__selected.bind(this));
+        this._elements.bonus.addEventListener('passive_bonuse__take', this._bonys__on_passive_bonuse__take.bind(this));
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
         this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
