@@ -19,6 +19,7 @@ export class Pay extends Component {
         button_close: '',
         counter: '',
         text: '',
+        button_check: '',
     };
 
 
@@ -37,7 +38,8 @@ export class Pay extends Component {
 
 
     _ethereum = null;
-    _rest = new Rest(`https://mmnds.store`);
+    _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
+    _hash = '';
 
 
     get counter_range() {
@@ -60,6 +62,24 @@ export class Pay extends Component {
         this._close();
     }
 
+    async _button_check__on_pointerDown() {
+        if (this._hash == '') {
+            alert('Транзакция не проведена');
+            return;
+        }
+
+        let {error, result} = await this._rest.call('pay__check', Telegram.user.id, this._elements.counter.value, this._hash);
+
+        if (error || !result) return;
+
+        if (result) {
+            alert('Оплата прошла!');
+        }
+        else {
+            alert('Возможно что-то пошло не так, нажмите ещё раз');
+        }
+    }
+
     async _button_send__on_pointerDown() {
         let address_from = this._ethereum.selectedAddress;
         let addres_to = '0xRecipientAddress'; // Замените на адрес получателя
@@ -78,6 +98,8 @@ export class Pay extends Component {
                 method: 'eth_sendTransaction',
                 params: [transaction_parameters],
             });
+
+            this._hash = transaction_hash;
 
             console.log('Transaction sent! Hash:', transaction_hash);
             alert(`Transaction sent! Hash: ${transaction_hash}`);
@@ -98,6 +120,7 @@ export class Pay extends Component {
     _eventListeners__define() {
         this._elements.button_send.addEventListener('pointerdown', this._button_send__on_pointerDown.bind(this));
         this._elements.button_close.addEventListener('pointerdown', this._button_close__on_pointerDown.bind(this));
+        this._elements.button_check.addEventListener('pointerdown', this._button_check__on_pointerDown.bind(this));
     }
 
     _init() {

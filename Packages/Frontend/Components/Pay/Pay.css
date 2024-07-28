@@ -25,7 +25,22 @@
         border-radius: var(--Theme__block_rounding);
         padding: calc(var(--Theme__block__padding) - 10px);
         text-align: center;
+        &:active {
+            background: var(--Theme__block__background);
+        }
     }
+
+    .button_check {
+        margin-top: 20px;
+        background: var(--Theme__block__background_accent);
+        border-radius: var(--Theme__block_rounding);
+        padding: calc(var(--Theme__block__padding) - 10px);
+        text-align: center;
+        &:active {
+            background: var(--Theme__block__background);
+        }
+    }
+
 
     .root {
         align-content: center;

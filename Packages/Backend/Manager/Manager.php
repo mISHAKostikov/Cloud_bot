@@ -10,6 +10,7 @@ require_once __dir__ . '/../Api/Units/Rest/Rest.php';
 class Manager extends \Rest {
     // static public $gzip = -1;
     static public $bot_token = '7451507935:AAFyRR6SS5X2htKQ8pD340bkKtL841ykGnA';
+    static public $etherscan_api_key = '';
     static public $request_method = 'POST';
     static public $sql_dir = __dir__ . '/Sql';
     static public $sql_dsn = 'mysql:host=localhost;dbname=Cloud_bot;charset=utf8';
@@ -172,6 +173,105 @@ class Manager extends \Rest {
         }
 
         return $user_date;
+    }
+
+    public function tg_subscribe__check($chanall_url, $tg_id) {
+        $parsedUrl = parse_url($chanall_url);
+        $path = $parsedUrl['path'];
+        $chanall_url = ltrim($path, '/');
+
+        $url = 'https://api.telegram.org/bot' . static::$bot_token . "/getChatMember?chat_id=@$chanall_url&user_id=$tg_id";
+        $response = file_get_contents($url);
+        $data = \Json::parse($response);
+
+        if (!$data) return;
+
+        $status = $data['result']['status'];
+
+        if ($status != 'member' || $status != 'administrator' || $status != 'creator') return;
+
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+
+        $user_quests = $this->_db->fetch('user_quests__get', $request_data);
+
+        if (!$user_quests) {
+            $this->_db->execute('user_quests__add', $request_data);
+        }
+
+        $this->_db->execute('quest_tg__solve', $request_data);
+
+        return true;
+    }
+
+    public function twitter_subscribe__check($chanall_url, $tg_id, $twitter_id) {
+        $parsedUrl = parse_url($chanall_url);
+        $path = $parsedUrl['path'];
+        $chanall_url = ltrim($path, '/');
+
+        $url = "https://api.twitter.com/1.1/users/show.json?screen_name=$chanall_url";
+        $response = file_get_contents($url);
+        $data = \Json::parse($response);
+
+        if (!$data) return;
+
+        $chanall_id = $data['id'];
+
+        $url = "https://api.twitter.com/1.1/friendships/show.json?source_id=$twitter_id&target_id=$chanall_id";
+        $response = file_get_contents($url);
+        $data = \Json::parse($response);
+
+        if (!$data) return;
+
+        $status = $data['relationship']['source']['following'];
+
+        if (!$status) return;
+
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+
+        $user_quests = $this->_db->fetch('user_quests__get', $request_data);
+
+        if (!$user_quests) {
+            $this->_db->execute('user_quests__add', $request_data);
+        }
+
+        $this->_db->execute('quest_twitter__solve', $request_data);
+
+        return true;
+    }
+
+    public function pay__check($tg_id, $sum, $hash) {
+        $url = "https://api.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash=$hash&apikey=" . static::$etherscan_api_key;
+        $response = file_get_contents($url);
+        $data = \Json::parse($response);
+
+        if (!$data) return;
+
+        if (!$data['result']['status']) return;
+
+        $time = $sum * 31 * 24 * 60 * 60;
+
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+
+        $user_quests = $this->_db->fetch('active_endDate_get', $request_data);
+
+        if (!$user_quests) {
+            $this->_db->execute('user_quests__add', $request_data);
+        }
+
+        $request_data = [
+            'tg_id' => $tg_id,
+            'time' => $time,
+        ];
+
+        $this->_db->execute('quest_twitter__set', $request_data);
+
+        return true;
     }
 }
 

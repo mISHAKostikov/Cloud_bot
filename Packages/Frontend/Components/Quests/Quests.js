@@ -1,5 +1,6 @@
 import {Component} from '../../Api/Components/Component/Component.js';
 import {Rest} from '../../Api/Units/Rest/Rest.js';
+import {Telegram} from '../../Api/Units/Telegram/Telegram.js';
 
 import {Subscribe} from '../Subscribe/Subscribe.js';
 
@@ -40,7 +41,7 @@ export class Quests extends Component {
         console.log(this._elements.twitter_id.value);
 
         if (this._elements.twitter_id.value != '') {
-            let {error, result} = await this._rest.call('twitter_subscribe__check', event_target.url, this._elements.twitter_id.value);
+            let {error, result} = await this._rest.call('twitter_subscribe__check', event_target.url, Telegram.user.id, this._elements.twitter_id.value);
 
             if (error || !result) return;
 

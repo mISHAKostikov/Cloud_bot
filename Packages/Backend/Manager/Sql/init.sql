@@ -21,8 +21,7 @@ create table if not exists `Quests` (
     `tg_id` int not null,
     `twitter` boolean default false,
 
-    primary key (`id`),
-    unique key (`tg_id`)
+    primary key (`id`)
 );
 
 create table if not exists `Referrals` (
