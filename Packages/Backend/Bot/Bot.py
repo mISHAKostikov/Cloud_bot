@@ -9,9 +9,10 @@ from aiogram.utils.chat_action import ChatActionSender
 from Db import DataBase
 from config import TG_BOT_TOKEN
 
+
 bot = Bot(token=TG_BOT_TOKEN)
 db = DataBase()
-# db.clear_db()
+# db.db__clear()
 db.init()
 dp = Dispatcher()
 logging.basicConfig(level = logging.INFO)
@@ -26,6 +27,7 @@ async def cmd_ref(message: types.Message):
 
 @dp.message(Command('start'))
 async def process_start_command(message: types.Message, bot: Bot):
+    db.connection__open()
     tg_id = message.from_user.id
     user = db.user__get(tg_id)
 
@@ -38,19 +40,17 @@ async def process_start_command(message: types.Message, bot: Bot):
         db.user__add(tg_id, tg_premium)
         await message.answer(f'Вы зарегестрировались')
     elif (len(message.text.split()) == 1):
-        print(user, message.text.split())
         await message.answer(f'Вы уже авторизованы')
 
-    if (len(message.text.split()) != 2): return
+    if (len(message.text.split()) != 2):
+        db.connection__cose()
+
+        return
 
     host_tg_id = message.text.split()[-1].split('_')[0]
     host_tg_username = message.text.split()[-1].split('_')[1]
-    print(host_tg_id, tg_id)
 
     if (int(host_tg_id) != int(tg_id) and not user):
-        print(user)
-    # if not db.check_user_in_referrals(tg_id) and len(message.text.split()) == 2 and int(host_tg_id) != int(tg_id):
-
         invitation_date = time.time()
         payment = 50
 
@@ -61,10 +61,10 @@ async def process_start_command(message: types.Message, bot: Bot):
         await message.answer(f'Вас добавил пользователь @{host_tg_username}')
     elif (int(host_tg_id) == int(tg_id)):
         await message.answer(f'Нельзя добавить самого себя')
-    # elif len(message.text.split()) == 2:
     elif (user):
-    #     print(message.text.split())
         await message.answer(f'Вас уже добавил пользователь')
+
+    db.connection__cose()
 
 @dp.message(Command('start'))
 async def cmd_start(message: types.Message):
