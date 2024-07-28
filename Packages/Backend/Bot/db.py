@@ -2,10 +2,10 @@ import pymysql
 
 
 class DataBase:
-    def new_user_bd_add(self, tg_id, tg_premium):
+    def user__add(self, tg_id, tg_premium):
         with self.connection.cursor() as cursor:
             insert_query = f'''
-                insert ignore into `Users` (
+                insert into `Users` (
                     tg_id,
                     tg_premium
                 )
@@ -18,7 +18,7 @@ class DataBase:
             cursor.execute(insert_query)
             self.connection.commit()
 
-    def referrals_user_bd_add(self, host_tg_id, referral_tg_id, invitation_date, payment):
+    def referral__add(self, host_tg_id, payment, invitation_date, referral_tg_id):
         with self.connection.cursor() as cursor:
             insert_query =  f'''
                 insert into `Referrals` (
@@ -38,17 +38,17 @@ class DataBase:
 
             self.connection.commit()
 
-    def check_users_bd(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute('select * from `Users`')
-            rows = cursor.fetchall()
+    # def check_users_bd(self):
+    #     with self.connection.cursor() as cursor:
+    #         cursor.execute('select * from `Users`')
+    #         rows = cursor.fetchall()
 
-            for row in rows:
-                print(row)
+    #         for row in rows:
+    #             print(row)
 
-            print('#' * 20)
+    #         print('#' * 20)
 
-    def check_user_in_users(self, tg_id):
+    def user__get(self, tg_id):
         with self.connection.cursor() as cursor:
             select_all_rows = f'''
                 select `id`
@@ -60,17 +60,17 @@ class DataBase:
 
             return row
 
-    def check_user_in_referrals(self, tg_id):
-        with self.connection.cursor() as cursor:
-            select_all_rows = f'''
-                select `id`
-                from `Referrals`
-                where host_tg_id = {tg_id};
-            '''
-            cursor.execute(select_all_rows)
-            row = cursor.fetchone()
+    # def check_user_in_referrals(self, tg_id):
+    #     with self.connection.cursor() as cursor:
+    #         select_all_rows = f'''
+    #             select `id`
+    #             from `Referrals`
+    #             where host_tg_id = {tg_id};
+    #         '''
+    #         cursor.execute(select_all_rows)
+    #         row = cursor.fetchone()
 
-            return row
+    #         return row
 
     def clear_db(self):
         with self.connection.cursor() as cursor:
@@ -78,6 +78,12 @@ class DataBase:
 
             for table in tables:
                 cursor.execute(f'truncate table `{table}`')
+
+            self.connection.commit()
+
+    def init(self):
+        with self.connection.cursor() as cursor:
+            cursor.execute('SET SESSION query_cache_type = OFF;')
 
             self.connection.commit()
 

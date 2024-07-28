@@ -41,7 +41,6 @@ create table if not exists `Users` (
     `date_registration` dateTime default current_timeStamp,
     `everyday_bonus` int default 0,
     `id` int not null auto_increment,
-    `is_signed` boolean default false,
     `leval` int default 1,
     `passive_bonuses_balanse` int default false,
     `tg_id` int not null,
