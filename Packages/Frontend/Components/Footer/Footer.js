@@ -7,8 +7,9 @@ export class Footer extends Component {
 
         busy: false,
         button_active: {
-            default: -1,
-            range: [-1, 3],
+            default: 0,
+            persistent: true,
+            range: [0, 3],
         },
     };
 
@@ -72,8 +73,8 @@ export class Footer extends Component {
 
     _init() {
         this._buttons = Array.from(this._elements.root.querySelectorAll('.button'));
-        this.button_active = 0;
-        // this.props__sync('button_active');
+
+        this.props__sync('button_active');
     }
 
     _root__on_pointerDown(event) {

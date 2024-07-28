@@ -11,15 +11,15 @@ class Db extends Pdo {
     public $statements_dir = '';
 
 
-    public function _parameters__proc($parameters) {
-        $parameters_processed = [];
+    // public function _parameters__proc($parameters) {
+    //     $parameters_processed = [];
 
-        forEach ($parameters as $key => $value) {
-            $parameters_processed[":$key"] = $value;
-        }
+    //     forEach ($parameters as $key => $value) {
+    //         $parameters_processed[":$key"] = $value;
+    //     }
 
-        return $parameters_processed;
-    }
+    //     return $parameters_processed;
+    // }
 
     public function _statement__get($key) {
         $this->statement__add($key);
@@ -42,12 +42,13 @@ class Db extends Pdo {
         parent::__construct($dsn, $user_name, $user_password, $opts);
 
         $this->setAttribute(static::ATTR_DEFAULT_FETCH_MODE, static::FETCH_ASSOC);
+        // $this->setAttribute(static::ATTR_EMULATE_PREPARES, false);
         $this->setAttribute(static::ATTR_ERRMODE, static::ERRMODE_EXCEPTION);
         $this->setAttribute(static::ATTR_STRINGIFY_FETCHES, false);
     }
 
     public function execute($key, $parameters = []) {
-        $parameters = $this->_parameters__proc($parameters);
+        // $parameters = $this->_parameters__proc($parameters);
         $statement_prepared = $this->_statement_prepared__get($key);
         $statement_prepared->execute($parameters);
 

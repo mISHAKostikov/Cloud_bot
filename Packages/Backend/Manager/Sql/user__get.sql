@@ -17,7 +17,7 @@ from
             count(*) as `count_referrals`,
             sum(`bonus`) as `bonus_referrals`
         from `Referrals`
-        GROUP BY `Referrals`.`host_tg_id`
+        group by `Referrals`.`host_tg_id`
     ) as `Referrals_temp` on `Referrals_temp`.`host_tg_id` = `Users`.`tg_id`
     left join `Bonuses` on `Bonuses`.`tg_id` = `Users`.`tg_id`
     left join `Quests` on `Quests`.`tg_id` = `Users`.`tg_id`

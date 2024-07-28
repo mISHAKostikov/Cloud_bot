@@ -1,5 +1,7 @@
 import {Component} from '../../Api/Components/Component/Component.js';
 import {Repeater} from '../../Api/Components/Repeater/Repeater.js';
+import {Rest} from '../../Api/Units/Rest/Rest.js';
+import {Telegram} from '../../Api/Units/Telegram/Telegram.js';
 
 import {TableRow} from '../TableRow/TableRow.js';
 
@@ -22,6 +24,10 @@ export class Table extends Component {
         },
 
         count_rows_page: {
+            default: 1,
+            range: [1, Infinity],
+        },
+        count_all_entries: {
             default: 1,
             range: [1, Infinity],
         },
@@ -184,9 +190,17 @@ export class Table extends Component {
     _page__refresh() {
         let index_slice_end = Math.min((this.page + 1) * this.count_rows_page, this._count_current_entries);
         let index_slice_start = this.page * this.count_rows_page;
+        let records_current = this.pages_records.slice(index_slice_start, index_slice_end);
+
+        if (records_current.length < this.count_rows_page) {
+            let event = new Event('pages_records__add', {bubbles: true});
+            this.dispatchEvent(event);
+
+            return;
+        }
 
         this.clear();
-        this._elements.repeater.model.add(this.pages_records.slice(index_slice_start, index_slice_end));
+        this._elements.repeater.model.add(records_current);
         this._count_visible_entries = index_slice_end;
     }
 

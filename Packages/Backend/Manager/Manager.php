@@ -36,6 +36,7 @@ class Manager extends \Rest {
     public function _init() {
         $this->_db = new \Db(static::$sql_dsn, [], static::$sql_user_name, static::$sql_user_password);
         $this->_db->statements_dir = static::$sql_dir;
+        // $this->_db->setAttribute(static::ATTR_EMULATE_PREPARES, false);
     }
 
     public function _user_telegram__get($user_id) {
@@ -69,7 +70,8 @@ class Manager extends \Rest {
             'active_bonuses_collect_date' => $this->_timeStamp,
         ];
 
-        $this->_db->execute('active_bonus__update', $request_data);
+        $statement = $this->_db->execute('active_bonus__update', $request_data);
+        $statement->closeCursor();
 
         return true;
     }
@@ -128,6 +130,8 @@ class Manager extends \Rest {
     }
 
     public function referrals__get($tg_id, $offset) {
+        $this->_db->setAttribute(static::ATTR_EMULATE_PREPARES, false);
+
         $request_data = [
             'tg_id' => $tg_id,
             'offset' => $offset
@@ -146,6 +150,8 @@ class Manager extends \Rest {
             ];
         }
 
+        $this->_db->setAttribute(static::ATTR_EMULATE_PREPARES, true);
+
         return $referrals;
     }
 
@@ -154,7 +160,7 @@ class Manager extends \Rest {
             'tg_id' => $tg_id,
         ];
 
-        // $result = $this->active_bonus__state($tg_id);
+        $result = $this->active_bonus__state($tg_id);
         $user_date = $this->_db->fetch('user__get', $request_data);
         $user_date = $user_date[0];
         $user_telegram = $this->_user_telegram__get($tg_id);
