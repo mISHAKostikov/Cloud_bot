@@ -1,3 +1,4 @@
 *!
 *.sqlite
 *.sublime-workspace
+*__pycache__

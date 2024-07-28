@@ -26,11 +26,11 @@ create table if not exists `Quests` (
 );
 
 create table if not exists `Referrals` (
-    `bonus` int default 0.25,
+    `bonus` real default 0.25,
     `host_tg_id` int not null,
     `id` int not null auto_increment,
     `invitation_date` real default -1,
-    `payment` real default 50,
+    `payment` int default 50,
     `referral_tg_id` int not null,
 
     primary key (`id`)
