@@ -114,7 +114,7 @@ export class Root extends Component {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
         this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
-        // this._elements.main.addEventListener('buttonLeval__click', (event) => {console.log(event.target)});
+        this._elements.main.addEventListener('buttonLeval__click', this._main__on_buttonLeval__click.bind(this));
     }
 
     _footer__on_button_active__toggle(event) {
@@ -143,7 +143,17 @@ export class Root extends Component {
 
         this._elements.root.append(pay);
         pay.counter_range = [0, 12];
-        pay.text = 'Здесь ты можешь купить автоматическое начисление бонусов! Выбери количество месяцев, которое будет действовать подписка и нажми оплатить. Для оплаты используется кошелёк MetaMask.'
+        pay.sum = 0.01;
+        pay.text = 'Здесь ты можешь купить автоматическое начисление бонусов! Выбери количество месяцев, которое будет действовать подписка и нажми оплатить. Для оплаты используется кошелёк MetaMask. Стоимость подписки на 1 месяц 0.01 ETH'
+    }
+
+    _main__on_buttonLeval__click() {
+        let pay = new Pay();
+
+        this._elements.root.append(pay);
+        pay.counter_range = [0, Infinity];
+        pay.sum = 0.005;
+        pay.text = 'Здесь ты можешь купить уровень! Выбери количество уровней и нажми оплатить. Для оплаты используется кошелёк MetaMask. Стоимость уровня 0.005 ETH'
     }
 
     async _user_info__state() {

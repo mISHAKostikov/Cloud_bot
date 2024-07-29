@@ -10,6 +10,7 @@ export class Pay extends Component {
         ...super._attributes,
 
         text: '',
+        sum: '',
     };
 
     static _components = [Counter];
@@ -83,7 +84,7 @@ export class Pay extends Component {
     async _button_send__on_pointerDown() {
         let address_from = this._ethereum.selectedAddress;
         let addres_to = '0xRecipientAddress'; // Замените на адрес получателя
-        let value = this._elements.counter.value * 0.01; // Сумма в ETH
+        let value = this._elements.counter.value * this.sum; // Сумма в ETH
 
         let transaction_parameters = {
             to: addres_to,
