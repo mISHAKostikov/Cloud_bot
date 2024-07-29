@@ -47,7 +47,6 @@ export class Table extends Component {
     static _elements = {
         button_next: '',
         button_prev: '',
-        // display: '',
         repeater: '',
         title: '',
     };
@@ -207,11 +206,6 @@ export class Table extends Component {
     async _init() {
         this._elements.repeater.Manager = this.constructor.Repeater_manager;
         this.props__sync('_count_current_entries', 'count_all_entries', 'count_rows_page', 'title');
-
-        // await this._referrals__load(0);
-
-        // this.refresh();
-        this.title = 'Друзья';
     }
 
     _repeater__on_add() {

@@ -48,24 +48,6 @@ export class Friends extends Component {
         this._elements.copying.text_copy = link_ref;
     }
 
-    // get referals() {
-    //     return this._elements.table.pages_records;
-    // }
-    // set referals(referals) {
-    //     this._elements.table.pages_records = referals;
-    //     this._elements.table.refresh();
-    // }
-
-
-    // async _get__referals() {
-    //     let tg_id = this._telegram?.initDataUnsafe?.user?.id;
-    //     let is__time_requests = (Date.now() - this._time_last_request) > this.limit_time__requests;
-
-    //     if (!tg_id || !is__time_requests) return;
-
-    //     this._referals = await this._rest.call('get__referals', tg_id);
-
-    // }
 
     _eventListeners__define() {
         this._elements.table.addEventListener('data__update', this._table__on_data__update.bind(this));
@@ -89,6 +71,8 @@ export class Friends extends Component {
 
     async refresh() {
         await this._elements.table.refresh();
-        setTimeout(this._elements.display.refresh.bind(this._elements.display), 5e3);
+        this._elements.table.title = 'Друзья ' + (this.count_ref || '');
+
+        setTimeout(this._elements.display.refresh.bind(this._elements.display), 3e3);
     }
 }
