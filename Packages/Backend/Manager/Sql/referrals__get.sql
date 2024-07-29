@@ -16,3 +16,4 @@ from `Users`
 where
     `Referrals_process`.`referral_tg_id` = `Users`.`tg_id`
 limit :offset, 10
+-- limit :offset, 1

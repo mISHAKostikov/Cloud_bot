@@ -100,12 +100,16 @@ export class Main extends Component {
     }
 
     _render() {
-        let time = new Date(this.time_active_subscribe - Date.now());
-        let hours = time.getHours() > 9 ? time.getHours() : `0${time.getHours()}`;
-        let minutes = time.getMinutes() > 9 ? time.getMinutes() : `0${time.getMinutes()}`;
-        let seconds = time.getSeconds() > 9 ? time.getSeconds() : `0${time.getSeconds()}`;
+        let time = new Date(this.time_active_subscribe * 1e3 - Date.now());
+        let days = Math.floor(time / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
 
-        this._elements.time_active_subscribe.textContent = `${hours}:${minutes}:${seconds}`;
+        days = days > 9 ? days : `0${days}`;
+        hours = hours > 9 ? hours : `0${hours}`;
+        minutes = minutes > 9 ? minutes : `0${minutes}`;
+
+        this._elements.time_active_subscribe.textContent = `${days}:${hours}:${minutes}`;
     }
 
     refresh() {}

@@ -73,7 +73,8 @@ export class Friends extends Component {
     }
 
     _init() {
-        this._elements.table.count_rows_page = 2;
+        this._elements.table.count_rows_page = 10;
+        // this._elements.table.count_rows_page = 1;
         this.props__sync();
     }
 

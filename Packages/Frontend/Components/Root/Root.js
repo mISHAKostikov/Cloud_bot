@@ -54,9 +54,8 @@ export class Root extends Component {
     // _rest = new Rest(`https://mmnds.store`);
     _telegram = null;
     _user = {};
-    // _user_telegram_id = 1316897349;
-    _user_telegram_id = 509815216;
-    // _user_telegram_id = Telegram.user?.id;
+    // _user_telegram_id = 509815216;
+    _user_telegram_id = Telegram.user?.id || 1316897349;
 
 
     get _time_last_request() {
@@ -193,9 +192,9 @@ export class Root extends Component {
             this._elements.bonus.everydayBonuse = this._user.count_day_registration
         }
 
-        this._elements.friends.link_ref = `https://t.me/testmmn_bot?start=${Telegram.user?.id}_${Telegram.user?.username}`;
+        this._elements.friends.link_ref = `https://t.me/testmmn_bot?start=${this._user_telegram_id}_${Telegram.user?.username}`;
         this._elements.friends.count_ref = this._user.count_referrals;
-        this._elements.friends.refresh();
+        // this._elements.friends.refresh();
 
         this._elements.header.auto_velocity = this._user.leval;
         this._elements.header.balanse_value__cost = 1000;

@@ -82,7 +82,8 @@ export class Table extends Component {
 
 
     _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
-    _user_telegram_id = 509815216 // Telegram.user?.id;
+    // _user_telegram_id = 509815216;
+    _user_telegram_id = Telegram.user?.id;
 
 
     pages_records = [];
@@ -246,14 +247,15 @@ export class Table extends Component {
         this.clear();
 
         // if (!records_current.length) return;
-        // console.log(records_current)
+
         // this._elements.repeater.model.add(records_current);
-        // console.log(this._elements.repeater.model._items);
+
         if (this._busy) return;
 
         this._busy = true;
         await this._referrals__load(index_slice_start);
         this._busy = false;
+
         this._count_visible_entries = index_slice_end;
     }
 
