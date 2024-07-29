@@ -49,7 +49,7 @@ export class Root extends Component {
 
 
     _page_num = 0;
-    _rest = new Rest(`https://localhost/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
+    _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
     // _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
     // _rest = new Rest(`https://mmnds.store`);
     _telegram = null;

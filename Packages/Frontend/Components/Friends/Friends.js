@@ -73,7 +73,7 @@ export class Friends extends Component {
     }
 
     _init() {
-        this._elements.table.count_rows_page = 1;
+        this._elements.table.count_rows_page = 2;
         this.props__sync();
     }
 
@@ -86,8 +86,8 @@ export class Friends extends Component {
     }
 
 
-    refresh() {
-        this._elements.display.refresh();
-        this._elements.table.refresh();
+    async refresh() {
+        await this._elements.table.refresh();
+        setTimeout(this._elements.display.refresh.bind(this._elements.display), 5e3);
     }
 }

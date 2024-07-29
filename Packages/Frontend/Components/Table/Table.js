@@ -81,7 +81,7 @@ export class Table extends Component {
     }
 
 
-    _rest = new Rest(`https://localhost/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
+    _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
     _user_telegram_id = 509815216 // Telegram.user?.id;
 
 
@@ -94,9 +94,9 @@ export class Table extends Component {
     set _busy(busy) {
         this._attribute__set('_busy', busy);
 
-        if (!busy) {
-            this._page__refresh();
-        }
+        // if (!busy) {
+        //     this._page__refresh();
+        // }
     }
 
     get _count_visible_entries() {
@@ -222,7 +222,8 @@ export class Table extends Component {
 
         if (!result) return;
 
-        this.pages_records.push(...result);
+        this._elements.repeater.model.add(result);
+        // this.pages_records.push(...result);
     }
 
     async _page__refresh() {
@@ -230,25 +231,30 @@ export class Table extends Component {
         let index_slice_start = this.page * this.count_rows_page;
         let records_current = this.pages_records.slice(index_slice_start, index_slice_end);
 
-        if (
-            records_current.length < this.count_rows_page &&
-            this.count_all_entries > this._count_current_entries &&
-            !this._busy
-        ) {
-            this._busy = true;
-            await this._referrals__load(index_slice_start);
-
-            this._busy = false;
-            // records_current = this.pages_records.slice(index_slice_start, index_slice_end);
-        }
+        // if (
+        //     records_current.length < this.count_rows_page &&
+        //     this.count_all_entries > this._count_current_entries &&
+        //     !this._busy
+        // ) {
+        //     this._busy = true;
+        //     await this._referrals__load(index_slice_start);
+        //     // return;
+        //     this._busy = false;
+        //     records_current = this.pages_records.slice(index_slice_start, index_slice_end);
+        // }
 
         this.clear();
 
-        if (!records_current.length) return;
+        // if (!records_current.length) return;
+        // console.log(records_current)
+        // this._elements.repeater.model.add(records_current);
+        // console.log(this._elements.repeater.model._items);
+        if (this._busy) return;
 
-        this._elements.repeater.model.add(records_current);
+        this._busy = true;
+        await this._referrals__load(index_slice_start);
+        this._busy = false;
         this._count_visible_entries = index_slice_end;
-        this.event__dispatch('data__update');
     }
 
 
