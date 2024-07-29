@@ -79,6 +79,6 @@ export class TableRow extends Component {
 
 
     _init() {
-        this.props__sync();
+        // this.props__sync();
     }
 }

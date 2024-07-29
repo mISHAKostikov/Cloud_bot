@@ -10,6 +10,7 @@ export class Table extends Component {
     static _attributes = {
         ...super._attributes,
 
+        _busy: false,
         _count_visible_entries: {
             default: 0,
             range: [0, Infinity],
@@ -25,14 +26,17 @@ export class Table extends Component {
 
         count_rows_page: {
             default: 1,
+            persistent: true,
             range: [1, Infinity],
         },
         count_all_entries: {
             default: 1,
+            persistent: true,
             range: [1, Infinity],
         },
         page: {
             default: 0,
+            persistent: true,
             range: [0, Infinity],
         },
         title: '',
@@ -60,12 +64,11 @@ export class Table extends Component {
 
     static Repeater_manager = class extends Repeater.Manager {
         data__apply() {
-            this._item.avatar_url = this._model_item['avatar_url'];
-            console.log(this._model_item)
-            this._item.leval = this._model_item['leval'];
-            this._item.name = `${this._model_item['first_name']} ${this._model_item['last_name']}`;
-            this._item.bonus = this._model_item['payment'];
-            this._item.profit = this._model_item['bonus'];
+            this._item.avatar_url = this._model_item.avatar_url;
+            this._item.leval = this._model_item.leval;
+            this._item.name = `${this._model_item.first_name} ${this._model_item.last_name}`;
+            this._item.bonus = this._model_item.payment;
+            this._item.profit = this._model_item.bonus;
         }
 
         init() {
@@ -84,6 +87,17 @@ export class Table extends Component {
 
     pages_records = [];
 
+
+    get _busy() {
+        return this._attributes._busy;
+    }
+    set _busy(busy) {
+        this._attribute__set('_busy', busy);
+
+        if (!busy) {
+            this._page__refresh();
+        }
+    }
 
     get _count_visible_entries() {
         return this._attributes._count_visible_entries;
@@ -191,11 +205,11 @@ export class Table extends Component {
 
     async _init() {
         this._elements.repeater.Manager = this.constructor.Repeater_manager;
-        this.props__sync('_count_current_entries', 'count_all_entries', 'count_rows_page', 'page', 'title');
+        this.props__sync('_count_current_entries', 'count_all_entries', 'count_rows_page', 'title');
 
         // await this._referrals__load(0);
 
-        this.refresh();
+        // this.refresh();
         this.title = 'Друзья';
     }
 
@@ -207,7 +221,7 @@ export class Table extends Component {
         let {result} = await this._rest.call('referrals__get', this._user_telegram_id, index_slice_start);
 
         if (!result) return;
-        console.log(1)
+
         this.pages_records.push(...result);
     }
 
@@ -216,15 +230,25 @@ export class Table extends Component {
         let index_slice_start = this.page * this.count_rows_page;
         let records_current = this.pages_records.slice(index_slice_start, index_slice_end);
 
-        if (records_current.length < this.count_rows_page) {
+        if (
+            records_current.length < this.count_rows_page &&
+            this.count_all_entries > this._count_current_entries &&
+            !this._busy
+        ) {
+            this._busy = true;
             await this._referrals__load(index_slice_start);
 
-            records_current = this.pages_records.slice(index_slice_start, index_slice_end);
+            this._busy = false;
+            // records_current = this.pages_records.slice(index_slice_start, index_slice_end);
         }
 
         this.clear();
+
+        if (!records_current.length) return;
+
         this._elements.repeater.model.add(records_current);
         this._count_visible_entries = index_slice_end;
+        this.event__dispatch('data__update');
     }
 
 

@@ -130,6 +130,35 @@ class Manager extends \Rest {
         return true;
     }
 
+    public function pay__check($tg_id, $sum, $hash) {
+        $url = "https://api.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash=$hash&apikey=" . static::$etherscan_api_key;
+        $response = file_get_contents($url);
+        $data = \Json::parse($response);
+
+        if (!$data || !$data['result']['status']) return;
+
+        // if (!$data['result']['status']) return;
+
+        $request_data = [
+            'tg_id' => $tg_id,
+        ];
+
+        $time = $sum * 31 * 24 * 60 * 60;
+        $user_quests = $this->_db->fetch('active_endDate_get', $request_data);
+
+        if (!$user_quests) {
+            $this->_db->execute('user_quests__add', $request_data);
+        }
+
+        $request_data = [
+            'tg_id' => $tg_id,
+            'time' => $time,
+        ];
+        $this->_db->execute('quest_twitter__set', $request_data);
+
+        return true;
+    }
+
     public function referrals__get($tg_id, $offset) {
         $db_emulate = new \Db(static::$sql_dsn, [], static::$sql_user_name, static::$sql_user_password, true);
         $db_emulate->statements_dir = static::$sql_dir;
@@ -155,24 +184,6 @@ class Manager extends \Rest {
         return $referrals;
     }
 
-    public function user__get($tg_id) {
-        $request_data = [
-            'tg_id' => $tg_id,
-        ];
-
-        $result = $this->active_bonus__state($tg_id);
-        $user_date = $this->_db->fetch('user__get', $request_data);
-        $user_date = $user_date[0];
-        $user_telegram = $this->_user_telegram__get($tg_id);
-
-        if ($user_telegram) {
-            $file_url = $this->_file_url_telegram__get($user_telegram['photo']['big_file_id']);
-            $user_date += ['avatar_url' => $file_url];
-        }
-
-        return $user_date;
-    }
-
     public function tg_subscribe__check($chanall_url, $tg_id) {
         $parsedUrl = parse_url($chanall_url);
         $path = $parsedUrl['path'];
@@ -191,7 +202,6 @@ class Manager extends \Rest {
         $request_data = [
             'tg_id' => $tg_id,
         ];
-
         $user_quests = $this->_db->fetch('user_quests__get', $request_data);
 
         if (!$user_quests) {
@@ -215,7 +225,6 @@ class Manager extends \Rest {
         if (!$data) return;
 
         $chanall_id = $data['id'];
-
         $url = "https://api.twitter.com/1.1/friendships/show.json?source_id=$twitter_id&target_id=$chanall_id";
         $response = file_get_contents($url);
         $data = \Json::parse($response);
@@ -240,34 +249,22 @@ class Manager extends \Rest {
         return true;
     }
 
-    public function pay__check($tg_id, $sum, $hash) {
-        $url = "https://api.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash=$hash&apikey=" . static::$etherscan_api_key;
-        $response = file_get_contents($url);
-        $data = \Json::parse($response);
-
-        if (!$data || !$data['result']['status']) return;
-
-        // if (!$data['result']['status']) return;
-
-        $time = $sum * 31 * 24 * 60 * 60;
+    public function user__get($tg_id) {
         $request_data = [
             'tg_id' => $tg_id,
         ];
 
-        $user_quests = $this->_db->fetch('active_endDate_get', $request_data);
+        $result = $this->active_bonus__state($tg_id);
+        $user_date = $this->_db->fetch('user__get', $request_data);
+        $user_date = $user_date[0];
+        $user_telegram = $this->_user_telegram__get($tg_id);
 
-        if (!$user_quests) {
-            $this->_db->execute('user_quests__add', $request_data);
+        if ($user_telegram) {
+            $file_url = $this->_file_url_telegram__get($user_telegram['photo']['big_file_id']);
+            $user_date += ['avatar_url' => $file_url];
         }
 
-        $request_data = [
-            'tg_id' => $tg_id,
-            'time' => $time,
-        ];
-
-        $this->_db->execute('quest_twitter__set', $request_data);
-
-        return true;
+        return $user_date;
     }
 }
 
