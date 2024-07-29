@@ -179,6 +179,8 @@ export class Root extends Component {
 
     _user_data__apply() {
         console.log(this._user)
+        let is__active_end_date = this._user.active_end_date - (Date.now() / 1e3) > 0;
+
         this._elements.bonus.profit = `+ ${this._user.leval} золота`;
 
         if (
@@ -202,9 +204,10 @@ export class Root extends Component {
         this._elements.header.balanse_value__rate = 0.04;
         this._elements.header.balanse_value__tokens = this._user.active_bonuses_balanse;
         this._elements.header.bonus_ref = this._user.bonus_referrals ?? 0;
+        this._elements.header.refresh(is__active_end_date);
 
         this._elements.main.avatar_url = this._user.avatar_url || '';
-        this._elements.main.button_active_subscribe_title = this._user.active_end_date - (Date.now() / 1e3) > 0 ? 'Продлить' : 'Активировать';
+        this._elements.main.button_active_subscribe_title = is__active_end_date ? 'Продлить' : 'Активировать';
         this._elements.main.leval = this._user.leval;
         this._elements.main.time_active_subscribe = this._user.active_end_date;
 

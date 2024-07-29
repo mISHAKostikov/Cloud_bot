@@ -101,9 +101,9 @@ export class Main extends Component {
 
     _render() {
         let time = new Date(this.time_active_subscribe * 1e3 - Date.now());
-        let days = Math.floor(time / (1000 * 60 * 60 * 24));
-        let hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+        let days = Math.floor(time / (1e3 * 60 * 60 * 24));
+        let hours = Math.floor((time % (1e3 * 60 * 60 * 24)) / (1e3 * 60 * 60));
+        let minutes = Math.floor((time % (1e3 * 60 * 60)) / (1e3 * 60));
 
         days = days > 9 ? days : `0${days}`;
         hours = hours > 9 ? hours : `0${hours}`;
