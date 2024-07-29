@@ -143,6 +143,7 @@ export class Root extends Component {
         this._elements.root.append(pay);
         pay.counter_range = [0, 12];
         pay.sum = 0.01;
+        pay.type = 'subscribe';
         pay.text = 'Здесь ты можешь купить автоматическое начисление бонусов! Выбери количество месяцев, которое будет действовать подписка и нажми оплатить. Для оплаты используется кошелёк MetaMask. Стоимость подписки на 1 месяц 0.01 ETH'
     }
 
@@ -152,6 +153,7 @@ export class Root extends Component {
         this._elements.root.append(pay);
         pay.counter_range = [0, Infinity];
         pay.sum = 0.005;
+        pay.type = 'leval';
         pay.text = 'Здесь ты можешь купить уровень! Выбери количество уровней и нажми оплатить. Для оплаты используется кошелёк MetaMask. Стоимость уровня 0.005 ETH'
     }
 

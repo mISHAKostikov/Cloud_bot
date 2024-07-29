@@ -11,6 +11,7 @@ export class Pay extends Component {
 
         text: '',
         sum: '',
+        type: '',
     };
 
     static _components = [Counter];
@@ -69,7 +70,7 @@ export class Pay extends Component {
             return;
         }
 
-        let {error, result} = await this._rest.call('pay__check', Telegram.user.id, this._elements.counter.value, this._hash);
+        let {error, result} = await this._rest.call('pay__check', this.type, Telegram.user.id, this._elements.counter.value, this._hash);
 
         if (error || !result) return;
 

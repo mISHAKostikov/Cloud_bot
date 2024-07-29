@@ -130,7 +130,7 @@ class Manager extends \Rest {
         return true;
     }
 
-    public function pay__check($tg_id, $sum, $hash) {
+    public function pay__check($type, $tg_id, $sum, $hash) {
         $url = "https://api.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash=$hash&apikey=" . static::$etherscan_api_key;
         $response = file_get_contents($url);
         $data = \Json::parse($response);
@@ -143,18 +143,35 @@ class Manager extends \Rest {
             'tg_id' => $tg_id,
         ];
 
-        $time = $sum * 31 * 24 * 60 * 60;
-        $user_quests = $this->_db->fetch('active_endDate_get', $request_data);
+        if ($type == 'subscribe') {
+            $time = $sum * 31 * 24 * 60 * 60;
+            $user_quests = $this->_db->fetch('active_endDate_get', $request_data);
 
-        if (!$user_quests) {
-            $this->_db->execute('user_quests__add', $request_data);
+            if (!$user_quests) {
+                $this->_db->execute('active_endDate__add', $request_data);
+            }
+
+            $is_referral = $this->_db->fetch('is_referral', $request_data);
+
+            if ($user_quests[0]['active_bonuses_collect_date'] == -1 && $is_referral) {
+                $request_data = [
+                    'tg_id' => $is_referral[0]['host_tg_id'],
+                ];
+                $this->_db->execute('host_profit__update', $request_data);
+            }
+
+            $request_data = [
+                'tg_id' => $tg_id,
+                'time' => $time,
+            ];
+            $this->_db->execute('active_endDate__set', $request_data);
         }
-
-        $request_data = [
-            'tg_id' => $tg_id,
-            'time' => $time,
-        ];
-        $this->_db->execute('quest_twitter__set', $request_data);
+        else {
+            $request_data += [
+                'leval' => $sum,
+            ];
+            $this->_db->execute('leval__update', $request_data);
+        }
 
         return true;
     }
