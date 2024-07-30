@@ -21,7 +21,7 @@
         pointer-events: none;
     }
 
-    .leval {
+    .level {
         justify-self: end;
 
         &::after {

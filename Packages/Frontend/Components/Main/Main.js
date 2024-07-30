@@ -8,7 +8,7 @@ export class Main extends Component {
 
         avatar_url: '',
         button_active_subscribe_title: 'Активировать',
-        leval: {
+        level: {
             default: '1',
             range: [1, Infinity]
         },
@@ -21,8 +21,8 @@ export class Main extends Component {
     static _elements = {
         avatar: '',
         button_active_subscribe: '',
-        button_leval: '',
-        leval_current: '',
+        button_level: '',
+        level_current: '',
         time_active_subscribe: '',
     };
 
@@ -31,7 +31,7 @@ export class Main extends Component {
     static url = import.meta.url;
 
     static resources = {
-        leval: new URL(`${this.name}.svg#leval`, import.meta.url),
+        level: new URL(`${this.name}.svg#level`, import.meta.url),
     };
 
     static {
@@ -58,12 +58,12 @@ export class Main extends Component {
         this._elements.button_active_subscribe.textContent = button_active_subscribe_title;
     }
 
-    get leval() {
-        return this._attributes.leval;
+    get level() {
+        return this._attributes.level;
     }
-    set leval(leval) {
-        this.attribute__set('leval', leval);
-        this._elements.leval_current.textContent = leval;
+    set level(level) {
+        this.attribute__set('level', level);
+        this._elements.level_current.textContent = level;
     }
 
     get time_active_subscribe() {
@@ -86,13 +86,13 @@ export class Main extends Component {
         this.event__dispatch('buttonActiveSubscribe__click', detail);
     }
 
-    _button_leval__on_pointerDown() {
-        this.event__dispatch('buttonLeval__click');
+    _button_level__on_pointerDown() {
+        this.event__dispatch('buttonLevel__click');
     }
 
     _eventListeners__define() {
         this._elements.button_active_subscribe.addEventListener('pointerdown', this._button_active_subscribe__on_pointerDown.bind(this));
-        this._elements.button_leval.addEventListener('pointerdown', this._button_leval__on_pointerDown.bind(this));
+        this._elements.button_level.addEventListener('pointerdown', this._button_level__on_pointerDown.bind(this));
     }
 
     _init() {

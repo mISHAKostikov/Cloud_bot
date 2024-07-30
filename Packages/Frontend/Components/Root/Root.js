@@ -49,13 +49,11 @@ export class Root extends Component {
 
 
     _page_num = 0;
-    _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
-    // _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
-    // _rest = new Rest(`https://mmnds.store`);
+    _rest = new Rest(new URL(`Packages/Backend/Manager/Manager`, location));
     _telegram = null;
     _user = {};
-    // _user_telegram_id = 509815216;
-    _user_telegram_id = Telegram.user?.id || 1316897349;
+    _user_telegram_id = 509815216;
+    // _user_telegram_id = Telegram.user?.id || 1316897349;
 
 
     get _time_last_request() {
@@ -95,6 +93,8 @@ export class Root extends Component {
 
         await this._user_data__get();
         this._user_data__apply();
+
+        this._time_last_request = Date.now();
     }
 
     async _bonus__on_passive_bonuse__take() {
@@ -113,7 +113,7 @@ export class Root extends Component {
         this._elements.footer.addEventListener('button_active__toggle', this._footer__on_button_active__toggle.bind(this));
         // this._elements.header.addEventListener('airdrop__click', (event) => {console.log(event.target)});
         this._elements.leafable.addEventListener('animation_end', this._leafable__on_animation_end.bind(this));
-        this._elements.main.addEventListener('buttonLeval__click', this._main__on_buttonLeval__click.bind(this));
+        this._elements.main.addEventListener('buttonLevel__click', this._main__on_buttonLevel__click.bind(this));
     }
 
     _footer__on_button_active__toggle(event) {
@@ -147,13 +147,13 @@ export class Root extends Component {
         pay.text = 'Здесь ты можешь купить автоматическое начисление бонусов! Выбери количество месяцев, которое будет действовать подписка и нажми оплатить. Для оплаты используется кошелёк MetaMask. Стоимость подписки на 1 месяц 0.01 ETH'
     }
 
-    _main__on_buttonLeval__click() {
+    _main__on_buttonLevel__click() {
         let pay = new Pay();
 
         this._elements.root.append(pay);
         pay.counter_range = [0, Infinity];
         pay.sum = 0.005;
-        pay.type = 'leval';
+        pay.type = 'level';
         pay.text = 'Здесь ты можешь купить уровень! Выбери количество уровней и нажми оплатить. Для оплаты используется кошелёк MetaMask. Стоимость уровня 0.005 ETH'
     }
 
@@ -183,14 +183,13 @@ export class Root extends Component {
         console.log(this._user)
         let is__active_end_date = this._user.active_end_date - (Date.now() / 1e3) > 0;
 
-        this._elements.bonus.profit = `+ ${this._user.leval} золота`;
+        this._elements.bonus.profit = `+ ${this._user.level} золота`;
 
         if (
             this._user.count_day_registration == this._user.everyday_bonus_current ||
             this._user.count_day_registration > 11
         ) {
             this._elements.bonus.everydayBonuse = -1;
-            console.log(1)
         }
         else {
             this._elements.bonus.everydayBonuse = this._user.count_day_registration
@@ -200,7 +199,7 @@ export class Root extends Component {
         this._elements.friends.count_ref = this._user.count_referrals;
         // this._elements.friends.refresh();
 
-        this._elements.header.auto_velocity = this._user.leval;
+        this._elements.header.auto_velocity = this._user.level;
         this._elements.header.balanse_value__cost = 1000;
         this._elements.header.balanse_value__gold = this._user.passive_bonuses_balanse;
         this._elements.header.balanse_value__rate = 0.04;
@@ -210,7 +209,7 @@ export class Root extends Component {
 
         this._elements.main.avatar_url = this._user.avatar_url || '';
         this._elements.main.button_active_subscribe_title = is__active_end_date ? 'Продлить' : 'Активировать';
-        this._elements.main.leval = this._user.leval;
+        this._elements.main.level = this._user.level;
         this._elements.main.time_active_subscribe = this._user.active_end_date;
 
         this._elements.quests.data__apply(this._user.quest_telegram, this._user.quest_twitter);

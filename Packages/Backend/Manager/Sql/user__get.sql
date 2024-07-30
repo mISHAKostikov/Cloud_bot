@@ -6,7 +6,7 @@ select
     `Referrals_temp`.`bonus_referrals` as `bonus_referrals`,
     `Users`.`active_bonuses_balanse` as `active_bonuses_balanse`,
     `Users`.`everyday_bonus` as `everyday_bonus_current`,
-    `Users`.`leval` as `leval`,
+    `Users`.`level` as `level`,
     `Users`.`passive_bonuses_balanse` as `passive_bonuses_balanse`,
     datediff(current_timestamp, `Users`.`date_registration`) as `count_day_registration`
 from

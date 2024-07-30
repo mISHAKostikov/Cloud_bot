@@ -40,7 +40,7 @@ create table if not exists `Users` (
     `date_registration` dateTime default current_timeStamp,
     `everyday_bonus` int default -1,
     `id` int not null auto_increment,
-    `leval` int default 1,
+    `level` int default 1,
     `passive_bonuses_balanse` int default false,
     `tg_id` int not null,
     `tg_premium` boolean default false,

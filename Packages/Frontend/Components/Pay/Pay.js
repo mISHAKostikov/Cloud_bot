@@ -40,7 +40,7 @@ export class Pay extends Component {
 
 
     _ethereum = null;
-    _rest = new Rest(`https://localhost/Work/Cloud_bot/Packages/Backend/Manager/Manager.php`);
+    _rest = new Rest(new URL(`Packages/Backend/Manager/Manager`, location));
     _hash = '';
 
 

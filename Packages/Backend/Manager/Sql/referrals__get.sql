@@ -1,7 +1,7 @@
 select
     `Referrals_process`.`bonus` as `bonus`,
     `Referrals_process`.`payment` as `payment`,
-    `Users`.`leval` as `leval`,
+    `Users`.`level` as `level`,
     `Users`.`tg_id` as `tg_id`
 from `Users`
     left join (

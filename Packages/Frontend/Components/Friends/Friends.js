@@ -70,9 +70,9 @@ export class Friends extends Component {
 
 
     async refresh() {
+        this._elements.display.refresh();
         await this._elements.table.refresh();
         this._elements.table.title = 'Друзья ' + (this.count_ref || '');
-
-        setTimeout(this._elements.display.refresh.bind(this._elements.display), 3e3);
+        // setTimeout(this._elements.display.refresh.bind(this._elements.display), 3e3);
     }
 }

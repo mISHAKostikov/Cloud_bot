@@ -29,7 +29,7 @@ class DataBase:
 
     def init(self):
         with self.connection.cursor() as cursor:
-            cursor.execute('SET SESSION query_cache_type = OFF;')
+            cursor.execute('set session query_cache_type = off;')
 
             self.connection.commit()
 
@@ -51,16 +51,22 @@ class DataBase:
             '''
             cursor.execute(insert_query)
 
-            update_query = f'''
+            update_query_host = f'''
                 update `Users`
                 set `passive_bonuses_balanse` = `passive_bonuses_balanse` + {payment}
                 where`tg_id` = {host_tg_id};
             '''
+            cursor.execute(update_query_host)
 
-            cursor.execute(insert_query)
+            update_query_referal = f'''
+                update `Users`
+                set `passive_bonuses_balanse` = `passive_bonuses_balanse` + {payment}
+                where`tg_id` = {referral_tg_id};
+            '''
+            cursor.execute(update_query_referal)
+
             self.connection.commit()
 
-            self.connection.commit()
 
     def user__add(self, tg_id, tg_premium):
         with self.connection.cursor() as cursor:

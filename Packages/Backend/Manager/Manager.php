@@ -8,12 +8,16 @@ require_once __dir__ . '/../Api/Units/Rest/Rest.php';
 
 
 class Manager extends \Rest {
-    // static public $gzip = -1;
     static public $bot_token = '7451507935:AAFyRR6SS5X2htKQ8pD340bkKtL841ykGnA';
     static public $etherscan_api_key = '';
+    // static public $gzip = -1;
     static public $request_method = 'POST';
+    static public $sql_charset = 'utf8';
+    static public $sql_db_name = 'Cloud_bot';
     static public $sql_dir = __dir__ . '/Sql';
-    static public $sql_dsn = 'mysql:host=localhost;dbname=Cloud_bot;charset=utf8';
+    // static public $sql_dsn = 'mysql:host=127.0.0.1;dbname=Cloud_bot;charset=utf8';
+    static public $sql_dsn = 'mysql:host=127.0.0.1;dbname=Cloud_bot;charset=utf8';
+    static public $sql_host = '127.0.0.1';
     static public $sql_user_name = 'root';
     static public $sql_user_password = '';
 
@@ -35,6 +39,12 @@ class Manager extends \Rest {
     }
 
     public function _init() {
+        static::$sql_dsn =
+            'mysql:host=' . static::$sql_host .';' .
+            'dbname=' . static::$sql_db_name .';' .
+            'charset=' . static::$sql_charset.';'
+        ;
+
         $this->_db = new \Db(static::$sql_dsn, [], static::$sql_user_name, static::$sql_user_password);
         $this->_db->statements_dir = static::$sql_dir;
         // $this->_db->setAttribute(static::ATTR_EMULATE_PREPARES, false);
@@ -168,9 +178,9 @@ class Manager extends \Rest {
         }
         else {
             $request_data += [
-                'leval' => $sum,
+                'level' => $sum,
             ];
-            $this->_db->execute('leval__update', $request_data);
+            $this->_db->execute('level__update', $request_data);
         }
 
         return true;

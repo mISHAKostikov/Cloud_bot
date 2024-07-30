@@ -64,8 +64,8 @@ export class Table extends Component {
     static Repeater_manager = class extends Repeater.Manager {
         data__apply() {
             this._item.avatar_url = this._model_item.avatar_url;
-            this._item.leval = this._model_item.leval;
-            this._item.name = `${this._model_item.first_name} ${this._model_item.last_name}`;
+            this._item.level = this._model_item.level;
+            this._item.name = `${this._model_item.first_name ?? ''} ${this._model_item.last_name ?? ''}`;
             this._item.bonus = this._model_item.payment;
             this._item.profit = this._model_item.bonus;
         }
@@ -80,9 +80,9 @@ export class Table extends Component {
     }
 
 
-    _rest = new Rest(`https://192.168.0.100/Apps/Cloud_bot/Packages/Backend/Manager/Manager`);
-    // _user_telegram_id = 509815216;
-    _user_telegram_id = Telegram.user?.id;
+    _rest = new Rest(new URL(`Packages/Backend/Manager/Manager`, location));
+    _user_telegram_id = 509815216;
+    // _user_telegram_id = Telegram.user?.id;
 
 
     pages_records = [];
@@ -107,7 +107,7 @@ export class Table extends Component {
     }
 
     get _count_current_entries() {
-        this._count_current_entries = this.pages_records.length;
+        // this._count_current_entries = this.pages_records.length;
 
         return this._attributes._count_current_entries;
     }
@@ -206,6 +206,8 @@ export class Table extends Component {
     async _init() {
         this._elements.repeater.Manager = this.constructor.Repeater_manager;
         this.props__sync('_count_current_entries', 'count_all_entries', 'count_rows_page', 'title');
+
+        this.refresh();
     }
 
     _repeater__on_add() {
@@ -217,11 +219,14 @@ export class Table extends Component {
 
         if (!result) return;
 
+        this._count_current_entries = result.length;
         this._elements.repeater.model.add(result);
         // this.pages_records.push(...result);
     }
 
     async _page__refresh() {
+        if (this.count_all_entries == this._count_current_entries) return;
+
         let index_slice_end = Math.min((this.page + 1) * this.count_rows_page, this._count_current_entries);
         let index_slice_start = this.page * this.count_rows_page;
         let records_current = this.pages_records.slice(index_slice_start, index_slice_end);

@@ -7,7 +7,7 @@ export class TableRow extends Component {
 
         avatar_url: '',
         bonus: '',
-        leval: {
+        level: {
             default: 1,
             range: [1, Infinity],
         },
@@ -21,7 +21,7 @@ export class TableRow extends Component {
     static _elements = {
         avatar: '',
         bonus: '',
-        leval: '',
+        level: '',
         user_name: '',
         user_profit: '',
     };
@@ -53,12 +53,12 @@ export class TableRow extends Component {
         this._elements.bonus.textContent = bonus;
     }
 
-    get leval() {
-        return this._attributes.leval;
+    get level() {
+        return this._attributes.level;
     }
-    set leval(leval) {
-        this._attribute__set('leval', +leval);
-        this._elements.leval.textContent = leval;
+    set level(level) {
+        this._attribute__set('level', +level);
+        this._elements.level.textContent = level;
     }
 
     get name() {

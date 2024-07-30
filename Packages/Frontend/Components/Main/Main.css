@@ -23,7 +23,7 @@
         background: var(--Theme__block__background_accent);
     }
 
-    .button_leval {
+    .button_level {
         align-self: start;
         aspect-ratio: 1;
         background: var(--Theme__button__background);
@@ -47,11 +47,11 @@
         border-radius: var(--Theme__block_rounding);
     }
 
-    .leval_current::before {
+    .level_current::before {
         content: '+';
     }
 
-    .leval_current {
+    .level_current {
         font-size: 24px;
         font-weight: 500;
     }

@@ -1,3 +1,3 @@
 update `Users`
-set `leval` = `leval` + :leval
+set `level` = `level` + :level
 where `tg_id` = :tg_id;
