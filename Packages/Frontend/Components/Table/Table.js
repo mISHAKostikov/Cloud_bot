@@ -81,8 +81,8 @@ export class Table extends Component {
 
 
     _rest = new Rest(new URL(`Packages/Backend/Manager/Manager`, location));
-    _user_telegram_id = 509815216;
-    // _user_telegram_id = Telegram.user?.id;
+    // _user_telegram_id = 509815216;
+    _user_telegram_id = Telegram.user?.id;
 
 
     pages_records = [];

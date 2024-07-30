@@ -52,8 +52,8 @@ export class Root extends Component {
     _rest = new Rest(new URL(`Packages/Backend/Manager/Manager`, location));
     _telegram = null;
     _user = {};
-    _user_telegram_id = 509815216;
-    // _user_telegram_id = Telegram.user?.id || 1316897349;
+    // _user_telegram_id = 509815216;
+    _user_telegram_id = Telegram.user?.id || 1316897349;
 
 
     get _time_last_request() {
