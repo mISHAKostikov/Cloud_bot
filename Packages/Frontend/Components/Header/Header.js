@@ -30,6 +30,10 @@ export class Header extends Component {
             default: 0,
             range: [0, Infinity],
         },
+        time_active_subscribe: {
+            default: '0',
+            range: [0, Infinity]
+        },
     };
 
     static _elements = {
@@ -107,6 +111,17 @@ export class Header extends Component {
         this._elements.bonus_ref.textContent = bonus_ref;
     }
 
+    get time_active_subscribe() {
+        return this._attributes.time_active_subscribe;
+    }
+    set time_active_subscribe(time_active_subscribe) {
+        this._attribute__set('time_active_subscribe', time_active_subscribe);
+
+        if (this.time_active_subscribe - (Date.now() / 1e3) < 0) return;
+
+        this._renderer.start();
+    }
+
 
     _airdrop__on_pointerDown() {
         this.event__dispatch('airdrop__click');
@@ -121,6 +136,8 @@ export class Header extends Component {
     }
 
     _render() {
+        if (this.time_active_subscribe - (Date.now() / 1e3) < 0) this._renderer.stop();
+
         if ((Date.now() - this._duration) >= 1e3) {
             this.balanse_value__tokens++;
             this._duration = Date.now();

@@ -100,6 +100,12 @@ export class Main extends Component {
     }
 
     _render() {
+        if (this.time_active_subscribe - (Date.now() / 1e3) < 0) {
+            this._renderer.stop();
+
+            return;
+        }
+
         let time = new Date(this.time_active_subscribe * 1e3 - Date.now());
         let days = Math.floor(time / (1e3 * 60 * 60 * 24));
         let hours = Math.floor((time % (1e3 * 60 * 60 * 24)) / (1e3 * 60 * 60));

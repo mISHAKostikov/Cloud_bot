@@ -52,7 +52,6 @@ export class Root extends Component {
     _rest = new Rest(new URL(`Packages/Backend/Manager/Manager`, location));
     _telegram = null;
     _user = {};
-    // _user_telegram_id = 509815216;
     _user_telegram_id = Telegram.user?.id || 1316897349;
 
 
@@ -205,7 +204,8 @@ export class Root extends Component {
         this._elements.header.balanse_value__rate = 0.04;
         this._elements.header.balanse_value__tokens = this._user.active_bonuses_balanse;
         this._elements.header.bonus_ref = this._user.bonus_referrals ?? 0;
-        this._elements.header.refresh(is__active_end_date);
+        this._elements.header.time_active_subscribe = this._user.active_end_date;
+        // this._elements.header.refresh(is__active_end_date);
 
         this._elements.main.avatar_url = this._user.avatar_url || '';
         this._elements.main.button_active_subscribe_title = is__active_end_date ? 'Продлить' : 'Активировать';
