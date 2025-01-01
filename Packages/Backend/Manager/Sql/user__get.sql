@@ -8,7 +8,7 @@ select
     `Users`.`everyday_bonus` as `everyday_bonus_current`,
     `Users`.`level` as `level`,
     `Users`.`passive_bonuses_balanse` as `passive_bonuses_balanse`,
-    datediff(current_timestamp, `Users`.`date_registration`) as `count_day_registration`
+    datediff(current_timeStamp, `Users`.`date_registration`) as `count_day_registration`
 from
     `Users`
     left join (

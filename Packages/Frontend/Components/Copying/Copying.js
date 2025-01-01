@@ -11,6 +11,7 @@ export class Copying extends Component {
         },
 
         text_copy: '',
+        text: '',
     };
 
     static _elements = {
@@ -40,11 +41,19 @@ export class Copying extends Component {
     }
 
 
+    get text() {
+        return this._attributes.text;
+    }
+    set text(text) {
+        this._attribute__set('text', text);
+        this._elements.field.textContent = text;
+    }
+
     get text_copy() {
         return this._attributes.text_copy;
     }
     set text_copy(text_copy) {
-        this._attribute__set('text_copy', text_copy + '');
+        this._attribute__set('text_copy', text_copy);
         this._elements.field.textContent = text_copy;
     }
 

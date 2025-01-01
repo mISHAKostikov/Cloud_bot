@@ -17,13 +17,13 @@ export class Timer extends Component {
             range: [0, Infinity],
         },
         text: '',
-    }
+    };
 
     static _elements = {
         root: '',
         text: '',
         time_value: '',
-    }
+    };
 
 
     static css_url = true;
